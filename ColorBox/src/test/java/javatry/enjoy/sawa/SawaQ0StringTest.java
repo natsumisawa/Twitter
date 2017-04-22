@@ -92,37 +92,28 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
      * ソートして二番目を取得する、ってやり方で。
      */
     public void test_length_findSecondMax_bySort() {
-        //  sawa あとでやる的なTODOコメントを自分で残しておこうね by yuto (2017/04/22)
-        //  失礼しました！こちらの問題一旦飛ばします！ by sawa (2017/04/23)
+        // sawa あとでやる的なTODOコメントを自分で残しておこうね by yuto (2017/04/22)
         List<ColorBox> colorBoxList = getColorBoxList();
-        String array[] = new String[colorBoxList.size()];
-        for (int i = 0; i < colorBoxList.size(); i++) {
-            ColorBox colorBox = colorBoxList.get(i);
+        ArrayList<String> strContentsList = new ArrayList<>();
+        for (ColorBox colorBox: colorBoxList) {
             List<BoxSpace> boxSpaceList = colorBox.getSpaceList();
-            for (int j = 0; j < boxSpaceList.size(); j++) {
-                BoxSpace boxSpace = boxSpaceList.get(j);
-                Object contents = boxSpace.getContents();
-                if (contents instanceof String) {
-                    array[j] = (String) contents;
-                } else if (contents != null) {
-                    array[j] = contents.toString();
+            for (BoxSpace boxSpace : boxSpaceList) {
+                if (boxSpace.getContents() != null) {
+                    strContentsList.add(boxSpace.getContents().toString());
                 }
             }
         }
-        int intArray[] = null;
-        for (int i = 0; i < colorBoxList.size(); i++) {
-            intArray = new int[colorBoxList.get(i).getSpaceList().size()];
-            intArray[i] = array[i].length();
-        }
-        Arrays.sort(intArray);
-        log(array[1]);
-        log(array[2]);
-        log(array[5]);
-        for (int i = 0; i < colorBoxList.size(); i++) {
-            if (array[i].length() == intArray[1]) {
-                log(array[i]);
+        //バブルソート
+        for (int i = 0; i < strContentsList.size() - 1; i++) {
+            for (int j = 0; j < strContentsList.size() - 1; j++) {
+                if (strContentsList.get(j).length() < strContentsList.get(j + 1).length()) {
+                    String keepLonger = strContentsList.get(j);
+                    strContentsList.set(j, strContentsList.get(j + 1));
+                    strContentsList.set(j + 1, keepLonger);
+                }
             }
         }
+        log(strContentsList.get(1));
     }
 
     /**
