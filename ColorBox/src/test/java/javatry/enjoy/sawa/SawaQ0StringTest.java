@@ -1,16 +1,12 @@
 package javatry.enjoy.sawa;
 
-import com.sun.xml.internal.ws.api.ha.StickyFeature;
 import javatry.colorbox.ColorBox;
 import javatry.colorbox.color.BoxColor;
 import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
-import java.lang.NullPointerException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.SortedMap;
 
 /**
  * 文字列のテスト。<br>
@@ -19,7 +15,7 @@ import java.util.SortedMap;
  */
 public class SawaQ0StringTest extends ColorBoxTestCase {
 
-    // TODO sawa 不要なimport文が残っている状態でpushしないようにしよう by yuto (2017/04/22)
+    // sawa 不要なimport文が残っている状態でpushしないようにしよう by yuto (2017/04/22)
 
     // ===================================================================================
     //                                                                            length()
@@ -55,43 +51,40 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                 }
             }
         }
-        // TODO sawa ログを綺麗に出すことを意識してみよう、例えばここだと「一番長い文字列は「xxxx」です」みたいな感じ by yuto (2017/04/22)
-        // TODO sawa 他のメソッドのログもよろしく by yuto (2017/04/22)
-        log(strContentsMax);
+        // sawa ログを綺麗に出すことを意識してみよう、例えばここだと「一番長い文字列は「xxxx」です」みたいな感じ by yuto (2017/04/22)
+        // sawa 他のメソッドのログもよろしく by yuto (2017/04/22)
+        log("一番長い文字列は" + strContentsMax + "です");
     }
 
     /**
      * カラーボックスに入ってる文字列の中で、一番長いものと短いものの差は何文字？
      */
     public void test_length_findMaxMinDiff() {
-        // TODO sawa Nullチェックが必要であればif文でそうしよう、とりあえず try-catchじゃない by yuto (2017/04/22)
-        try {
-            int lengthMax = 0;
-            int lengthMin = 0;
-            List<ColorBox> colorBoxList = getColorBoxList();
-            for (int i = 0; i < colorBoxList.size(); i++) {
-                ColorBox colorBox = colorBoxList.get(i);
-                List<BoxSpace> spaceList = colorBox.getSpaceList();
-                for (int j = 0; j < spaceList.size(); j++) {
-                    BoxSpace boxSpace = spaceList.get(j);
-                    Object contents = boxSpace.getContents();
-                    // TODO sawa strContents は instanceof のif文の中で定義してもいいよね？ by yuto (2017/04/22)
-                    String strContents = "";
-                    if (contents instanceof String) {
-                        strContents = (String) contents;
-                        if (strContents.length() > lengthMax) {
-                            lengthMax = strContents.length();
-                        } else if (strContents.length() < lengthMax) {
-                            lengthMin = strContents.length();
-                        }
-                    }
+        // sawa Nullチェックが必要であればif文でそうしよう、とりあえず try-catchじゃない by yuto (2017/04/22)
+        ArrayList<Integer> strContentsList = new ArrayList<>();
+        List<ColorBox> colorBoxList = getColorBoxList();
+        for (int i = 0; i < colorBoxList.size(); i++) {
+            ColorBox colorBox = colorBoxList.get(i);
+            List<BoxSpace> spaceList = colorBox.getSpaceList();
+            for (int j = 0; j < spaceList.size(); j++) {
+                BoxSpace boxSpace = spaceList.get(j);
+                Object contents = boxSpace.getContents();
+                // sawa strContents は instanceof のif文の中で定義してもいいよね？ by yuto (2017/04/22)
+                if (contents instanceof String) {
+                    String strContents = (String) contents;
+                    strContentsList.add(strContents.length());
                 }
             }
-            // TODO sawa "-" のまわりはスペースをいれよう by yuto (2017/04/22)
-            log(lengthMax-lengthMin);
-        } catch (NullPointerException e){
-            log("文字列はありません");
         }
+        // 最小値が保存できてなかったので以下のコードを修正しました　by sawa (2017/4/23)
+        int maxLength = 0;
+        int minLength = strContentsList.get(0);
+        for (int i = 0; i < strContentsList.size(); i++) {
+            maxLength = Math.max(strContentsList.get(i), maxLength);
+            minLength = Math.min(strContentsList.get(i), minLength);
+        }
+        // sawa "-" のまわりはスペースをいれよう by yuto (2017/04/22)
+        log("一番長い文字列と短い文字列の差は" + (maxLength - minLength) + "です");
     }
 
     /**
@@ -99,7 +92,8 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
      * ソートして二番目を取得する、ってやり方で。
      */
     public void test_length_findSecondMax_bySort() {
-        // TODO sawa あとでやる的なTODOコメントを自分で残しておこうね by yuto (2017/04/22)
+        //  sawa あとでやる的なTODOコメントを自分で残しておこうね by yuto (2017/04/22)
+        //  失礼しました！こちらの問題一旦飛ばします！ by sawa (2017/04/23)
         List<ColorBox> colorBoxList = getColorBoxList();
         String array[] = new String[colorBoxList.size()];
         for (int i = 0; i < colorBoxList.size(); i++) {
@@ -136,8 +130,7 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
      * ただし、ソートして二番目を取得する、ってやり方は利用しないこと。
      */
     public void test_length_findSecondMax_nonSorted() {
-        // TODO sawa 無駄な空行削除 by yuto (2017/04/22)
-
+        // sawa 無駄な空行削除 by yuto (2017/04/22)
         String strMax = "";
         String strMaxSecond = "";
         List<ColorBox> colorBoxList = getColorBoxList();
@@ -148,21 +141,20 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                 BoxSpace boxSpace = boxSpaceList.get(j);
                 Object contents = boxSpace.getContents();
                 String strContents = "";
-                // TODO sawa StringもそうでないものもtoString()するなら、キャストを考慮しなくてもいいよ by yuto (2017/04/22)
-                if (contents instanceof String) {
-                    strContents = (String) contents;
-                } else if (contents != null) {
+                // sawa StringもそうでないものもtoString()するなら、キャストを考慮しなくてもいいよ by yuto (2017/04/22)
+                if (contents != null) {
                     strContents = contents.toString();
                 }
                 if (strContents.length() > strMax.length()) {
-                    // TODO sawa このとき、strMaxSecondのなかには、3番目に大きな文字列が入っていないかなぁ.. by yuto (2017/04/22)
+                    // sawa このとき、strMaxSecondのなかには、3番目に大きな文字列が入っていないかなぁ.. by yuto (2017/04/22)
+                    strMaxSecond = strMax;
                     strMax = strContents;
                 } else if (strContents.length() > strMaxSecond.length() && strContents.length() < strMax.length()) {
                     strMaxSecond = strContents;
                 }
             }
         }
-        log(strMaxSecond);
+        log("二番目に長い文字列は" + strMaxSecond + "です");
     }
 
     /**
@@ -170,26 +162,23 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
      */
     public void test_length_calculateLengthSum() {
         List<ColorBox> colorBoxList = getColorBoxList();
-        // TODO sawa 何のsumかな？ by yuto (2017/04/22)
-        int sum = 0;
+        // sawa 何のsumかな？ by yuto (2017/04/22)
+        int contentsLengthSum = 0;
         for (int i = 0; i < colorBoxList.size(); i++) {
             ColorBox colorBox = colorBoxList.get(i);
             List<BoxSpace> spaceList = colorBox.getSpaceList();
             for (int j = 0; j < spaceList.size(); j++) {
                 BoxSpace boxSpace = spaceList.get(j);
                 Object contents = boxSpace.getContents();
-                // TODO sawa strContents は instanceof のif文の中で定義してもいいよね？ by yuto (2017/04/22)
-                String strContents = null;
+                // sawa strContents は instanceof のif文の中で定義してもいいよね？ by yuto (2017/04/22)
                 if (contents instanceof String) {
-                    // TODO sawa このif節の中で計算すれば else節 がいらないよね by yuto (2017/04/22)
-                    strContents = (String) contents;
-                } else {
-                    strContents = "";
+                    // sawa このif節の中で計算すれば else節 がいらないよね by yuto (2017/04/22)
+                    String strContents = (String) contents;
+                    contentsLengthSum += strContents.length();
                 }
-                sum += strContents.length();
             }
         }
-        log(sum);
+        log("文字列の長さの合計は" + contentsLengthSum + "です");
     }
 
     // ===================================================================================
@@ -199,82 +188,82 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
      * 「かまくら」で始まる文字列をしまっているカラーボックスの色は？
      */
     public void test_startsWith_findFirstWord() {
-        // TODO sawa さて、「かまくら」で始まる文字列をしまっているカラーボックスが2つ以上あったらこれで大丈夫でしょうか？ by yuto (2017/04/22)
+        // sawa さて、「かまくら」で始まる文字列をしまっているカラーボックスが2つ以上あったらこれで大丈夫でしょうか？ by yuto (2017/04/22)
         List<ColorBox> colorBoxList = getColorBoxList();
-        int num = 0;
+        ArrayList<Integer> kamakuraIndex = new ArrayList<>();
         for (int i = 0; i < colorBoxList.size(); i++) {
             ColorBox colorBox = colorBoxList.get(i);
             List<BoxSpace> spaceList = colorBox.getSpaceList();
             for (int j = 0; j < spaceList.size(); j++) {
                 BoxSpace boxSpace = spaceList.get(j);
                 Object contents = boxSpace.getContents();
-                // TODO sawa strContents は instanceof のif文の中で定義してもいいよね？ by yuto (2017/04/22)
-                String strContents = null;
+                // sawa strContents は instanceof のif文の中で定義してもいいよね？ by yuto (2017/04/22)
                 if (contents instanceof String) {
-                    strContents = (String) contents;
+                    String strContents = (String) contents;
                     if (strContents.startsWith("かまくら")) {
-                        num = i;
+                        kamakuraIndex.add(i);
                     }
                 }
             }
         }
-        ColorBox colorBox = colorBoxList.get(num);
-        BoxColor boxColor = colorBox.getColor();
-        log(boxColor.getColorName());
+        for (int i = 0; i < kamakuraIndex.size(); i++) {
+            ColorBox colorBox = colorBoxList.get(kamakuraIndex.get(i));
+            BoxColor boxColor = colorBox.getColor();
+            log("「かまくら」で始まる文字列をしまっているカラーボックスの色は" + boxColor.getColorName() + "です");
+        }
     }
 
     /**
      * 「いぬ」で終わる文字列をしまっているカラーボックスの色は？
      */
     public void test_endsWith_findLastWord() {
-        // TODO sawa さて、「いぬ」で終わる文字列をしまっているカラーボックスが2つ以上あったらこれで大丈夫でしょうか？ by yuto (2017/04/22)
+        // sawa さて、「いぬ」で終わる文字列をしまっているカラーボックスが2つ以上あったらこれで大丈夫でしょうか？ by yuto (2017/04/22)
         List<ColorBox> colorBoxList = getColorBoxList();
-        int num = 0;
+        ArrayList<Integer> inuIndex = new ArrayList<>();
         for (int i = 0; i < colorBoxList.size(); i++) {
             ColorBox colorBox = colorBoxList.get(i);
             List<BoxSpace> spaceList = colorBox.getSpaceList();
             for (int j = 0; j < spaceList.size(); j++) {
                 BoxSpace boxSpace = spaceList.get(j);
                 Object contents = boxSpace.getContents();
-                // TODO sawa strContents は instanceof のif文の中で定義してもいいよね？ by yuto (2017/04/22)
-                String strContents = null;
+                // sawa strContents は instanceof のif文の中で定義してもいいよね？ by yuto (2017/04/22)
                 if (contents instanceof String) {
-                    strContents = (String) contents;
+                    String strContents = (String) contents;
                     if (strContents.endsWith("いぬ")) {
-                        num = i;
+                        inuIndex.add(i);
                     }
                 }
             }
         }
-        ColorBox colorBox = colorBoxList.get(num);
-        BoxColor boxColor = colorBox.getColor();
-        log(boxColor.getColorName());
+        for (int i = 0; i < inuIndex.size(); i++) {
+            ColorBox colorBox = colorBoxList.get(inuIndex.get(i));
+            BoxColor boxColor = colorBox.getColor();
+            log("「いぬ」で終わる文字列をしまっているカラーボックスの色は" + boxColor.getColorName() + "です");
+        }
     }
 
     // ===================================================================================
     //                                                            indexOf(), lastIndexOf()
     //                                                            ========================
-    // TODO sawa そろそろ"i"って書くのもめんどくさくなってきた頃だと思う、のでここからは拡張for文を使ってみよう by yuto (2017/04/22)
+    //  sawa そろそろ"i"って書くのもめんどくさくなってきた頃だと思う、のでここからは拡張for文を使ってみよう by yuto (2017/04/22)
+    //  拡張for文素敵ですね、もう"i"とはさよならしました by sawa
     /**
      * あなたのカラーボックスに入ってる「いぬ」で終わる文字列で、「いぬ」は何文字目から始まる？
      */
     public void test_indexOf_findIndex() {
         List<ColorBox> colorBoxList = getColorBoxList();
-        for (int i = 0; i < colorBoxList.size(); i++) {
-            ColorBox colorBox = colorBoxList.get(i);
+        for (ColorBox colorBox: colorBoxList) {
             List<BoxSpace> spaceList = colorBox.getSpaceList();
-            for (int j = 0; j < spaceList.size(); j++) {
-                BoxSpace boxSpace = spaceList.get(j);
+            for (BoxSpace boxSpace: spaceList) {
                 Object contents = boxSpace.getContents();
-                String strContents = null;
                 if (contents instanceof String) {
-                    strContents = (String) contents;
+                    String strContents = (String) contents;
                     if (strContents.endsWith("いぬ")) {
-                        // TODO sawa わざわざdogっていう変数つくる意味ないよね by yuto (2017/04/22)
-                        String dog = strContents;
-                        // TODO sawa "+"のまわりにスペースをいれよう by yuto (2017/04/22)
-                        // TODO sawa 1を足す理由をコメントに書いておこう by yuto (2017/04/22)
-                        log(dog.indexOf("いぬ")+1);
+                        // sawa わざわざdogっていう変数つくる意味ないよね by yuto (2017/04/22)
+                        // sawa "+"のまわりにスペースをいれよう by yuto (2017/04/22)
+                        // sawa 1を足す理由をコメントに書いておこう by yuto (2017/04/22)
+                        int dogStartIndex = strContents.indexOf("いぬ") + 1;
+                        log("「いぬ」は" + dogStartIndex + "文字目です");
                     }
                 }
             }
@@ -286,19 +275,17 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
      */
     public void test_lastIndexOf_findIndex() {
         List<ColorBox> colorBoxList = getColorBoxList();
-        for (int i = 0; i < colorBoxList.size(); i++) {
-            ColorBox colorBox = colorBoxList.get(i);
+        for (ColorBox colorBox: colorBoxList) {
             List<BoxSpace> spaceList = colorBox.getSpaceList();
-            for (int j = 0; j < spaceList.size(); j++) {
-                BoxSpace boxSpace = spaceList.get(j);
+            for (BoxSpace boxSpace: spaceList) {
                 Object contents = boxSpace.getContents();
                 String strContents = null;
                 if (contents instanceof String) {
                     strContents = (String) contents;
                     if (strContents.matches(".*ず.*ず.*")) {
-                        int num = strContents.lastIndexOf("ず");
-                        // TODO sawa 本当に12文字目？ by yuto (2017/04/22)
-                        log(num);
+                        int index = strContents.lastIndexOf("ず");
+                        // sawa 本当に12文字目？ by yuto (2017/04/22)
+                        log("最後の「ず」は" + (index + 1) + "文字目です");
                     }
                 }
             }
@@ -312,21 +299,17 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
      * カラーボックスに入ってる「いぬ」で終わる文字列の最初の一文字は？
      */
     public void test_substring_findFirstChar() {
-        // TODO sawa 無駄な空行削除 by yuto (2017/04/22)
-
+        // sawa 無駄な空行削除 by yuto (2017/04/22)
         List<ColorBox> colorBoxList = getColorBoxList();
-        for (int i = 0; i < colorBoxList.size(); i++) {
-            ColorBox colorBox = colorBoxList.get(i);
+        for (ColorBox colorBox: colorBoxList) {
             List<BoxSpace> spaceList = colorBox.getSpaceList();
-            for (int j = 0; j < spaceList.size(); j++) {
-                BoxSpace boxSpace = spaceList.get(j);
+            for (BoxSpace boxSpace: spaceList) {
                 Object contents = boxSpace.getContents();
-                String strContents = null;
                 if (contents instanceof String) {
-                    strContents = (String) contents;
+                    String strContents = (String) contents;
                     if (strContents.endsWith("いぬ")) {
-                        char strDog = strContents.charAt(0);
-                        log(strDog);
+                        char firstChar = strContents.charAt(0);
+                        log("犬で終わる文字列の最初の一文字は" + firstChar + "です");
                     }
                 }
             }
@@ -338,26 +321,21 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
      */
     public void test_substring_findLastChar() {
         List<ColorBox> colorBoxList = getColorBoxList();
-        for (int i = 0; i < colorBoxList.size(); i++) {
-            ColorBox colorBox = colorBoxList.get(i);
+        for (ColorBox colorBox: colorBoxList) {
             List<BoxSpace> spaceList = colorBox.getSpaceList();
-            for (int j = 0; j < spaceList.size(); j++) {
-                BoxSpace boxSpace = spaceList.get(j);
+            for (BoxSpace boxSpace: spaceList) {
                 Object contents = boxSpace.getContents();
-                // TODO sawa strContents は instanceof のif文の中で定義してもいいよね？ by yuto (2017/04/22)
-                String strContents = null;
+                // sawa strContents は instanceof のif文の中で定義してもいいよね？ by yuto (2017/04/22)
                 if (contents instanceof String) {
-                    strContents = (String) contents;
+                    String strContents = (String) contents;
                     if (strContents.startsWith("かまくら")) {
-                        // TODO sawa "-"のまわりはスペースをいれよう by yuto (2017/04/22)
-                        log(strContents.charAt(strContents.length()-1));
+                        // sawa "-"のまわりはスペースをいれよう by yuto (2017/04/22)
+                        log(strContents.charAt(strContents.length() - 1));
                     }
                 }
             }
         }
     }
-
-
 
     // ===================================================================================
     //                                                                           replace()
@@ -367,24 +345,21 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
      */
     public void test_replace_removeBo() {
         List<ColorBox> colorBoxList = getColorBoxList();
-        for (int i = 0; i < colorBoxList.size(); i++) {
-            ColorBox colorBox = colorBoxList.get(i);
+        for (ColorBox colorBox: colorBoxList) {
             List<BoxSpace> spaceList = colorBox.getSpaceList();
-            for (int j = 0; j < spaceList.size(); j++) {
-                BoxSpace boxSpace = spaceList.get(j);
+            for (BoxSpace boxSpace: spaceList) {
                 Object contents = boxSpace.getContents();
-                // TODO sawa strContents は instanceof のif文の中で定義してもいいよね？ by yuto (2017/04/22)
-                String strContents = null;
+                // sawa strContents は instanceof のif文の中で定義してもいいよね？ by yuto (2017/04/22)
                 if (contents instanceof String) {
-                    strContents = (String) contents;
+                    String strContents = (String) contents;
                     if (strContents.contains("ー")) {
-                        log(strContents.replaceAll("ー", "").length());
+                        int strLength = strContents.replaceAll("ー", "").length();
+                        log("「ー」を削除すると" + strLength + "文字です");
                     }
                 }
             }
         }
-        // TODO sawa 無駄な空行削除 by yuto (2017/04/22)
-
+        // sawa 無駄な空行削除 by yuto (2017/04/22)
     }
 
     // ===================================================================================
@@ -395,22 +370,17 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
      */
     public void test_findMaxColorSize() throws Exception {
         List<ColorBox> colorBoxList = getColorBoxList();
-        // TODO sawa "最大の長さ"は数字が入っていそうな気がしない？ maxLangthColorName とかかな... by yuto (2017/04/22)
-        String maxLength = "";
-        for (int i = 0; i < colorBoxList.size(); i++) {
-            ColorBox colorBox = colorBoxList.get(i);
+        // sawa "最大の長さ"は数字が入っていそうな気がしない？ maxLangthColorName とかかな... by yuto (2017/04/22)
+        String longestColorName = "";
+        for (ColorBox colorBox: colorBoxList) {
             BoxColor boxColor = colorBox.getColor();
             String colorName = boxColor.getColorName();
-            // TODO sawa 外側のif文って必要かな？ by yuto (2017/04/22)
-            if (i == 0) {
-                maxLength = colorName;
-            } else {
-                if (colorName.length() > maxLength.length()) {
-                    maxLength = colorName;
-                }
+            // sawa 外側のif文って必要かな？ by yuto (2017/04/22)
+            if (colorName.length() > longestColorName.length()) {
+                longestColorName = colorName;
             }
         }
-        log(maxLength);
+        log("色の名前が一番長いものは" + longestColorName + "です");
     }
 
     /**
