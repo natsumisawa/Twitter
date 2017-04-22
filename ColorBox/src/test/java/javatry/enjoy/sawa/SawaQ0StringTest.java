@@ -5,7 +5,6 @@ import javatry.colorbox.color.BoxColor;
 import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
