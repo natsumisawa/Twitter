@@ -4,6 +4,8 @@ import javatry.colorbox.ColorBox;
 import javatry.colorbox.color.BoxColor;
 import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -269,9 +271,8 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
             List<BoxSpace> spaceList = colorBox.getSpaceList();
             for (BoxSpace boxSpace: spaceList) {
                 Object contents = boxSpace.getContents();
-                String strContents = null;
                 if (contents instanceof String) {
-                    strContents = (String) contents;
+                    String strContents = (String) contents;
                     if (strContents.matches(".*ず.*ず.*")) {
                         int index = strContents.lastIndexOf("ず");
                         // sawa 本当に12文字目？ by yuto (2017/04/22)
@@ -377,7 +378,17 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
      * カラーボックスの中で、2012/06/04 を示す日付が持っている秒は？
      */
     public void test_findDBFluteBirthdateSecond() throws Exception {
-
+        List<ColorBox> colorBoxList = getColorBoxList();
+        for (ColorBox colorBox: colorBoxList) {
+            List<BoxSpace> spaceList = colorBox.getSpaceList();
+            for (BoxSpace boxSpace : spaceList) {
+                Object contents = boxSpace.getContents();
+                if (contents instanceof LocalDateTime) {
+                    LocalDateTime time = (LocalDateTime) contents;
+                    log("2012/06/04 を示す日付が持っている秒は" + time.getSecond() + "です");
+                }
+            }
+        }
     }
 
     /**
