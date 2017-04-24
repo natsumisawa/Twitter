@@ -4,10 +4,9 @@ import javatry.colorbox.ColorBox;
 import javatry.colorbox.color.BoxColor;
 import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * 文字列のテスト。<br>
@@ -62,7 +61,7 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
      */
     public void test_length_findMaxMinDiff() {
         // done sawa Nullチェックが必要であればif文でそうしよう、とりあえず try-catchじゃない by yuto (2017/04/22)
-        ArrayList<Integer> strContentsList = new ArrayList<>();
+        List<Integer> strContentsList = new ArrayList<>();
         List<ColorBox> colorBoxList = getColorBoxList();
         for (int i = 0; i < colorBoxList.size(); i++) {
             ColorBox colorBox = colorBoxList.get(i);
@@ -78,7 +77,7 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
             }
         }
         // 最小値が保存できてなかったので以下のコードを修正しました　by sawa (2017/4/23)
-        // TODO sawa [コメント] レビュワーにTODOコメントをつけると読んでもらいやすくなるよ、次からよろしく by yuto (2017/04/22)
+        // sawa [コメント] レビュワーにTODOコメントをつけると読んでもらいやすくなるよ、次からよろしく by yuto (2017/04/22)
         int maxLength = 0;
         int minLength = strContentsList.get(0);
         for (int i = 0; i < strContentsList.size(); i++) {
@@ -96,8 +95,8 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
     public void test_length_findSecondMax_bySort() {
         // done sawa あとでやる的なTODOコメントを自分で残しておこうね by yuto (2017/04/22)
         List<ColorBox> colorBoxList = getColorBoxList();
-        ArrayList<String> strContentsList = new ArrayList<>();
-        for (ColorBox colorBox: colorBoxList) {
+        List<String> strContentsList = new ArrayList<>();
+        for (ColorBox colorBox : colorBoxList) {
             List<BoxSpace> boxSpaceList = colorBox.getSpaceList();
             for (BoxSpace boxSpace : boxSpaceList) {
                 if (boxSpace.getContents() != null) {
@@ -105,20 +104,25 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                 }
             }
         }
-        // TODO sawa [修行] strContentsList.sort() を使ってやってみよう by yuto (2017/04/22)
-        //バブルソート
-        for (int i = 0; i < strContentsList.size() - 1; i++) {
-            for (int j = 0; j < strContentsList.size() - 1; j++) {
-                if (strContentsList.get(j).length() < strContentsList.get(j + 1).length()) {
-                    String keepLonger = strContentsList.get(j);
-                    strContentsList.set(j, strContentsList.get(j + 1));
-                    strContentsList.set(j + 1, keepLonger);
-                }
-            }
+        // TODO done sawa [修行] strContentsList.sort() を使ってやってみよう by yuto (2017/04/22)
+        strContentsList.sort((o1, o2) -> Double.compare(o2.length(), o1.length()));
+        // TODO done sawa ログを綺麗に... by yuto (2017/04/22)
+        // TODO done sawa カラーボックスの中に文字列が一つしかないと落ちるのでどうにかしよう by yuto (2017/04/22)
+        if (strContentsList.size() == 1) {
+            log("カラーボックスの中に文字列は一つしかありません");
+        } else {
+            log("二番目に長い文字列は" + strContentsList.get(1) + "です");
         }
-        // TODO sawa ログを綺麗に... by yuto (2017/04/22)
-        // TODO sawa カラーボックスの中に文字列が一つしかないと落ちるのでどうにかしよう by yuto (2017/04/22)
-        log(strContentsList.get(1));
+        //バブルソート
+        //for (int i = 0; i < strContentsList.size() - 1; i++) {
+        //    for (int j = 0; j < strContentsList.size() - 1; j++) {
+        //        if (strContentsList.get(j).length() < strContentsList.get(j + 1).length()) {
+        //            String keepLonger = strContentsList.get(j);
+        //            strContentsList.set(j, strContentsList.get(j + 1));
+        //            strContentsList.set(j + 1, keepLonger);
+        //        }
+        //    }
+        //}
     }
 
     /**
@@ -186,10 +190,10 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
     public void test_startsWith_findFirstWord() {
         // done sawa さて、「かまくら」で始まる文字列をしまっているカラーボックスが2つ以上あったらこれで大丈夫でしょうか？ by yuto (2017/04/22)
         List<ColorBox> colorBoxList = getColorBoxList();
-        // TODO sawa インターフェースで受ける習慣を by yuto (2017/04/22)
-        // TODO sawa 何で"Index"？ by yuto (2017/04/22)
-        // TODO sawa ちなみに、順番を意識しないなら"Set"を使う方が良い by yuto (2017/04/22)
-        ArrayList<Integer> kamakuraIndex = new ArrayList<>();
+        // TODO done sawa インターフェースで受ける習慣を by yuto (2017/04/22)
+        // TODO done sawa 何で"Index"？ by yuto (2017/04/22)
+        // TODO done sawa ちなみに、順番を意識しないなら"Set"を使う方が良い by yuto (2017/04/22)　by sawa
+        Set<Integer> kamakuraColor = new CopyOnWriteArraySet<>();
         for (int i = 0; i < colorBoxList.size(); i++) {
             ColorBox colorBox = colorBoxList.get(i);
             List<BoxSpace> spaceList = colorBox.getSpaceList();
@@ -200,13 +204,13 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                 if (contents instanceof String) {
                     String strContents = (String) contents;
                     if (strContents.startsWith("かまくら")) {
-                        kamakuraIndex.add(i);
+                        kamakuraColor.add(i);
                     }
                 }
             }
         }
-        for (int i = 0; i < kamakuraIndex.size(); i++) {
-            ColorBox colorBox = colorBoxList.get(kamakuraIndex.get(i));
+        for (int index: kamakuraColor) {
+            ColorBox colorBox = colorBoxList.get(index);
             BoxColor boxColor = colorBox.getColor();
             log("「かまくら」で始まる文字列をしまっているカラーボックスの色は" + boxColor.getColorName() + "です");
         }
@@ -217,11 +221,12 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
      */
     public void test_endsWith_findLastWord() {
         // TODO done sawa さて、「いぬ」で終わる文字列をしまっているカラーボックスが2つ以上あったらこれで大丈夫でしょうか？ by yuto (2017/04/22)
+        // TODO done sawa インターフェースで受ける習慣を by yuto (2017/04/22)
+        // TODO [コメント] sawa 上のレビューは230行目の左辺をArrayListではなくListで宣言するべき、ということで合っていますか？ by sawa (2017/04/23)
+        // TODO done sawa 何で"Index"？ by yuto (2017/04/22)
+        // TODO done sawa ちなみに、順番を意識しないなら"Set"を使う方が良い by yuto (2017/04/22)
         List<ColorBox> colorBoxList = getColorBoxList();
-        // TODO sawa インターフェースで受ける習慣を by yuto (2017/04/22)
-        // TODO sawa 何で"Index"？ by yuto (2017/04/22)
-        // TODO sawa ちなみに、順番を意識しないなら"Set"を使う方が良い by yuto (2017/04/22)
-        ArrayList<Integer> inuIndex = new ArrayList<>();
+        Set<Integer> inuColorBox = new CopyOnWriteArraySet<>();
         for (int i = 0; i < colorBoxList.size(); i++) {
             ColorBox colorBox = colorBoxList.get(i);
             List<BoxSpace> spaceList = colorBox.getSpaceList();
@@ -232,13 +237,13 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                 if (contents instanceof String) {
                     String strContents = (String) contents;
                     if (strContents.endsWith("いぬ")) {
-                        inuIndex.add(i);
+                        inuColorBox.add(i);
                     }
                 }
             }
         }
-        for (int i = 0; i < inuIndex.size(); i++) {
-            ColorBox colorBox = colorBoxList.get(inuIndex.get(i));
+        for (int index: inuColorBox) {
+            ColorBox colorBox = colorBoxList.get(index);
             BoxColor boxColor = colorBox.getColor();
             log("「いぬ」で終わる文字列をしまっているカラーボックスの色は" + boxColor.getColorName() + "です");
         }
@@ -250,6 +255,7 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
     // done sawa そろそろ"i"って書くのもめんどくさくなってきた頃だと思う、のでここからは拡張for文を使ってみよう by yuto (2017/04/22)
     // 拡張for文素敵ですね、もう"i"とはさよならしました by sawa
     // TODO sawa [コメント] さよらなまでは言わないで、必要な時は使えばいいから 笑 by yuto (2017/04/22)
+    // TODO sawa [コメント] 間違いないですね笑 by sawa (2017/04/23)
     /**
      * あなたのカラーボックスに入ってる「いぬ」で終わる文字列で、「いぬ」は何文字目から始まる？
      */
@@ -265,7 +271,7 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                         // done sawa わざわざdogっていう変数つくる意味ないよね by yuto (2017/04/22)
                         // done sawa "+"のまわりにスペースをいれよう by yuto (2017/04/22)
                         // TODO done sawa 1を足す理由をコメントに書いておこう by yuto (2017/04/22)
-                        int dogStartIndex = strContents.indexOf("いぬ") + 1;
+                        int dogStartIndex = strContents.indexOf("いぬ") + 1; //何文字目なのかが知りたいので+1
                         log("「いぬ」は" + dogStartIndex + "文字目です");
                     }
                 }
@@ -288,7 +294,7 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                         int index = strContents.lastIndexOf("ず");
                         // done sawa 本当に12文字目？ by yuto (2017/04/22)
                         // TODO done sawa 1を足す理由をコメントに書いておこう by yuto (2017/04/22)
-                        log("最後の「ず」は" + (index + 1) + "文字目です");
+                        log("最後の「ず」は" + (index + 1) + "文字目です"); //何文字目なのかが知りたいので+1
                     }
                 }
             }
@@ -312,8 +318,9 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                     String strContents = (String) contents;
                     if (strContents.endsWith("いぬ")) {
                         char firstChar = strContents.charAt(0);
-                        // TODO sawa 細かすぎるけど「犬」ってかいちゃった...笑 by yuto (2017/04/22)
-                        log("犬で終わる文字列の最初の一文字は" + firstChar + "です");
+                        // TODO done sawa 細かすぎるけど「犬」ってかいちゃった...笑 by yuto (2017/04/22)
+                        // TODO [コメント] あ、、こういう意識大切ですね by sawa (2017/04/23)
+                        log("「いぬ」で終わる文字列の最初の一文字は" + firstChar + "です");
                     }
                 }
             }
@@ -334,8 +341,8 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                     String strContents = (String) contents;
                     if (strContents.startsWith("かまくら")) {
                         // done sawa "-"のまわりはスペースをいれよう by yuto (2017/04/22)
-                        // TODO sawa ログを綺麗に... by yuto (2017/04/22)
-                        log(strContents.charAt(strContents.length() - 1));
+                        // TODO done sawa ログを綺麗に... by yuto (2017/04/22)
+                        log("「かまくら」で始まる文字列の最後の一文字は" + strContents.charAt(strContents.length() - 1) + "です");
                     }
                 }
             }
