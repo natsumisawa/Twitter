@@ -416,6 +416,24 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
      * カラーボックスの中に入っている Map を "map:{ key = value ; key = value ; ... }" という形式で表示。
      */
     public void test_showMap() throws Exception {
+        List<ColorBox> colorBoxList = getColorBoxList();
+        for (ColorBox colorBox: colorBoxList) {
+            List<BoxSpace> spaceList = colorBox.getSpaceList();
+            for (BoxSpace boxSpace : spaceList) {
+                Object contents = boxSpace.getContents();
+                if (contents instanceof Map) {
+                    Map<Object, Object> map = new HashMap<Object, Object>();
+                    map = (Map<Object, Object>) contents;
+                    Set<Object> mapContents = new CopyOnWriteArraySet<>();
+                    for (Map.Entry<Object, Object> str: map.entrySet()) {
+                        mapContents.add(str.getKey());
+                        mapContents.add(str.getValue());
+                        mapContents.add(";");
+                    }
+                    log("map: {" + mapContents + "}");
+                }
+            }
+        }
     }
 
     /**
