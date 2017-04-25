@@ -104,15 +104,24 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                 }
             }
         }
-        // TODO done sawa [修行] strContentsList.sort() を使ってやってみよう by yuto (2017/04/22)
+        // done sawa [修行] strContentsList.sort() を使ってやってみよう by yuto (2017/04/22)
         strContentsList.sort((o1, o2) -> Double.compare(o2.length(), o1.length()));
-        // TODO done sawa ログを綺麗に... by yuto (2017/04/22)
-        // TODO done sawa カラーボックスの中に文字列が一つしかないと落ちるのでどうにかしよう by yuto (2017/04/22)
+        // done sawa ログを綺麗に... by yuto (2017/04/22)
+        // done sawa カラーボックスの中に文字列が一つしかないと落ちるのでどうにかしよう by yuto (2017/04/22)
         if (strContentsList.size() == 1) {
             log("カラーボックスの中に文字列は一つしかありません");
         } else {
             log("二番目に長い文字列は" + strContentsList.get(1) + "です");
         }
+        // TODO sawa 以下を参考に、"バブルソート"のソースコードを思い出化してよう by yuto (2017/04/25)
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        // 思い出化の理由をここにコメント
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        // for (int i = 0; i < 0 .... ) { // 実際のコードをここに入れる
+        //      ....
+        // }
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
         //バブルソート
         //for (int i = 0; i < strContentsList.size() - 1; i++) {
         //    for (int j = 0; j < strContentsList.size() - 1; j++) {
@@ -190,9 +199,9 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
     public void test_startsWith_findFirstWord() {
         // done sawa さて、「かまくら」で始まる文字列をしまっているカラーボックスが2つ以上あったらこれで大丈夫でしょうか？ by yuto (2017/04/22)
         List<ColorBox> colorBoxList = getColorBoxList();
-        // TODO done sawa インターフェースで受ける習慣を by yuto (2017/04/22)
-        // TODO done sawa 何で"Index"？ by yuto (2017/04/22)
-        // TODO done sawa ちなみに、順番を意識しないなら"Set"を使う方が良い by yuto (2017/04/22)　by sawa
+        // one sawa インターフェースで受ける習慣を by yuto (2017/04/22)
+        // done sawa 何で"Index"？ by yuto (2017/04/22)
+        // done sawa ちなみに、順番を意識しないなら"Set"を使う方が良い by yuto (2017/04/22) by sawa
         Set<Integer> kamakuraColor = new CopyOnWriteArraySet<>();
         for (int i = 0; i < colorBoxList.size(); i++) {
             ColorBox colorBox = colorBoxList.get(i);
@@ -220,11 +229,12 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
      * 「いぬ」で終わる文字列をしまっているカラーボックスの色は？
      */
     public void test_endsWith_findLastWord() {
-        // TODO done sawa さて、「いぬ」で終わる文字列をしまっているカラーボックスが2つ以上あったらこれで大丈夫でしょうか？ by yuto (2017/04/22)
-        // TODO done sawa インターフェースで受ける習慣を by yuto (2017/04/22)
-        // TODO [コメント] sawa 上のレビューは230行目の左辺をArrayListではなくListで宣言するべき、ということで合っていますか？ by sawa (2017/04/23)
-        // TODO done sawa 何で"Index"？ by yuto (2017/04/22)
-        // TODO done sawa ちなみに、順番を意識しないなら"Set"を使う方が良い by yuto (2017/04/22)
+        // done sawa さて、「いぬ」で終わる文字列をしまっているカラーボックスが2つ以上あったらこれで大丈夫でしょうか？ by yuto (2017/04/22)
+        // done sawa インターフェースで受ける習慣を by yuto (2017/04/22)
+        // TODO done yuto [コメント] sawa 上のレビューは230行目の左辺をArrayListではなくListで宣言するべき、ということで合っていますか？ by sawa (2017/04/23)
+        // TODO sawa [コメント] いぇす！！ by yuto (2017/04/25)
+        // done sawa 何で"Index"？ by yuto (2017/04/22)
+        // done sawa ちなみに、順番を意識しないなら"Set"を使う方が良い by yuto (2017/04/22)
         List<ColorBox> colorBoxList = getColorBoxList();
         Set<Integer> inuColorBox = new CopyOnWriteArraySet<>();
         for (int i = 0; i < colorBoxList.size(); i++) {
@@ -233,7 +243,7 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
             for (int j = 0; j < spaceList.size(); j++) {
                 BoxSpace boxSpace = spaceList.get(j);
                 Object contents = boxSpace.getContents();
-                // TODO done sawa strContents は instanceof のif文の中で定義してもいいよね？ by yuto (2017/04/22)
+                // done sawa strContents は instanceof のif文の中で定義してもいいよね？ by yuto (2017/04/22)
                 if (contents instanceof String) {
                     String strContents = (String) contents;
                     if (strContents.endsWith("いぬ")) {
@@ -254,8 +264,8 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
     //                                                            ========================
     // done sawa そろそろ"i"って書くのもめんどくさくなってきた頃だと思う、のでここからは拡張for文を使ってみよう by yuto (2017/04/22)
     // 拡張for文素敵ですね、もう"i"とはさよならしました by sawa
-    // TODO sawa [コメント] さよらなまでは言わないで、必要な時は使えばいいから 笑 by yuto (2017/04/22)
-    // TODO sawa [コメント] 間違いないですね笑 by sawa (2017/04/23)
+    // sawa [コメント] さよらなまでは言わないで、必要な時は使えばいいから 笑 by yuto (2017/04/22)
+    // sawa [コメント] 間違いないですね笑 by sawa (2017/04/23)
     /**
      * あなたのカラーボックスに入ってる「いぬ」で終わる文字列で、「いぬ」は何文字目から始まる？
      */
@@ -270,7 +280,8 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                     if (strContents.endsWith("いぬ")) {
                         // done sawa わざわざdogっていう変数つくる意味ないよね by yuto (2017/04/22)
                         // done sawa "+"のまわりにスペースをいれよう by yuto (2017/04/22)
-                        // TODO done sawa 1を足す理由をコメントに書いておこう by yuto (2017/04/22)
+                        // done sawa 1を足す理由をコメントに書いておこう by yuto (2017/04/22)
+                        // TODO sawa 1だけずれる理由を... by yuto (2017/04/25)
                         int dogStartIndex = strContents.indexOf("いぬ") + 1; //何文字目なのかが知りたいので+1
                         log("「いぬ」は" + dogStartIndex + "文字目です");
                     }
@@ -293,7 +304,8 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                     if (strContents.matches(".*ず.*ず.*")) {
                         int index = strContents.lastIndexOf("ず");
                         // done sawa 本当に12文字目？ by yuto (2017/04/22)
-                        // TODO done sawa 1を足す理由をコメントに書いておこう by yuto (2017/04/22)
+                        // done sawa 1を足す理由をコメントに書いておこう by yuto (2017/04/22)
+                        // TODO sawa 1だけずれる理由を... by yuto (2017/04/25)
                         log("最後の「ず」は" + (index + 1) + "文字目です"); //何文字目なのかが知りたいので+1
                     }
                 }
@@ -318,8 +330,8 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                     String strContents = (String) contents;
                     if (strContents.endsWith("いぬ")) {
                         char firstChar = strContents.charAt(0);
-                        // TODO done sawa 細かすぎるけど「犬」ってかいちゃった...笑 by yuto (2017/04/22)
-                        // TODO [コメント] あ、、こういう意識大切ですね by sawa (2017/04/23)
+                        // done sawa 細かすぎるけど「犬」ってかいちゃった...笑 by yuto (2017/04/22)
+                        // TODO yuto done [コメント] あ、、こういう意識大切ですね by sawa (2017/04/23)
                         log("「いぬ」で終わる文字列の最初の一文字は" + firstChar + "です");
                     }
                 }
@@ -341,7 +353,7 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                     String strContents = (String) contents;
                     if (strContents.startsWith("かまくら")) {
                         // done sawa "-"のまわりはスペースをいれよう by yuto (2017/04/22)
-                        // TODO done sawa ログを綺麗に... by yuto (2017/04/22)
+                        // done sawa ログを綺麗に... by yuto (2017/04/22)
                         log("「かまくら」で始まる文字列の最後の一文字は" + strContents.charAt(strContents.length() - 1) + "です");
                     }
                 }
@@ -405,6 +417,7 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
             for (BoxSpace boxSpace : spaceList) {
                 Object contents = boxSpace.getContents();
                 if (contents instanceof LocalDateTime) {
+                    // TODO sawa 2012/06/04 との比較がどこにもないよ by yuto (2017/04/25)
                     LocalDateTime time = (LocalDateTime) contents;
                     log("2012/06/04 を示す日付が持っている秒は" + time.getSecond() + "です");
                 }
