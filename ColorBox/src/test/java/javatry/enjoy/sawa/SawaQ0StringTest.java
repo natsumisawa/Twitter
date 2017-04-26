@@ -105,6 +105,7 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
             }
         }
         // done sawa [修行] strContentsList.sort() を使ってやってみよう by yuto (2017/04/22)
+        // TODO sawa そういえば "o1", "o2"って何？ by yuto (2017/04/27)
         strContentsList.sort((o1, o2) -> Double.compare(o2.length(), o1.length()));
         // done sawa ログを綺麗に... by yuto (2017/04/22)
         // done sawa カラーボックスの中に文字列が一つしかないと落ちるのでどうにかしよう by yuto (2017/04/22)
@@ -113,7 +114,7 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
         } else {
             log("二番目に長い文字列は" + strContentsList.get(1) + "です");
         }
-        // TODO done sawa 以下を参考に、"バブルソート"のソースコードを思い出化してよう by yuto (2017/04/25)
+        // done sawa 以下を参考に、"バブルソート"のソースコードを思い出化してよう by yuto (2017/04/25)
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         // バブルソートで書いたものがsortメソッドで簡潔になったため
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -276,7 +277,8 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                         // done sawa わざわざdogっていう変数つくる意味ないよね by yuto (2017/04/22)
                         // done sawa "+"のまわりにスペースをいれよう by yuto (2017/04/22)
                         // done sawa 1を足す理由をコメントに書いておこう by yuto (2017/04/22)
-                        // TODO done sawa 1だけずれる理由を... by yuto (2017/04/25)
+                        // done sawa 1だけずれる理由を... by yuto (2017/04/25)
+                        // TODO sawa コメントは該当箇所の上に by yuto (2017/04/27)
                         int dogStartIndex = strContents.indexOf("いぬ") + 1;
                         //indexOfで取れる添え字にプラス1して前から何文字目か調べる
                         log("「いぬ」は" + dogStartIndex + "文字目です");
@@ -301,7 +303,8 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                         int index = strContents.lastIndexOf("ず");
                         // done sawa 本当に12文字目？ by yuto (2017/04/22)
                         // done sawa 1を足す理由をコメントに書いておこう by yuto (2017/04/22)
-                        // TODO done sawa 1だけずれる理由を... by yuto (2017/04/25)
+                        // done sawa 1だけずれる理由を... by yuto (2017/04/25)
+                        // TODO sawa コメントは該当箇所の上に by yuto (2017/04/27)
                         log("最後の「ず」は" + (index + 1) + "文字目です");
                         //添え字にプラス1して前から何文字目か調べる
                     }
@@ -414,8 +417,10 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
             for (BoxSpace boxSpace : spaceList) {
                 Object contents = boxSpace.getContents();
                 if (contents instanceof LocalDateTime) {
+                    // TODO sawa 残念ながら done がついていない... by yuto (2017/04/27)
                     // TODO sawa 2012/06/04 との比較がどこにもないよ by yuto (2017/04/25)
                     LocalDateTime time = (LocalDateTime) contents;
+                    // TODO sawa toString() した結果が yyyy-MM-dd 形式 じゃないこともあるので、LocalDate型で比較しよう by yuto (2017/04/27)
                     if (time.toString().contains("2012-06-04")) {
                         log("2012/06/04を示す日付が持っている秒は" + time.getSecond() + "です");
                     }
@@ -434,7 +439,9 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
             for (BoxSpace boxSpace : spaceList) {
                 Object contents = boxSpace.getContents();
                 if (contents instanceof Map) {
+                    // TODO sawa 無駄な初期化をしている by yuto (2017/04/27)
                     Map<Object, Object> map = new HashMap<Object, Object>();
+                    // TODO sawa 警告が出ているよ、警告が出たままpushしないようにしよう by yuto (2017/04/27)
                     map = (Map<Object, Object>) contents;
                     String str = "map:{ ";
                     for (Map.Entry<Object, Object> e: map.entrySet()) {
@@ -469,6 +476,7 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
             }
             String key = contents[count];
             String  value = contents[count + 2];
+            // TODO sawa 警告が出ているよ by yuto (2017/04/27)
             map.put(key, value);
             count += 4;
         }
@@ -487,6 +495,7 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
         String mapEle = str.substring(5, str.length() - 2); //map:{...}の削除
         String contents[] = mapEle.split(";");
         List<String[]> list = new ArrayList<>();
+        // TODO sawa これは拡張for文でできる by yuto (2017/04/27)
         for (int i = 0; i < contents.length; i++) {
             list.add(contents[i].split(" "));
         }
@@ -498,6 +507,7 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
             } else if(list.get(count).length == 4) { //valueの中にmapがない場合
                 String key = list.get(count)[1];
                 String value = list.get(count)[3];
+                // TODO sawa 警告が出ているよ by yuto (2017/04/27)
                 map.put(key, value);
                 count++;
             } else { //valueの中にmapがある場合
@@ -507,6 +517,7 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                     strOfValue += s;
                 }
                 String value = list.get(1)[3] + strOfValue;
+                // TODO sawa 警告が出ているよ by yuto (2017/04/27)
                 map.put(key, value);
                 count += 2;
             }
