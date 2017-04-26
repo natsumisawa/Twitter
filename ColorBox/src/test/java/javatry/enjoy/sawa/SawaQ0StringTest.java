@@ -113,17 +113,11 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
         } else {
             log("二番目に長い文字列は" + strContentsList.get(1) + "です");
         }
-        // TODO sawa 以下を参考に、"バブルソート"のソースコードを思い出化してよう by yuto (2017/04/25)
+        // TODO done sawa 以下を参考に、"バブルソート"のソースコードを思い出化してよう by yuto (2017/04/25)
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        // 思い出化の理由をここにコメント
+        // バブルソートで書いたものがsortメソッドで簡潔になったため
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        // for (int i = 0; i < 0 .... ) { // 実際のコードをここに入れる
-        //      ....
-        // }
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        //バブルソート
-        //for (int i = 0; i < strContentsList.size() - 1; i++) {
+        // for (int i = 0; i < strContentsList.size() - 1; i++) {
         //    for (int j = 0; j < strContentsList.size() - 1; j++) {
         //        if (strContentsList.get(j).length() < strContentsList.get(j + 1).length()) {
         //            String keepLonger = strContentsList.get(j);
@@ -132,6 +126,7 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
         //        }
         //    }
         //}
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
     }
 
     /**
@@ -281,8 +276,9 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                         // done sawa わざわざdogっていう変数つくる意味ないよね by yuto (2017/04/22)
                         // done sawa "+"のまわりにスペースをいれよう by yuto (2017/04/22)
                         // done sawa 1を足す理由をコメントに書いておこう by yuto (2017/04/22)
-                        // TODO sawa 1だけずれる理由を... by yuto (2017/04/25)
-                        int dogStartIndex = strContents.indexOf("いぬ") + 1; //何文字目なのかが知りたいので+1
+                        // TODO done sawa 1だけずれる理由を... by yuto (2017/04/25)
+                        int dogStartIndex = strContents.indexOf("いぬ") + 1;
+                        //indexOfで取れる添え字にプラス1して前から何文字目か調べる
                         log("「いぬ」は" + dogStartIndex + "文字目です");
                     }
                 }
@@ -305,8 +301,9 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                         int index = strContents.lastIndexOf("ず");
                         // done sawa 本当に12文字目？ by yuto (2017/04/22)
                         // done sawa 1を足す理由をコメントに書いておこう by yuto (2017/04/22)
-                        // TODO sawa 1だけずれる理由を... by yuto (2017/04/25)
-                        log("最後の「ず」は" + (index + 1) + "文字目です"); //何文字目なのかが知りたいので+1
+                        // TODO done sawa 1だけずれる理由を... by yuto (2017/04/25)
+                        log("最後の「ず」は" + (index + 1) + "文字目です");
+                        //添え字にプラス1して前から何文字目か調べる
                     }
                 }
             }
@@ -331,7 +328,7 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                     if (strContents.endsWith("いぬ")) {
                         char firstChar = strContents.charAt(0);
                         // done sawa 細かすぎるけど「犬」ってかいちゃった...笑 by yuto (2017/04/22)
-                        // TODO yuto done [コメント] あ、、こういう意識大切ですね by sawa (2017/04/23)
+                        // yuto done [コメント] あ、、こういう意識大切ですね by sawa (2017/04/23)
                         log("「いぬ」で終わる文字列の最初の一文字は" + firstChar + "です");
                     }
                 }
@@ -419,7 +416,9 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                 if (contents instanceof LocalDateTime) {
                     // TODO sawa 2012/06/04 との比較がどこにもないよ by yuto (2017/04/25)
                     LocalDateTime time = (LocalDateTime) contents;
-                    log("2012/06/04 を示す日付が持っている秒は" + time.getSecond() + "です");
+                    if (time.toString().contains("2012-06-04")) {
+                        log("2012/06/04を示す日付が持っている秒は" + time.getSecond() + "です");
+                    }
                 }
             }
         }
@@ -437,13 +436,13 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                 if (contents instanceof Map) {
                     Map<Object, Object> map = new HashMap<Object, Object>();
                     map = (Map<Object, Object>) contents;
-                    Set<Object> mapContents = new CopyOnWriteArraySet<>();
-                    for (Map.Entry<Object, Object> str: map.entrySet()) {
-                        mapContents.add(str.getKey());
-                        mapContents.add(str.getValue());
-                        mapContents.add(";");
+                    String str = "map:{ ";
+                    for (Map.Entry<Object, Object> e: map.entrySet()) {
+                        str += e.getKey() + " = " + e.getValue();
+                        str += " ; ";
                     }
-                    log("map: {" + mapContents + "}");
+                    log(str.substring(0, str.length() - 2) + "}");
+                    //最後の;を削除したsubstringを作成して出力
                 }
             }
         }
@@ -459,6 +458,21 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
      * </pre>
      */
     public void test_parseMap() throws Exception {
+        String str = "map:{ key1 = value1 ; key2 = value2 ; key3 = value3 }";
+        String s[] = str.split(" ");
+        String contents[] = Arrays.copyOfRange(s, 1, 12);
+        Map map = new HashMap();
+        int count = 0;
+        while(true) {
+            if (count > contents.length) {
+                break;
+            }
+            String key = contents[count];
+            String  value = contents[count + 2];
+            map.put(key, value);
+            count += 4;
+        }
+        log(map.toString());
     }
 
     /**
@@ -469,5 +483,34 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
      * でも、同じプログラムでMapに変換できるようにするべし。
      */
     public void test_parseMap_deep() throws Exception {
+        String str = "map:{ key1 = value1 ; key2 = map:{ nkey21 = nvalue21 ; nkey22 = nvalue22 } ; key3 = value3 }";
+        String mapEle = str.substring(5, str.length() - 2); //map:{...}の削除
+        String contents[] = mapEle.split(";");
+        List<String[]> list = new ArrayList<>();
+        for (int i = 0; i < contents.length; i++) {
+            list.add(contents[i].split(" "));
+        }
+        Map map = new HashMap();
+        int count = 0;
+        while (true) {
+            if (count > list.size() - 1) {
+                break;
+            } else if(list.get(count).length == 4) { //valueの中にmapがない場合
+                String key = list.get(count)[1];
+                String value = list.get(count)[3];
+                map.put(key, value);
+                count++;
+            } else { //valueの中にmapがある場合
+                String key = list.get(count)[1];
+                String strOfValue = "";
+                for (String s: list.get(count + 1)) {
+                    strOfValue += s;
+                }
+                String value = list.get(1)[3] + strOfValue;
+                map.put(key, value);
+                count += 2;
+            }
+        }
+        log(map);
     }
 }
