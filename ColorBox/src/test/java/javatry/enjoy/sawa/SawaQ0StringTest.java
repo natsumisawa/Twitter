@@ -4,7 +4,6 @@ import javatry.colorbox.ColorBox;
 import javatry.colorbox.color.BoxColor;
 import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -424,8 +423,8 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                     // done sawa 2012/06/04 との比較がどこにもないよ by yuto (2017/04/25)
                     LocalDateTime time = (LocalDateTime) contents;
                     // done sawa toString() した結果が yyyy-MM-dd 形式 じゃないこともあるので、LocalDate型で比較しよう by yuto (2017/04/27)
-                    // TODO sawa "06"じゃなくて6 by yuto (2017/04/27)
-                    if (time.toLocalDate().equals(LocalDate.of(2012, 06,04))) {
+                    // TODO done sawa "06"じゃなくて6 by yuto (2017/04/27)
+                    if (time.toLocalDate().equals(LocalDate.of(2012, 6,4))) {
                         log("2012/06/04を示す日付が持っている秒は" + time.getSecond() + "です");
                     }
                 }
