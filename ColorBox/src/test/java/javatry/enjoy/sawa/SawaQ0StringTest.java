@@ -106,8 +106,8 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
             }
         }
         // done sawa [修行] strContentsList.sort() を使ってやってみよう by yuto (2017/04/22)
-        // TODO sawa そういえば "o1", "o2"って何？ by yuto (2017/04/27)
-        // TODO yuto 参考にしたコードに引っ張られたネーミングだったので、変更しました！ by sawa (2017/04/27)
+        // done sawa そういえば "o1", "o2"って何？ by yuto (2017/04/27)
+        // TODO done yuto 参考にしたコードに引っ張られたネーミングだったので、変更しました！ by sawa (2017/04/27)
         strContentsList.sort((str1, str2) -> Double.compare(str2.length(), str1.length()));
         // done sawa ログを綺麗に... by yuto (2017/04/22)
         // done sawa カラーボックスの中に文字列が一つしかないと落ちるのでどうにかしよう by yuto (2017/04/22)
@@ -423,7 +423,7 @@ public class SawaQ0StringTest extends ColorBoxTestCase {
                     // done sawa 2012/06/04 との比較がどこにもないよ by yuto (2017/04/25)
                     LocalDateTime time = (LocalDateTime) contents;
                     // done sawa toString() した結果が yyyy-MM-dd 形式 じゃないこともあるので、LocalDate型で比較しよう by yuto (2017/04/27)
-                    // TODO done sawa "06"じゃなくて6 by yuto (2017/04/27)
+                    // done sawa "06"じゃなくて6 by yuto (2017/04/27)
                     if (time.toLocalDate().equals(LocalDate.of(2012, 6,4))) {
                         log("2012/06/04を示す日付が持っている秒は" + time.getSecond() + "です");
                     }
