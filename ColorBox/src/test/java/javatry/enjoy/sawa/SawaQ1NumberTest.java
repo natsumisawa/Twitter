@@ -1,14 +1,11 @@
 package javatry.enjoy.sawa;
 
 import javatry.colorbox.ColorBox;
-import javatry.colorbox.size.BoxSize;
 import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
