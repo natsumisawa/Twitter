@@ -17,6 +17,7 @@ import static java.util.Locale.JAPAN;
  * 何々は？と言われたら、それに該当するものをログに出力すること。
  * @author ikezaki
  */
+// TODO sawa @author by yuki.wakisaka (2017/04/30)
 public class SawaQ2DateTest extends ColorBoxTestCase {
 
     // ===================================================================================
@@ -27,6 +28,7 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
      * カラーボックスに入っている日付をスラッシュ区切りのフォーマットで表示したら？
      */
     public void test_convert() {
+        // TODO sawa colorBoxListはforの引数でしか呼ばれないので、変数に出さずに書いてみよう by yuki.wakisaka (2017/04/30)
         List<ColorBox> colorBoxList = getColorBoxList();
         for (ColorBox colorBox : colorBoxList) {
             List<BoxSpace> spaceList = colorBox.getSpaceList();
@@ -35,6 +37,7 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
                 if (contents instanceof LocalDate) {
                     int month = ((LocalDate) contents).getMonthValue();
                     int day = ((LocalDate) contents).getDayOfMonth();
+                    // TODO sawa 毎回この形式に合わせるの、きっといい感じのclassがあるよ by yuki.wakisaka (2017/04/30)
                     log(month + "/" + day);
                 } else if (contents instanceof LocalDateTime) {
                     int month = ((LocalDateTime) contents).getMonthValue();
@@ -54,10 +57,12 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
      */
     public void test_weekOfDay() {
         List<ColorBox> colorBoxList = getColorBoxList();
+        // TODO sawa for文では日付の抽出だけをして、最後にlogを書き出すときに曜日にしよう。機能の切り分け。 by yuki.wakisaka (2017/04/30)
         for (ColorBox colorBox : colorBoxList) {
             List<BoxSpace> spaceList = colorBox.getSpaceList();
             for (BoxSpace boxSpace : spaceList) {
                 Object contents = boxSpace.getContents();
+                // TODO sawa ここで宣言する意味ないな by yuki.wakisaka (2017/04/30)
                 String week = "";
                 if (contents instanceof LocalDate) {
                     week = ((LocalDate) contents).getDayOfWeek().getDisplayName(TextStyle.FULL, JAPAN);
@@ -78,6 +83,8 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
     public void test_addThreeDays() {
         List<ColorBox> colorBoxList = getColorBoxList();
         for (ColorBox colorBox : colorBoxList) {
+            // TODO sawa "yellow".equals(...)の方が良い
+            // 理由を考えてみて、コメントに残してくださいなー by yuki.wakisaka (2017/04/30)
             if (colorBox.getColor().getColorName().equals("yellow")) {
                 List<BoxSpace> spaceList = colorBox.getSpaceList();
                 for (BoxSpace boxSpace : spaceList) {
@@ -102,6 +109,7 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
     public void test_weekOfDayOf2017Newcomer() {
         LocalDate entryDay = LocalDate.of(2018, 4, 1);
         String entryWeek = entryDay.getDayOfWeek().getDisplayName(TextStyle.FULL, JAPAN);
+        // TODO sawa 文字列ではなく、DayOfWeekで比較したほうが安全（タイポとか、TextStyleの差異とか） by yuki.wakisaka (2017/04/30)
         if (entryWeek.equals("土曜日") || entryWeek.equals("日曜日")) {
             log("月曜日です");
         } else {
@@ -121,6 +129,9 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
         for (ColorBox colorBox : colorBoxList) {
             if (colorBox.getColor().getColorName().equals("yellow")) {
                 List<BoxSpace> spaceList = colorBox.getSpaceList();
+                // TODO sawa 両方LocalDateに落とし込んでるのはGOOD
+                // だけど、二つの日付がLocalDateとLocalDateTimeのときしか対応してなくない？
+                // （両方LocalDateだと動かなそう） by yuki.wakisaka (2017/04/30)
                 LocalDate date1 = null;
                 LocalDate date2 = null;
                 for (BoxSpace boxSpace : spaceList) {
