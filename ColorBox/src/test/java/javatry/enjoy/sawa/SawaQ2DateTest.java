@@ -3,11 +3,14 @@ package javatry.enjoy.sawa;
 import javatry.colorbox.ColorBox;
 import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
+
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -58,20 +61,19 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
      */
     public void test_weekOfDay() {
         List<ColorBox> colorBoxList = getColorBoxList();
-        // TODO sawa for文では日付の抽出だけをして、最後にlogを書き出すときに曜日にしよう。機能の切り分け。 by yuki.wakisaka (2017/04/30)
+        // TODO done sawa for文では日付の抽出だけをして、最後にlogを書き出すときに曜日にしよう。機能の切り分け。 by yuki.wakisaka (2017/04/30)
         for (ColorBox colorBox : colorBoxList) {
             List<BoxSpace> spaceList = colorBox.getSpaceList();
             for (BoxSpace boxSpace : spaceList) {
                 Object contents = boxSpace.getContents();
-                // TODO sawa ここで宣言する意味ないな by yuki.wakisaka (2017/04/30)
-                String week = "";
+                // TODO done awa ここで宣言する意味ないな by yuki.wakisaka (2017/04/30)
                 if (contents instanceof LocalDate) {
-                    week = ((LocalDate) contents).getDayOfWeek().getDisplayName(TextStyle.FULL, JAPAN);
-                    log("カラーボックスに入っている最初の日付の曜日は" + week + "です");
+                    LocalDate date = ((LocalDate) contents);
+                    log("カラーボックスに入っている最初の日付の曜日は" + date.getDayOfWeek().getDisplayName(TextStyle.FULL, JAPAN) + "です");
                     break;
                 } else if (contents instanceof LocalDateTime) {
-                    week = ((LocalDateTime) contents).getDayOfWeek().getDisplayName(TextStyle.FULL, JAPAN);
-                    log("カラーボックスに入っている最初の日付の曜日は" + week + "です");
+                    LocalDateTime date = ((LocalDateTime) contents);
+                    log("カラーボックスに入っている最初の日付の曜日は" + date.getDayOfWeek().getDisplayName(TextStyle.FULL, JAPAN) + "です");
                     break;
                 }
             }
@@ -84,9 +86,10 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
     public void test_addThreeDays() {
         List<ColorBox> colorBoxList = getColorBoxList();
         for (ColorBox colorBox : colorBoxList) {
-            // TODO sawa "yellow".equals(...)の方が良い
+            // TODO done sawa "yellow".equals(...)の方が良い
             // 理由を考えてみて、コメントに残してくださいなー by yuki.wakisaka (2017/04/30)
-            if (colorBox.getColor().getColorName().equals("yellow")) {
+            // TODO [コメント] "yello"が先にくれば、colorBox.getColor().getColorName()で色の名前を取り出していることがすぐにわかるから(?) by sawa (2017/05/01)
+            if (("yellow").equals(colorBox.getColor().getColorName())) {
                 List<BoxSpace> spaceList = colorBox.getSpaceList();
                 for (BoxSpace boxSpace : spaceList) {
                     Object contents = boxSpace.getContents();
@@ -110,8 +113,8 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
     public void test_weekOfDayOf2017Newcomer() {
         LocalDate entryDay = LocalDate.of(2018, 4, 1);
         String entryWeek = entryDay.getDayOfWeek().getDisplayName(TextStyle.FULL, JAPAN);
-        // TODO sawa 文字列ではなく、DayOfWeekで比較したほうが安全（タイポとか、TextStyleの差異とか） by yuki.wakisaka (2017/04/30)
-        if (entryWeek.equals("土曜日") || entryWeek.equals("日曜日")) {
+        // TODO done sawa 文字列ではなく、DayOfWeekで比較したほうが安全（タイポとか、TextStyleの差異とか） by yuki.wakisaka (2017/04/30)
+        if (entryDay.getDayOfWeek().equals(DayOfWeek.SATURDAY) || entryDay.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
             log("月曜日です");
         } else {
             log(entryWeek + "です");
@@ -130,24 +133,21 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
         for (ColorBox colorBox : colorBoxList) {
             if (colorBox.getColor().getColorName().equals("yellow")) {
                 List<BoxSpace> spaceList = colorBox.getSpaceList();
-                // TODO sawa 両方LocalDateに落とし込んでるのはGOOD
+                // TODO done sawa 両方LocalDateに落とし込んでるのはGOOD
                 // だけど、二つの日付がLocalDateとLocalDateTimeのときしか対応してなくない？
                 // （両方LocalDateだと動かなそう） by yuki.wakisaka (2017/04/30)
-                LocalDate date1 = null;
-                LocalDate date2 = null;
+                List<LocalDate> date = new ArrayList<>();
                 for (BoxSpace boxSpace : spaceList) {
                     Object contents = boxSpace.getContents();
                     if (contents instanceof LocalDate) {
-                        date1 = (LocalDate) contents;
-                        log(date1);
+                        date.add((LocalDate) contents);
                     }
                     if (contents instanceof LocalDateTime) {
-                        date2 = ((LocalDateTime) contents).toLocalDate();
-                        log(date2);
+                        date.add(((LocalDateTime) contents).toLocalDate());
                     }
                 }
-                if (date1 != null && date2 != null) {
-                    long gap = ChronoUnit.DAYS.between(date2, date1);
+                if (date.size() >= 2) {
+                    long gap = ChronoUnit.DAYS.between(date.get(1), date.get(0));
                     log("二つの日付の日数の差は" + (gap) + "日です");
                 }
             }
