@@ -5,6 +5,7 @@ import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -29,20 +30,20 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
      */
     public void test_convert() {
         // TODO sawa colorBoxListはforの引数でしか呼ばれないので、変数に出さずに書いてみよう by yuki.wakisaka (2017/04/30)
+        // TODO [コメント] このTODOだけどうしてもわかりませんでした、一旦飛ばします by sawa
         List<ColorBox> colorBoxList = getColorBoxList();
         for (ColorBox colorBox : colorBoxList) {
             List<BoxSpace> spaceList = colorBox.getSpaceList();
             for (BoxSpace boxSpace : spaceList) {
                 Object contents = boxSpace.getContents();
                 if (contents instanceof LocalDate) {
-                    int month = ((LocalDate) contents).getMonthValue();
-                    int day = ((LocalDate) contents).getDayOfMonth();
-                    // TODO sawa 毎回この形式に合わせるの、きっといい感じのclassがあるよ by yuki.wakisaka (2017/04/30)
-                    log(month + "/" + day);
+                    // TODO done sawa 毎回この形式に合わせるの、きっといい感じのclassがあるよ by yuki.wakisaka (2017/04/30)
+                    // TODO [コメント] ＼(^o^)／ by sawa
+                    String date = ((LocalDate) contents).format(DateTimeFormatter.ofPattern("MM/dd"));
+                    log("カラーボックスに入っている日付は" + date + "です");
                 } else if (contents instanceof LocalDateTime) {
-                    int month = ((LocalDateTime) contents).getMonthValue();
-                    int day = ((LocalDateTime) contents).getDayOfMonth();
-                    log(month + "/" + day);
+                    String date  = ((LocalDateTime) contents).format(DateTimeFormatter.ofPattern("MM/dd"));
+                    log("カラーボックスに入っている日付は" + date + "です");
                 }
             }
         }
