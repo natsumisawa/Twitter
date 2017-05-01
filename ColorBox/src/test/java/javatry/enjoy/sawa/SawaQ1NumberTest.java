@@ -37,11 +37,12 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
                 }
             }
         }
-        // TODO done awa これだとログだけ見たときに, 何を出力しているのかわかりづらいかなぁ。もう少し丁寧にログを書いてみましょう！ by hakiba (2017/04/30)
+        // done sawa これだとログだけ見たときに, 何を出力しているのかわかりづらいかなぁ。もう少し丁寧にログを書いてみましょう！ by hakiba (2017/04/30)
         log("カラーボックスに入ってる日付の月を全て足すと" + monthSum + "です");
     }
 
-    // TODO done sawa JavaDocの@throwsでWarning!多分もともとなのだけど, 修正しましょう！ -> 「@throwsの一行を削除する」 or 「どんなときに例外が投げられるかを書いてあげる」 by hakiba (2017/04/30)
+    // done sawa JavaDocの@throwsでWarning!多分もともとなのだけど, 修正しましょう！ -> 「@throwsの一行を削除する」 or 「どんなときに例外が投げられるかを書いてあげる」 by hakiba (2017/04/30)
+    // TODO sawa JavaDocの「カラーボックの中に入っている、...」の下の空行を削除 by hakiba (2017/05/01)
     /**
      * カラーボックの中に入っている、0~100までの数値の数は？
      *
@@ -53,9 +54,10 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
             List<BoxSpace> spaceList = colorBox.getSpaceList();
             for (BoxSpace boxSpace : spaceList) {
                 Object contents = boxSpace.getContents();
-                // TODO done sawa 「数値」は Integer だけですか？他の「数値」も考慮したコードにしてみましょう！ by hakiba (2017/04/30)
+                // done sawa 「数値」は Integer だけですか？他の「数値」も考慮したコードにしてみましょう！ by hakiba (2017/04/30)
+                // TODO sawa 【修行】もしカラーボックスにDouble, Floatなどが含まれていたときにも対応できるようにしよう！ヒント: 数値系クラスの親クラスは「Number」 by hakiba (2017/05/01)
                 if (contents instanceof Integer) {
-                    // TODO done sawa さすがにこの場合の「(Integer) contents」は一旦変数に置き換えてあげてほうが見やすいかな！ by sawa (2017/04/30)
+                    // done sawa さすがにこの場合の「(Integer) contents」は一旦変数に置き換えてあげてほうが見やすいかな！ by sawa (2017/04/30)
                     int intContents = (Integer) contents;
                     if (0 <= intContents && intContents <= 100) {
                         count++;
@@ -75,7 +77,7 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
                 }
             }
         }
-        // TODO done sawa ここも、もう少し丁寧にログを書いてみましょう！ by hakiba (2017/04/30)
+        // done sawa ここも、もう少し丁寧にログを書いてみましょう！ by hakiba (2017/04/30)
         log("カラーボックの中に入っている、0~100までの数値の数は" + count + "個です");
     }
 
@@ -96,10 +98,11 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
                     if (contents instanceof Map<?, ?>) {
                         int maxValue = 0;
                         String product = "";
-                        // TODO done sawa 全体的に言えることだけど, 「e」っていう変数名は何を表していますか？ by hakiba (2017/04/30)
+                        // done sawa 全体的に言えることだけど, 「e」っていう変数名は何を表していますか？ by hakiba (2017/04/30)
                         for (Map.Entry<?, ?> mapContent : ((Map<?, ?>) contents).entrySet()) {
+                            // TODO sawa これも全体的に言えるかもしれないけど, もう少し変数に置換してもいいと思います。mapContent.getValue()とか3回くらい使ってるし。 by hakiba (2017/05/01)
                             if (mapContent.getValue() instanceof Integer && mapContent.getKey() instanceof String) {
-                                // TODO done sawa このままだとMapのValueが Integer じゃなかったとき落ちる気がするよ！落ちないように修正しましょう！ by hakiba (2017/04/30)
+                                // done sawa このままだとMapのValueが Integer じゃなかったとき落ちる気がするよ！落ちないように修正しましょう！ by hakiba (2017/04/30)
                                 if (maxValue < (Integer) mapContent.getValue()) {
                                     maxValue = ((Integer) mapContent.getValue());
                                     product = (String) mapContent.getKey();
@@ -118,7 +121,7 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
      */
     public void test_findColorBigWidthHasInteger() {
         List<ColorBox> colorBoxList = getColorBoxList();
-        // TODO done sawa maxとmaxBoxはちょっとわかりづらい。変数名を変えてみよう！ by hakiba (2017/04/30)
+        // done sawa maxとmaxBoxはちょっとわかりづらい。変数名を変えてみよう！ by hakiba (2017/04/30)
         int maxWidth = 0;
         String maxWidthBoxColor = "";
         for (ColorBox colorBox : colorBoxList) {
@@ -126,14 +129,15 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
             for (BoxSpace boxSpace: spaceList) {
                 Object contents = boxSpace.getContents();
                 int width = colorBox.getSize().getWidth();
-                // TODO done sawa And条件を使ってif文のネストを一段減らしてみよう！（ちなみにifの条件は手前から判定されるよ） by hakiba (2017/04/30)
+                // done sawa And条件を使ってif文のネストを一段減らしてみよう！（ちなみにifの条件は手前から判定されるよ） by hakiba (2017/04/30)
                 if (contents instanceof Integer && maxWidth < width) {
                     maxWidth = width;
                     maxWidthBoxColor = colorBox.getColor().getColorName();
                 }
             }
         }
-        // TODO done sawa Integerを持っているカラーボックスが存在しなかった場合どうなる？その場合も考慮してログ表示してみよう！ by hakiba (2017/04/30)
+        // done sawa Integerを持っているカラーボックスが存在しなかった場合どうなる？その場合も考慮してログ表示してみよう！ by hakiba (2017/04/30)
+        // TODO sawa 空文字チェックをしたいならisEmpty()メソッドを使いましょう！ by hakiba (2017/05/01)
         if ("".equals(maxWidthBoxColor)) {
             log("Integerを持っているカラーボックスが存在しません");
         } else {
@@ -152,7 +156,7 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
             for (BoxSpace e : spaceList) {
                 Object contents = e.getContents();
                 if (contents instanceof List) {
-                    // TODO done sawa さすがに「ob」は「obj」にしましょう！ by hakiba (2017/04/30)
+                    // done sawa さすがに「ob」は「obj」にしましょう！ by hakiba (2017/04/30)
                     for (Object listContent: (List)contents) {
                         if (listContent instanceof BigDecimal) {
                             bigDecimalSum = bigDecimalSum.add((BigDecimal) listContent);
@@ -161,7 +165,7 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
                 }
             }
         }
-        // TODO sawa インデント揃えて！基本中の基本やで！ by hakiba (2017/04/30)
+        // sawa インデント揃えて！基本中の基本やで！ by hakiba (2017/04/30)
         log("カラーボックスの中に入ってる BigDecimal を全て足し合わせると" + bigDecimalSum + "です");
     }
 }
