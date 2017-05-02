@@ -24,7 +24,7 @@ import static java.util.Locale.JAPAN;
  * @author sawa.natsumi
  */
 // TODO done sawa @author by yuki.wakisaka (2017/04/30)
-// TODO done sawa おーい by yuki.wakisaka (2017/05/01)
+// TODO sawa おーい by yuki.wakisaka (2017/05/01)
 // TODO [コメント] レビューありがとうございます by sawa (2017/05/01)
 // TODO sawa そうじゃない by yuki.wakisaka (2017/05/01)
 // TODO [コメント] ...∧( 'Θ' )∧ by sawa (2017/05/01)
@@ -107,11 +107,11 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
      * 色がyellowのカラーボックスに入っている二つの日付にそれぞれ3日足すと、それぞれ何曜日になる？
      */
     public void test_addThreeDays() {
-        List<ColorBox> colorBoxList = getColorBoxList();
-        for (ColorBox colorBox : colorBoxList) {
+        List<DayOfWeek> dayOfWeekList = newArrayList();
+        for (ColorBox colorBox : getColorBoxList()) {
             // TODO done sawa "yellow".equals(...)の方が良い
             // 理由を考えてみて、コメントに残してくださいなー by yuki.wakisaka (2017/04/30)
-            // TODO [コメント] "yello"が先にくれば、colorBox.getColor().getColorName()で色の名前を取り出していることがすぐにわかるから(?) by sawa (2017/05/01)
+            // TODO [コメント] "yellow"が先にくれば、colorBox.getColor().getColorName()で色の名前を取り出していることがすぐにわかるから(?) by sawa (2017/05/01)
             // TODO done sawa ↑ この問題に限らず、文字列比較する際は定数を先に持ってきたほうがいい、という意味合いですね。 "hoge".equals(someStr) みたいな
             // もっと、実害がでうるかも..というところの理由があります！ by yuki.wakisaka (2017/05/01)
             // TODO sawa ↑ 理由を書いてからdoneにしてください... by yuki.wakisaka (2017/05/01)
@@ -122,16 +122,22 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
                 for (BoxSpace boxSpace : spaceList) {
                     Object contents = boxSpace.getContents();
                     if (contents instanceof LocalDate) {
-                        LocalDate newDate = ((LocalDate) contents).plus(3, DAYS);
+                        LocalDate plusThreeDate = ((LocalDate) contents).plus(3, DAYS);
                         // TODO done sawa weekだと「週」って意味なので、変数名と実態が異なる感じになっちゃいます... by yuki.wakisaka (2017/05/01)
-                        String dayOfWeek = newDate.getDayOfWeek().getDisplayName(TextStyle.FULL, JAPAN);
-                        log("一つ目の日付に3日足すと曜日は" + dayOfWeek + "です");
+                        dayOfWeekList.add(plusThreeDate.getDayOfWeek());
                     } else if (contents instanceof LocalDateTime) {
-                        LocalDateTime newDate = ((LocalDateTime) contents).plus(3, DAYS);
-                        String dayOfWeek = newDate.getDayOfWeek().getDisplayName(TextStyle.FULL, JAPAN);
-                        log("二つ目の日付に3日足すと曜日は" + dayOfWeek + "です");
+                        LocalDateTime plusThreeDate = ((LocalDateTime) contents).plus(3, DAYS);
+                        dayOfWeekList.add(plusThreeDate.getDayOfWeek());
                     }
                 }
+            }
+        }
+        // TODO [コメント] 機能の切り分けしました by sawa
+        if (dayOfWeekList == null) {
+            log("yellowのカラーボックスには日付は入っていません");
+        } else {
+            for (DayOfWeek dayOfWeek : dayOfWeekList) {
+                log("日付に3日足すと曜日は" + dayOfWeek.getDisplayName(TextStyle.FULL, JAPAN) + "です");
             }
         }
     }
@@ -164,7 +170,7 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
     public void test_diffDay() {
         for (ColorBox colorBox : getColorBoxList()) {
             // TODO done sawa 上と同じですね。コメントされたところは、他のコードでも同じことしてないか確認して、直す癖をつけましょう。 by yuki.wakisaka (2017/05/01)
-            if (colorBox.getColor().getColorName().equals("yellow")) {
+            if ("yellow".equals(colorBox.getColor().getColorName())) {
                 List<BoxSpace> spaceList = colorBox.getSpaceList();
                 // done sawa 両方LocalDateに落とし込んでるのはGOOD
                 // だけど、二つの日付がLocalDateとLocalDateTimeのときしか対応してなくない？
