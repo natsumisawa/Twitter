@@ -60,14 +60,14 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
             }
         }
         // TODO done sawa リストが空の時の処理も考えよう by yuki.wakisaka (2017/05/01)
-        // TODO sawa リストが空とnullは違うものだよ
+        // TODO done sawa リストが空とnullは違うものだよ
         // 試しに53行目と58行目をコメントアウトして空のリストとして実行してみよう（コメントアウトは戻してね）by yuki.wakisaka (2017/05/02)
-        if (dateList != null) {
+        if (dateList.isEmpty()) {
+            log("カラーボックスの中には日付は入っていません");
+        } else {
             for (LocalDate dateContent : dateList) {
                 log("カラーボックスの中に入っている日付は" + dateContent.format(format) + "です");
             }
-        } else {
-            log("カラーボックスの中には日付は入っていません");
         }
     }
 
@@ -116,9 +116,10 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
             // TODO [コメント] "yellow"が先にくれば、colorBox.getColor().getColorName()で色の名前を取り出していることがすぐにわかるから(?) by sawa (2017/05/01)
             // TODO done sawa ↑ この問題に限らず、文字列比較する際は定数を先に持ってきたほうがいい、という意味合いですね。 "hoge".equals(someStr) みたいな
             // もっと、実害がでうるかも..というところの理由があります！ by yuki.wakisaka (2017/05/01)
-            // TODO sawa ↑ 理由を書いてからdoneにしてください... by yuki.wakisaka (2017/05/01)
+            // TODO done sawa ↑ 理由を書いてからdoneにしてください... by yuki.wakisaka (2017/05/01)
             // TODO [コメント] sawa (~~~).equels()だと、()を忘れたときに~~~の部分的な文字列との比較になってしまうかもしれないから(?) by sawa (2017/05/02)
-            // TODO sawa どういう状況を想定しているのか不明だけど、多分それは起きない...
+            // TODO done sawa どういう状況を想定しているのか不明だけど、多分それは起きない...
+            // TODO [コメント] ぬるぽで落ちるかもしれないから！！！（なるほど） by sawa (2017/05/02)
             // 忘れるみたいなものではなく、getColorName()の戻り値のパターンを考えてみてけろ by yuki.wakisaka (2017/05/02)
             // done sawa "yellow"の前後の()不要 by yuki.wakisaka (2017/05/01)
             if ("yellow".equals(colorBox.getColor().getColorName())) {
@@ -137,7 +138,7 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
             }
         }
         // [コメント] 機能の切り分けしました by sawa
-        // TODO sawa 同上（一問目） by yuki.wakisaka (2017/05/02)
+        // TODO done sawa 同上（一問目） by yuki.wakisaka (2017/05/02)
         if (dayOfWeekList == null) {
             log("yellowのカラーボックスには日付は入っていません");
         } else {
