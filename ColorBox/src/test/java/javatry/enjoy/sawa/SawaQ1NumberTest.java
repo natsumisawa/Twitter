@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * 数値関連のテスト。<br>
  * 何々は？と言われたら、それに該当するものをログに出力すること。
- * @author sawa
+ * @author sawa.natsumi
  */
 public class SawaQ1NumberTest extends ColorBoxTestCase {
 
@@ -42,10 +42,9 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
     }
 
     // done sawa JavaDocの@throwsでWarning!多分もともとなのだけど, 修正しましょう！ -> 「@throwsの一行を削除する」 or 「どんなときに例外が投げられるかを書いてあげる」 by hakiba (2017/04/30)
-    // TODO sawa JavaDocの「カラーボックの中に入っている、...」の下の空行を削除 by hakiba (2017/05/01)
+    // TODO done sawa JavaDocの「カラーボックの中に入っている、...」の下の空行を削除 by hakiba (2017/05/01)
     /**
      * カラーボックの中に入っている、0~100までの数値の数は？
-     *
      */
     public void test_countZeroToHundred() throws Exception {
         List<ColorBox> colorBoxList = getColorBoxList();
@@ -89,8 +88,7 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
      * 青色のカラーボックスに入ってる Map の中の商品で一番高いものは？
      */
     public void test_findMax() {
-        List<ColorBox> colorBoxList = getColorBoxList();
-        for (ColorBox colorBox : colorBoxList) {
+        for (ColorBox colorBox : getColorBoxList()) {
             List<BoxSpace> spaceList = colorBox.getSpaceList();
             if (colorBox.getColor().getColorName().equals("blue")) {
                 for (BoxSpace boxSpace : spaceList) {
@@ -100,8 +98,10 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
                         String product = "";
                         // done sawa 全体的に言えることだけど, 「e」っていう変数名は何を表していますか？ by hakiba (2017/04/30)
                         for (Map.Entry<?, ?> mapContent : ((Map<?, ?>) contents).entrySet()) {
+                            Integer mapValue = (Integer) mapContent.getValue();
+                            String mapKey = (String) mapContent.getKey();
                             // TODO sawa これも全体的に言えるかもしれないけど, もう少し変数に置換してもいいと思います。mapContent.getValue()とか3回くらい使ってるし。 by hakiba (2017/05/01)
-                            if (mapContent.getValue() instanceof Integer && mapContent.getKey() instanceof String) {
+                            if (mapValue != null || mapKey != null) {
                                 // done sawa このままだとMapのValueが Integer じゃなかったとき落ちる気がするよ！落ちないように修正しましょう！ by hakiba (2017/04/30)
                                 if (maxValue < (Integer) mapContent.getValue()) {
                                     maxValue = ((Integer) mapContent.getValue());
