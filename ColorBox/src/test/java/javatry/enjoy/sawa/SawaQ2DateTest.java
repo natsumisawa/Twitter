@@ -115,7 +115,7 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
             // TODO done sawa ↑ この問題に限らず、文字列比較する際は定数を先に持ってきたほうがいい、という意味合いですね。 "hoge".equals(someStr) みたいな
             // もっと、実害がでうるかも..というところの理由があります！ by yuki.wakisaka (2017/05/01)
             // TODO sawa ↑ 理由を書いてからdoneにしてください... by yuki.wakisaka (2017/05/01)
-            // TODO sawa (~~~).equels()だと、()を忘れたときに~~~の部分的な文字列との比較になってしまうかもしれないから(?) by sawa (2017/05/02)
+            // TODO [コメント] sawa (~~~).equels()だと、()を忘れたときに~~~の部分的な文字列との比較になってしまうかもしれないから(?) by sawa (2017/05/02)
             // TODO done sawa "yellow"の前後の()不要 by yuki.wakisaka (2017/05/01)
             if ("yellow".equals(colorBox.getColor().getColorName())) {
                 List<BoxSpace> spaceList = colorBox.getSpaceList();
