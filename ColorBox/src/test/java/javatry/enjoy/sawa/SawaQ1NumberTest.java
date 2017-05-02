@@ -54,11 +54,11 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
             for (BoxSpace boxSpace : spaceList) {
                 Object contents = boxSpace.getContents();
                 // done sawa 「数値」は Integer だけですか？他の「数値」も考慮したコードにしてみましょう！ by hakiba (2017/04/30)
-                // TODO sawa 【修行】もしカラーボックスにDouble, Floatなどが含まれていたときにも対応できるようにしよう！ヒント: 数値系クラスの親クラスは「Number」 by hakiba (2017/05/01)
-                if (contents instanceof Integer) {
+                // TODO done? sawa 【修行】もしカラーボックスにDouble, Floatなどが含まれていたときにも対応できるようにしよう！ヒント: 数値系クラスの親クラスは「Number」 by hakiba (2017/05/01)
+                if (contents instanceof Number) {
                     // done sawa さすがにこの場合の「(Integer) contents」は一旦変数に置き換えてあげてほうが見やすいかな！ by sawa (2017/04/30)
-                    int intContents = (Integer) contents;
-                    if (0 <= intContents && intContents <= 100) {
+                    Number numberContents = (Number) contents;
+                    if (0 <= numberContents.intValue() && numberContents.intValue() <= 100) {
                         count++;
                     }
                 }
@@ -94,19 +94,18 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
                 for (BoxSpace boxSpace : spaceList) {
                     Object contents = boxSpace.getContents();
                     if (contents instanceof Map<?, ?>) {
-                        int maxValue = 0;
+                        int valueMax = 0;
                         String product = "";
                         // done sawa 全体的に言えることだけど, 「e」っていう変数名は何を表していますか？ by hakiba (2017/04/30)
                         for (Map.Entry<?, ?> mapContent : ((Map<?, ?>) contents).entrySet()) {
                             Integer mapValue = (Integer) mapContent.getValue();
                             String mapKey = (String) mapContent.getKey();
-                            // TODO sawa これも全体的に言えるかもしれないけど, もう少し変数に置換してもいいと思います。mapContent.getValue()とか3回くらい使ってるし。 by hakiba (2017/05/01)
-                            if (mapValue != null || mapKey != null) {
-                                // done sawa このままだとMapのValueが Integer じゃなかったとき落ちる気がするよ！落ちないように修正しましょう！ by hakiba (2017/04/30)
-                                if (maxValue < (Integer) mapContent.getValue()) {
-                                    maxValue = ((Integer) mapContent.getValue());
-                                    product = (String) mapContent.getKey();
-                                }
+                            // TODO done sawa これも全体的に言えるかもしれないけど, もう少し変数に置換してもいいと思います。mapContent.getValue()とか3回くらい使ってるし。 by hakiba (2017/05/01)
+                            // TODO [コメント] これは型キャストする場合はぬるぽは起こり得ないってことですよね、(VALUEがIntegerのものだけ取りたい) by sawa (2017/05/02)
+                            // done sawa このままだとMapのValueが Integer じゃなかったとき落ちる気がするよ！落ちないように修正しましょう！ by hakiba (2017/04/30)
+                            if (valueMax < mapValue) {
+                                valueMax = mapValue;
+                                product = mapKey;
                             }
                         }
                         log("一番高い商品は" + product + "です");
@@ -137,8 +136,8 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
             }
         }
         // done sawa Integerを持っているカラーボックスが存在しなかった場合どうなる？その場合も考慮してログ表示してみよう！ by hakiba (2017/04/30)
-        // TODO sawa 空文字チェックをしたいならisEmpty()メソッドを使いましょう！ by hakiba (2017/05/01)
-        if ("".equals(maxWidthBoxColor)) {
+        // TODO done sawa 空文字チェックをしたいならisEmpty()メソッドを使いましょう！ by hakiba (2017/05/01)
+        if (maxWidthBoxColor.isEmpty()) {
             log("Integerを持っているカラーボックスが存在しません");
         } else {
             log("一番幅が大きいものでInteger型を持っているカラーボックスの色は" + maxWidthBoxColor + "です");
