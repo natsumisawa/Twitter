@@ -59,8 +59,8 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
                 }
             }
         }
-        // TODO done sawa リストが空の時の処理も考えよう by yuki.wakisaka (2017/05/01)
-        // TODO done sawa リストが空とnullは違うものだよ
+        // done sawa リストが空の時の処理も考えよう by yuki.wakisaka (2017/05/01)
+        // done sawa リストが空とnullは違うものだよ
         // 試しに53行目と58行目をコメントアウトして空のリストとして実行してみよう（コメントアウトは戻してね）by yuki.wakisaka (2017/05/02)
         if (dateList.isEmpty()) {
             log("カラーボックスの中には日付は入っていません");
@@ -80,6 +80,7 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
      * カラーボックスに入っている最初の日付は何曜日？
      */
     public void test_weekOfDay() {
+        // TODO これとかも変数一回しか呼ばれないのでforの引数に直でいいですね。他のやつもこの形式で修正しましょう。 by yuki.wakisaka (2017/05/07)
         List<ColorBox> colorBoxList = getColorBoxList();
         LocalDate date = null;
         // done sawa for文では日付の抽出だけをして、最後にlogを書き出すときに曜日にしよう。機能の切り分け。 by yuki.wakisaka (2017/04/30)
@@ -111,15 +112,15 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
     public void test_addThreeDays() {
         List<DayOfWeek> dayOfWeekList = newArrayList();
         for (ColorBox colorBox : getColorBoxList()) {
-            // TODO done sawa "yellow".equals(...)の方が良い
+            // done sawa "yellow".equals(...)の方が良い
             // 理由を考えてみて、コメントに残してくださいなー by yuki.wakisaka (2017/04/30)
-            // TODO [コメント] "yellow"が先にくれば、colorBox.getColor().getColorName()で色の名前を取り出していることがすぐにわかるから(?) by sawa (2017/05/01)
-            // TODO done sawa ↑ この問題に限らず、文字列比較する際は定数を先に持ってきたほうがいい、という意味合いですね。 "hoge".equals(someStr) みたいな
+            // [コメント] "yellow"が先にくれば、colorBox.getColor().getColorName()で色の名前を取り出していることがすぐにわかるから(?) by sawa (2017/05/01)
+            // done sawa ↑ この問題に限らず、文字列比較する際は定数を先に持ってきたほうがいい、という意味合いですね。 "hoge".equals(someStr) みたいな
             // もっと、実害がでうるかも..というところの理由があります！ by yuki.wakisaka (2017/05/01)
-            // TODO done sawa ↑ 理由を書いてからdoneにしてください... by yuki.wakisaka (2017/05/01)
-            // TODO [コメント] sawa (~~~).equels()だと、()を忘れたときに~~~の部分的な文字列との比較になってしまうかもしれないから(?) by sawa (2017/05/02)
-            // TODO done sawa どういう状況を想定しているのか不明だけど、多分それは起きない...
-            // TODO [コメント] ぬるぽで落ちるかもしれないから！！！（なるほど） by sawa (2017/05/02)
+            // done sawa ↑ 理由を書いてからdoneにしてください... by yuki.wakisaka (2017/05/01)
+            // [コメント] sawa (~~~).equels()だと、()を忘れたときに~~~の部分的な文字列との比較になってしまうかもしれないから(?) by sawa (2017/05/02)
+            // done sawa どういう状況を想定しているのか不明だけど、多分それは起きない...
+            // [コメント] ぬるぽで落ちるかもしれないから！！！（なるほど） by sawa (2017/05/02)
             // 忘れるみたいなものではなく、getColorName()の戻り値のパターンを考えてみてけろ by yuki.wakisaka (2017/05/02)
             // done sawa "yellow"の前後の()不要 by yuki.wakisaka (2017/05/01)
             if ("yellow".equals(colorBox.getColor().getColorName())) {
@@ -139,6 +140,7 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
         }
         // [コメント] 機能の切り分けしました by sawa
         // TODO done sawa 同上（一問目） by yuki.wakisaka (2017/05/02)
+        // TODO doneになってるけど何も変わってないよね...? by yuki.wakisaka (2017/05/07)
         if (dayOfWeekList == null) {
             log("yellowのカラーボックスには日付は入っていません");
         } else {
