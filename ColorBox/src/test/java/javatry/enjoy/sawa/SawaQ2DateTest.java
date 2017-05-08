@@ -42,6 +42,7 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd");
         // done sawa dateだと単体みたいなニュアンス。dateListとかかな by yuki.wakisaka (2017/05/01)
         // ついでに、dateListだけどStringが入ってるってのも気持ち悪いので、Listの中の型を変えよう
+        // TODO sawa [修行] instanceofを一回だけ使って書いてみよう by yuki.wakisaka (2017/05/08)
         List<LocalDate> dateList = newArrayList();
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
@@ -79,10 +80,11 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
      * カラーボックスに入っている最初の日付は何曜日？
      */
     public void test_weekOfDay() {
-        // TODO done これとかも変数一回しか呼ばれないのでforの引数に直でいいですね。他のやつもこの形式で修正しましょう。 by yuki.wakisaka (2017/05/07)
+        // done これとかも変数一回しか呼ばれないのでforの引数に直でいいですね。他のやつもこの形式で修正しましょう。 by yuki.wakisaka (2017/05/07)
         LocalDate date = null;
         // done sawa for文では日付の抽出だけをして、最後にlogを書き出すときに曜日にしよう。機能の切り分け。 by yuki.wakisaka (2017/04/30)
         // done ↑ log(...)はfor文の外に出しちゃおう、の意も含む！ by yuki.wakisaka (2017/05/01)
+        // TODO sawa [修行+] breakを使わずに書いてみよう by yuki.wakisaka (2017/05/08)
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
@@ -135,8 +137,8 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
             }
         }
         // [コメント] 機能の切り分けしました by sawa
-        // TODO done sawa 同上（一問目） by yuki.wakisaka (2017/05/02)
-        // TODO done doneになってるけど何も変わってないよね...? by yuki.wakisaka (2017/05/07)
+        // done sawa 同上（一問目） by yuki.wakisaka (2017/05/02)
+        // done doneになってるけど何も変わってないよね...? by yuki.wakisaka (2017/05/07)
         if (dayOfWeekList.isEmpty()) {
             log("yellowのカラーボックスには日付は入っていません");
         } else {
