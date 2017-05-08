@@ -80,12 +80,11 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
      * カラーボックスに入っている最初の日付は何曜日？
      */
     public void test_weekOfDay() {
-        // TODO これとかも変数一回しか呼ばれないのでforの引数に直でいいですね。他のやつもこの形式で修正しましょう。 by yuki.wakisaka (2017/05/07)
-        List<ColorBox> colorBoxList = getColorBoxList();
+        // TODO done これとかも変数一回しか呼ばれないのでforの引数に直でいいですね。他のやつもこの形式で修正しましょう。 by yuki.wakisaka (2017/05/07)
         LocalDate date = null;
         // done sawa for文では日付の抽出だけをして、最後にlogを書き出すときに曜日にしよう。機能の切り分け。 by yuki.wakisaka (2017/04/30)
         // done ↑ log(...)はfor文の外に出しちゃおう、の意も含む！ by yuki.wakisaka (2017/05/01)
-        for (ColorBox colorBox : colorBoxList) {
+        for (ColorBox colorBox : getColorBoxList()) {
             List<BoxSpace> spaceList = colorBox.getSpaceList();
             for (BoxSpace boxSpace : spaceList) {
                 Object contents = boxSpace.getContents();
