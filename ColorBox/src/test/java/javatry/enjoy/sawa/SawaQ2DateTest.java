@@ -139,8 +139,8 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
         }
         // [コメント] 機能の切り分けしました by sawa
         // TODO done sawa 同上（一問目） by yuki.wakisaka (2017/05/02)
-        // TODO doneになってるけど何も変わってないよね...? by yuki.wakisaka (2017/05/07)
-        if (dayOfWeekList == null) {
+        // TODO done doneになってるけど何も変わってないよね...? by yuki.wakisaka (2017/05/07)
+        if (dayOfWeekList.isEmpty()) {
             log("yellowのカラーボックスには日付は入っていません");
         } else {
             for (DayOfWeek dayOfWeek : dayOfWeekList) {
