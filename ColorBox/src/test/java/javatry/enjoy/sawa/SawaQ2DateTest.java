@@ -44,8 +44,7 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
         // ついでに、dateListだけどStringが入ってるってのも気持ち悪いので、Listの中の型を変えよう
         List<LocalDate> dateList = newArrayList();
         for (ColorBox colorBox : getColorBoxList()) {
-            List<BoxSpace> spaceList = colorBox.getSpaceList();
-            for (BoxSpace boxSpace : spaceList) {
+            for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
                 if (contents instanceof LocalDate) {
                     // done sawa 毎回この形式に合わせるの、きっといい感じのclassがあるよ by yuki.wakisaka (2017/04/30)
@@ -85,8 +84,7 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
         // done sawa for文では日付の抽出だけをして、最後にlogを書き出すときに曜日にしよう。機能の切り分け。 by yuki.wakisaka (2017/04/30)
         // done ↑ log(...)はfor文の外に出しちゃおう、の意も含む！ by yuki.wakisaka (2017/05/01)
         for (ColorBox colorBox : getColorBoxList()) {
-            List<BoxSpace> spaceList = colorBox.getSpaceList();
-            for (BoxSpace boxSpace : spaceList) {
+            for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
                 // done sawa ここで宣言する意味ないな by yuki.wakisaka (2017/04/30)
                 if (contents instanceof LocalDate) {
@@ -123,8 +121,7 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
             // 忘れるみたいなものではなく、getColorName()の戻り値のパターンを考えてみてけろ by yuki.wakisaka (2017/05/02)
             // done sawa "yellow"の前後の()不要 by yuki.wakisaka (2017/05/01)
             if ("yellow".equals(colorBox.getColor().getColorName())) {
-                List<BoxSpace> spaceList = colorBox.getSpaceList();
-                for (BoxSpace boxSpace : spaceList) {
+                for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                     Object contents = boxSpace.getContents();
                     if (contents instanceof LocalDate) {
                         LocalDate plusThreeDate = ((LocalDate) contents).plus(3, DAYS);
@@ -178,12 +175,11 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
         for (ColorBox colorBox : getColorBoxList()) {
             // done sawa 上と同じですね。コメントされたところは、他のコードでも同じことしてないか確認して、直す癖をつけましょう。 by yuki.wakisaka (2017/05/01)
             if ("yellow".equals(colorBox.getColor().getColorName())) {
-                List<BoxSpace> spaceList = colorBox.getSpaceList();
                 // done sawa 両方LocalDateに落とし込んでるのはGOOD
                 // だけど、二つの日付がLocalDateとLocalDateTimeのときしか対応してなくない？
                 // （両方LocalDateだと動かなそう） by yuki.wakisaka (2017/04/30)
                 List<LocalDate> date = new ArrayList<>();
-                for (BoxSpace boxSpace : spaceList) {
+                for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                     Object contents = boxSpace.getContents();
                     if (contents instanceof LocalDate) {
                         date.add((LocalDate) contents);
