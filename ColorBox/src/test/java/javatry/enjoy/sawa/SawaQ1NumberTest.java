@@ -90,7 +90,7 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
     public void test_findMax() {
         for (ColorBox colorBox : getColorBoxList()) {
             List<BoxSpace> spaceList = colorBox.getSpaceList();
-            if (colorBox.getColor().getColorName().equals("blue")) {
+            if ("blue".equals(colorBox.getColor().getColorName())) {
                 for (BoxSpace boxSpace : spaceList) {
                     Object contents = boxSpace.getContents();
                     if (contents instanceof Map<?, ?>) {
@@ -101,7 +101,7 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
                             Integer mapValue = (Integer) mapContent.getValue();
                             String mapKey = (String) mapContent.getKey();
                             // TODO done sawa これも全体的に言えるかもしれないけど, もう少し変数に置換してもいいと思います。mapContent.getValue()とか3回くらい使ってるし。 by hakiba (2017/05/01)
-                            // TODO [コメント] これは型キャストする場合はぬるぽは起こり得ないってことですよね、(VALUEがIntegerのものだけ取りたい) by sawa (2017/05/02)
+                            // TODO [コメント] 変数にしてみたのですが、これは型キャストする場合はぬるぽは起こり得ないってことですか、？(VALUEがIntegerのものだけ取りたい) by sawa (2017/05/02)
                             // done sawa このままだとMapのValueが Integer じゃなかったとき落ちる気がするよ！落ちないように修正しましょう！ by hakiba (2017/04/30)
                             if (valueMax < mapValue) {
                                 valueMax = mapValue;
