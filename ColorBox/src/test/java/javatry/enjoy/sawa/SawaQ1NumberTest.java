@@ -62,14 +62,13 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
                         count++;
                     }
                 }
-                // TODO sawa せっかくBoxSpaceの中身がNumberのときは対応したのであれば, Listの中身が Number 系だったときも対応したい by hakiba (2017/05/08)
+                // TODO done sawa せっかくBoxSpaceの中身がNumberのときは対応したのであれば, Listの中身が Number 系だったときも対応したい by hakiba (2017/05/08)
                 if (contents instanceof  List) {
                     for (Object listContent: (List)contents) {
-                        if (listContent instanceof BigDecimal) {
-                            BigDecimal bdContents = (BigDecimal) listContent;
-                            BigDecimal zero = new BigDecimal("0");
-                            BigDecimal oneHundred = new BigDecimal("100");
-                            if (zero.compareTo(bdContents) < 0 && oneHundred.compareTo(bdContents) > 0) {
+                        if (listContent instanceof Number) {
+                                // done sawa さすがにこの場合の「(Integer) contents」は一旦変数に置き換えてあげてほうが見やすいかな！ by sawa (2017/04/30)
+                            Number numberContents = (Number) listContent;
+                            if (0 <= numberContents.intValue() && numberContents.intValue() <= 100) {
                                 count++;
                             }
                         }

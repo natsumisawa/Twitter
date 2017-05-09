@@ -7,12 +7,10 @@ import javatry.colorbox.unit.ColorBoxTestCase;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDate;
-import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,23 +40,21 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
      */
     public void test_convert() {
         // done sawa colorBoxListはforの引数でしか呼ばれないので、変数に出さずに書いてみよう by yuki.wakisaka (2017/04/30)
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd");
         // done sawa dateだと単体みたいなニュアンス。dateListとかかな by yuki.wakisaka (2017/05/01)
         // ついでに、dateListだけどStringが入ってるってのも気持ち悪いので、Listの中の型を変えよう
-        // TODO sawa [修行] instanceofを一回だけ使って書いてみよう by yuki.wakisaka (2017/05/08)
-        List<LocalDate> dateList = newArrayList();
+        // TODO done sawa [修行] instanceofを一回だけ使って書いてみよう by yuki.wakisaka (2017/05/08)
+        List<TemporalAccessor> dateList = newArrayList();
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
-                if (contents instanceof LocalDateTime) {
-                    dateList.add(((LocalDateTime) contents).toLocalDate());
+                if (contents instanceof TemporalAccessor) {
+                    dateList.add((TemporalAccessor) contents);
                     // done sawa 毎回この形式に合わせるの、きっといい感じのclassがあるよ by yuki.wakisaka (2017/04/30)
                     // [コメント] ＼(^o^)／ by sawa
                     // done sawa FormatterはLocalDateでもLocalDateTimeでも使いまわすので、外で定義しちゃうのがいいかな。
                     // 今回の出力形式を定義するという意味では、1行目とかでもいいくらい。 by yuki.wakisaka (2017/05/01)
                     // done sawa log(...) はfor文の外に出しておこう。処理の切り分け。 by yuki.wakisaka (2017/05/01)
-                } else if (contents instanceof LocalDate) {
-                    dateList.add(((LocalDate) contents));
                 }
             }
         }
@@ -68,12 +64,11 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
         if (dateList.isEmpty()) {
             log("カラーボックスの中には日付は入っていません");
         } else {
-            for (LocalDate dateContent : dateList) {
-                log("カラーボックスの中に入っている日付は" + dateContent.format(format) + "です");
+            for (TemporalAccessor dateContent : dateList) {
+                log("カラーボックスの中に入っている日付は" + formatter.format(dateContent) + "です");
             }
         }
     }
-
 
     // ===================================================================================
     //                                                                              Basic
