@@ -58,7 +58,7 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
                     // 今回の出力形式を定義するという意味では、1行目とかでもいいくらい。 by yuki.wakisaka (2017/05/01)
                     // done sawa log(...) はfor文の外に出しておこう。処理の切り分け。 by yuki.wakisaka (2017/05/01)
                 } else if (contents instanceof LocalDate) {
-                    dateList.add(((LocalDate) contents);
+                    dateList.add(((LocalDate) contents));
                 }
             }
         }
