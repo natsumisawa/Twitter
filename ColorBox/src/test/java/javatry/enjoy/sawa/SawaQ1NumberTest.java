@@ -99,15 +99,17 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
                         String product = "";
                         // done sawa 全体的に言えることだけど, 「e」っていう変数名は何を表していますか？ by hakiba (2017/04/30)
                         for (Map.Entry<?, ?> mapContent : ((Map<?, ?>) contents).entrySet()) {
-                            // TODO sawa instanceofでチェックしてあげないと落ちる！ by hakiba (2017/05/08)
-                            Integer mapValue = (Integer) mapContent.getValue();
-                            String mapKey = (String) mapContent.getKey();
+                            // TODO done sawa instanceofでチェックしてあげないと落ちる！ by hakiba (2017/05/08)
+                            if (mapContent.getValue() instanceof Integer && mapContent.getKey() instanceof String) {
+                                Integer mapValue = (Integer) mapContent.getValue();
+                                String mapKey = (String) mapContent.getKey();
                             // done sawa これも全体的に言えるかもしれないけど, もう少し変数に置換してもいいと思います。mapContent.getValue()とか3回くらい使ってるし。 by hakiba (2017/05/01)
                             // [コメント] 変数にしてみたのですが、これは型キャストする場合はぬるぽは起こり得ないってことですか、？(VALUEがIntegerのものだけ取りたい) by sawa (2017/05/02)
                             // done sawa このままだとMapのValueが Integer じゃなかったとき落ちる気がするよ！落ちないように修正しましょう！ by hakiba (2017/04/30)
-                            if (valueMax < mapValue) {
-                                valueMax = mapValue;
-                                product = mapKey;
+                                if (valueMax < mapValue) {
+                                    valueMax = mapValue;
+                                    product = mapKey;
+                                }
                             }
                         }
                         log("一番高い商品は" + product + "です");
@@ -156,7 +158,7 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
             List<BoxSpace> spaceList = colorBox.getSpaceList();
             for (BoxSpace e : spaceList) {
                 Object contents = e.getContents();
-                // TODO sawa カラーボックスに直接BigDecimalが入っていた場合は？ by sawa (2017/05/08)
+                // TODO done sawa カラーボックスに直接BigDecimalが入っていた場合は？ by sawa (2017/05/08)
                 if (contents instanceof List) {
                     // done sawa さすがに「ob」は「obj」にしましょう！ by hakiba (2017/04/30)
                     for (Object listContent: (List)contents) {
@@ -164,6 +166,9 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
                             bigDecimalSum = bigDecimalSum.add((BigDecimal) listContent);
                         }
                     }
+                }
+                if (contents instanceof BigDecimal) {
+                    bigDecimalSum = bigDecimalSum.add((BigDecimal) contents);
                 }
             }
         }
