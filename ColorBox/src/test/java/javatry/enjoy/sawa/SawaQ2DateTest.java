@@ -7,9 +7,12 @@ import javatry.colorbox.unit.ColorBoxTestCase;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDate;
+import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +35,7 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
 
     // ===================================================================================
     //                                                                             Convert
-    //      x                                                                       =======
+    //                                                                             =======
 
     /**
      * カラーボックスに入っている日付をスラッシュ区切りのフォーマットで表示したら？
@@ -47,14 +50,15 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
-                if (contents instanceof LocalDate) {
-                    contents = ((LocalDateTime) contents).toLocalDate();
+                if (contents instanceof LocalDateTime) {
+                    dateList.add(((LocalDateTime) contents).toLocalDate());
                     // done sawa 毎回この形式に合わせるの、きっといい感じのclassがあるよ by yuki.wakisaka (2017/04/30)
                     // [コメント] ＼(^o^)／ by sawa
-                    dateList.add((LocalDate) contents);
                     // done sawa FormatterはLocalDateでもLocalDateTimeでも使いまわすので、外で定義しちゃうのがいいかな。
                     // 今回の出力形式を定義するという意味では、1行目とかでもいいくらい。 by yuki.wakisaka (2017/05/01)
                     // done sawa log(...) はfor文の外に出しておこう。処理の切り分け。 by yuki.wakisaka (2017/05/01)
+                } else if (contents instanceof LocalDate) {
+                    dateList.add(((LocalDate) contents);
                 }
             }
         }
