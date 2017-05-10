@@ -55,6 +55,7 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
                 Object contents = boxSpace.getContents();
                 // done sawa 「数値」は Integer だけですか？他の「数値」も考慮したコードにしてみましょう！ by hakiba (2017/04/30)
                 // done sawa 【修行】もしカラーボックスにDouble, Floatなどが含まれていたときにも対応できるようにしよう！ヒント: 数値系クラスの親クラスは「Number」 by hakiba (2017/05/01)
+                // TODO sawa 【修行++】if (contents instanceof Number) {...}の中の処理が、NumberとListの中のNumberのときで重複している。メソッドに切り出して再利用してみよう！ by hakiba (2017/05/10)
                 if (contents instanceof Number) {
                     // done sawa さすがにこの場合の「(Integer) contents」は一旦変数に置き換えてあげてほうが見やすいかな！ by sawa (2017/04/30)
                     Number numberContents = (Number) contents;
@@ -62,7 +63,7 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
                         count++;
                     }
                 }
-                // TODO done sawa せっかくBoxSpaceの中身がNumberのときは対応したのであれば, Listの中身が Number 系だったときも対応したい by hakiba (2017/05/08)
+                // done sawa せっかくBoxSpaceの中身がNumberのときは対応したのであれば, Listの中身が Number 系だったときも対応したい by hakiba (2017/05/08)
                 if (contents instanceof  List) {
                     for (Object listContent: (List)contents) {
                         if (listContent instanceof Number) {
@@ -98,7 +99,7 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
                         String product = "";
                         // done sawa 全体的に言えることだけど, 「e」っていう変数名は何を表していますか？ by hakiba (2017/04/30)
                         for (Map.Entry<?, ?> mapContent : ((Map<?, ?>) contents).entrySet()) {
-                            // TODO done sawa instanceofでチェックしてあげないと落ちる！ by hakiba (2017/05/08)
+                            // done sawa instanceofでチェックしてあげないと落ちる！ by hakiba (2017/05/08)
                             if (mapContent.getValue() instanceof Integer && mapContent.getKey() instanceof String) {
                                 Integer mapValue = (Integer) mapContent.getValue();
                                 String mapKey = (String) mapContent.getKey();
@@ -152,12 +153,13 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
      */
     public void test_sumBigDecimal() {
         List<ColorBox> colorBoxList = getColorBoxList();
+        // TODO sawa 「new BigDecimal("0.00")」は「BigDecimal.ZERO」で書き換えられる！数値系クラスはだいたい境界値をstatic変数に持っているので, それを使ってあげましょう！ by hakiba (2017/05/10)
         BigDecimal bigDecimalSum = new BigDecimal("0.00");
         for (ColorBox colorBox : colorBoxList) {
             List<BoxSpace> spaceList = colorBox.getSpaceList();
             for (BoxSpace e : spaceList) {
                 Object contents = e.getContents();
-                // TODO done sawa カラーボックスに直接BigDecimalが入っていた場合は？ by sawa (2017/05/08)
+                // done sawa カラーボックスに直接BigDecimalが入っていた場合は？ by sawa (2017/05/08)
                 if (contents instanceof List) {
                     // done sawa さすがに「ob」は「obj」にしましょう！ by hakiba (2017/04/30)
                     for (Object listContent: (List)contents) {
