@@ -7,6 +7,7 @@ import javatry.colorbox.unit.ColorBoxTestCase;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.chrono.JapaneseDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoUnit;
@@ -43,8 +44,9 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd");
         // done sawa dateだと単体みたいなニュアンス。dateListとかかな by yuki.wakisaka (2017/05/01)
         // ついでに、dateListだけどStringが入ってるってのも気持ち悪いので、Listの中の型を変えよう
-        // TODO done sawa [修行] instanceofを一回だけ使って書いてみよう by yuki.wakisaka (2017/05/08)
+        // done sawa [修行] instanceofを一回だけ使って書いてみよう by yuki.wakisaka (2017/05/08)
         List<TemporalAccessor> dateList = newArrayList();
+        // TODO ここに dateList.add(DayOfWeek.FRIDAY); を入れるとエラーになる by yuki.wakisaka (2017/05/10)
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
@@ -83,6 +85,7 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
         // done sawa for文では日付の抽出だけをして、最後にlogを書き出すときに曜日にしよう。機能の切り分け。 by yuki.wakisaka (2017/04/30)
         // done ↑ log(...)はfor文の外に出しちゃおう、の意も含む！ by yuki.wakisaka (2017/05/01)
         // TODO done sawa [修行+] breakを使わずに書いてみよう by yuki.wakisaka (2017/05/08)
+        // TODO sawa これ最後の日付になりません？ by yuki.wakisaka (2017/05/10)
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
