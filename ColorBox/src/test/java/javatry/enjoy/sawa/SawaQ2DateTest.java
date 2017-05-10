@@ -79,25 +79,22 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
      */
     public void test_weekOfDay() {
         // done これとかも変数一回しか呼ばれないのでforの引数に直でいいですね。他のやつもこの形式で修正しましょう。 by yuki.wakisaka (2017/05/07)
-        LocalDate date = null;
+        TemporalAccessor date = null;
         // done sawa for文では日付の抽出だけをして、最後にlogを書き出すときに曜日にしよう。機能の切り分け。 by yuki.wakisaka (2017/04/30)
         // done ↑ log(...)はfor文の外に出しちゃおう、の意も含む！ by yuki.wakisaka (2017/05/01)
-        // TODO sawa [修行+] breakを使わずに書いてみよう by yuki.wakisaka (2017/05/08)
+        // TODO done sawa [修行+] breakを使わずに書いてみよう by yuki.wakisaka (2017/05/08)
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
                 // done sawa ここで宣言する意味ないな by yuki.wakisaka (2017/04/30)
-                if (contents instanceof LocalDate) {
-                    date = ((LocalDate) contents);
-                    break;
-                } else if (contents instanceof LocalDateTime) {
-                    date = ((LocalDateTime) contents).toLocalDate();
-                    break;
+                if (contents instanceof TemporalAccessor) {
+                    date = ((TemporalAccessor) contents);
                 }
             }
         }
         if (date != null) {
-            log("カラーボックスに入っている最初の日付の曜日は" + date.getDayOfWeek().getDisplayName(TextStyle.FULL, JAPAN) + "です");
+            String dayOfWeek = (LocalDate.from(date)).getDayOfWeek().getDisplayName(TextStyle.FULL, JAPAN);
+            log("カラーボックスに入っている最初の日付の曜日は" + dayOfWeek + "です");
         } else {
             log("カラーボックスに日付は入っていません");
         }
