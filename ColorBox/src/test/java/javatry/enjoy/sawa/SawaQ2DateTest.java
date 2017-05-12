@@ -7,12 +7,13 @@ import javatry.colorbox.unit.ColorBoxTestCase;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.chrono.JapaneseDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
+import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -46,12 +47,16 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
         // ついでに、dateListだけどStringが入ってるってのも気持ち悪いので、Listの中の型を変えよう
         // done sawa [修行] instanceofを一回だけ使って書いてみよう by yuki.wakisaka (2017/05/08)
         List<TemporalAccessor> dateList = newArrayList();
-        // TODO ここに dateList.add(DayOfWeek.FRIDAY); を入れるとエラーになる by yuki.wakisaka (2017/05/10)
+        // TODO done ここに dateList.add(DayOfWeek.FRIDAY); を入れるとエラーになる by yuki.wakisaka (2017/05/10)
+        // [コメント] 上記の"ここ"に入れた場合を考慮するならlogの直前にsupportのif文が入るべきですが、カラーボックスから取り出した時しかaddされないので58行目にif文かきました！ by sawa (2017/05/12)
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
                 if (contents instanceof TemporalAccessor) {
-                    dateList.add((TemporalAccessor) contents);
+                    TemporalAccessor content = (TemporalAccessor) contents;
+                    if (content.isSupported(ChronoField.MONTH_OF_YEAR) && content.isSupported(ChronoField.DAY_OF_WEEK)) {
+                    dateList.add((TemporalAccessor) content);
+                    }
                     // done sawa 毎回この形式に合わせるの、きっといい感じのclassがあるよ by yuki.wakisaka (2017/04/30)
                     // [コメント] ＼(^o^)／ by sawa
                     // done sawa FormatterはLocalDateでもLocalDateTimeでも使いまわすので、外で定義しちゃうのがいいかな。
@@ -60,6 +65,7 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
                 }
             }
         }
+
         // done sawa リストが空の時の処理も考えよう by yuki.wakisaka (2017/05/01)
         // done sawa リストが空とnullは違うものだよ
         // 試しに53行目と58行目をコメントアウトして空のリストとして実行してみよう（コメントアウトは戻してね）by yuki.wakisaka (2017/05/02)
@@ -81,15 +87,15 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
      */
     public void test_weekOfDay() {
         // done これとかも変数一回しか呼ばれないのでforの引数に直でいいですね。他のやつもこの形式で修正しましょう。 by yuki.wakisaka (2017/05/07)
-        TemporalAccessor date = null;
+        TemporalAccessor date = null ;
         // done sawa for文では日付の抽出だけをして、最後にlogを書き出すときに曜日にしよう。機能の切り分け。 by yuki.wakisaka (2017/04/30)
         // done ↑ log(...)はfor文の外に出しちゃおう、の意も含む！ by yuki.wakisaka (2017/05/01)
         // TODO done sawa [修行+] breakを使わずに書いてみよう by yuki.wakisaka (2017/05/08)
-        // TODO sawa これ最後の日付になりません？ by yuki.wakisaka (2017/05/10)
+        // TODO done sawa これ最後の日付になりません？ by yuki.wakisaka (2017/05/10)
         for (ColorBox colorBox : getColorBoxList()) {
-            for (BoxSpace boxSpace : colorBox.getSpaceList()) {
-                Object contents = boxSpace.getContents();
-                // done sawa ここで宣言する意味ないな by yuki.wakisaka (2017/04/30)
+            Iterator<BoxSpace> i = colorBox.getSpaceList().iterator();
+            while (i.hasNext() && date == null) {
+                Object contents = i.next().getContents();
                 if (contents instanceof TemporalAccessor) {
                     date = ((TemporalAccessor) contents);
                 }

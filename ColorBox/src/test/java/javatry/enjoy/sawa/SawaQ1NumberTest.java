@@ -153,8 +153,8 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
      */
     public void test_sumBigDecimal() {
         List<ColorBox> colorBoxList = getColorBoxList();
-        // TODO sawa 「new BigDecimal("0.00")」は「BigDecimal.ZERO」で書き換えられる！数値系クラスはだいたい境界値をstatic変数に持っているので, それを使ってあげましょう！ by hakiba (2017/05/10)
-        BigDecimal bigDecimalSum = new BigDecimal("0.00");
+        // TODO done sawa 「new BigDecimal("0.00")」は「BigDecimal.ZERO」で書き換えられる！数値系クラスはだいたい境界値をstatic変数に持っているので, それを使ってあげましょう！ by hakiba (2017/05/10)
+        BigDecimal bigDecimalSum = BigDecimal.ZERO;
         for (ColorBox colorBox : colorBoxList) {
             List<BoxSpace> spaceList = colorBox.getSpaceList();
             for (BoxSpace e : spaceList) {
