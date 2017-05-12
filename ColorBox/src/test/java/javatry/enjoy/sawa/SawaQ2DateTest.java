@@ -47,7 +47,7 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
         // ついでに、dateListだけどStringが入ってるってのも気持ち悪いので、Listの中の型を変えよう
         // done sawa [修行] instanceofを一回だけ使って書いてみよう by yuki.wakisaka (2017/05/08)
         List<TemporalAccessor> dateList = newArrayList();
-        // TODO done ここに dateList.add(DayOfWeek.FRIDAY); を入れるとエラーになる by yuki.wakisaka (2017/05/10)
+        // done ここに dateList.add(DayOfWeek.FRIDAY); を入れるとエラーになる by yuki.wakisaka (2017/05/10)
         // [コメント] 上記の"ここ"に入れた場合を考慮するならlogの直前にsupportのif文が入るべきですが、カラーボックスから取り出した時しかaddされないので58行目にif文かきました！ by sawa (2017/05/12)
         for (ColorBox colorBox : getColorBoxList()) {
             for (BoxSpace boxSpace : colorBox.getSpaceList()) {
@@ -55,6 +55,7 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
                 if (contents instanceof TemporalAccessor) {
                     TemporalAccessor content = (TemporalAccessor) contents;
                     if (content.isSupported(ChronoField.MONTH_OF_YEAR) && content.isSupported(ChronoField.DAY_OF_WEEK)) {
+                        // TODO よく頑張りました！が、インデント..詰めの甘さよw by yuki.wakisaka (2017/05/12)
                     dateList.add((TemporalAccessor) content);
                     }
                     // done sawa 毎回この形式に合わせるの、きっといい感じのclassがあるよ by yuki.wakisaka (2017/04/30)
@@ -92,6 +93,7 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
         // done ↑ log(...)はfor文の外に出しちゃおう、の意も含む！ by yuki.wakisaka (2017/05/01)
         // TODO done sawa [修行+] breakを使わずに書いてみよう by yuki.wakisaka (2017/05/08)
         // TODO done sawa これ最後の日付になりません？ by yuki.wakisaka (2017/05/10)
+        // TODO sawa 今は1つのカラーボックスに2つ日付が入ってるだけだからこれでいいけど、2つ以上のカラーボックスに日付が入っていたら上書きされちゃう... by yuki.wakisaka (2017/05/12)
         for (ColorBox colorBox : getColorBoxList()) {
             Iterator<BoxSpace> i = colorBox.getSpaceList().iterator();
             while (i.hasNext() && date == null) {
