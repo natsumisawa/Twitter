@@ -55,8 +55,8 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
                 if (contents instanceof TemporalAccessor) {
                     TemporalAccessor content = (TemporalAccessor) contents;
                     if (content.isSupported(ChronoField.MONTH_OF_YEAR) && content.isSupported(ChronoField.DAY_OF_WEEK)) {
-                        // TODO よく頑張りました！が、インデント..詰めの甘さよw by yuki.wakisaka (2017/05/12)
-                    dateList.add((TemporalAccessor) content);
+                        // TODO done よく頑張りました！が、インデント..詰めの甘さよw by yuki.wakisaka (2017/05/12)
+                        dateList.add((TemporalAccessor) content);
                     }
                     // done sawa 毎回この形式に合わせるの、きっといい感じのclassがあるよ by yuki.wakisaka (2017/04/30)
                     // [コメント] ＼(^o^)／ by sawa
