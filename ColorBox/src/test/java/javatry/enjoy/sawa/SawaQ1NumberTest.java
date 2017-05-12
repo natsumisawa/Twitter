@@ -55,22 +55,23 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
                 // done sawa 「数値」は Integer だけですか？他の「数値」も考慮したコードにしてみましょう！ by hakiba (2017/04/30)
                 // done sawa 【修行】もしカラーボックスにDouble, Floatなどが含まれていたときにも対応できるようにしよう！ヒント: 数値系クラスの親クラスは「Number」 by hakiba (2017/05/01)
                 // TODO sawa done【修行++】if (contents instanceof Number) {...}の中の処理が、NumberとListの中のNumberのときで重複している。メソッドに切り出して再利用してみよう！ by hakiba (2017/05/10)
+                // TODO [コメント] privateメソッドの返り値がcountのほうがいいかと思ったのですが、同じ考え方でそう書くとcount=0になってしまいます、、、（とりあえずできました） by sawa (2017/05/12)
                 // done sawa さすがにこの場合の「(Integer) contents」は一旦変数に置き換えてあげてほうが見やすいかな！ by sawa (2017/04/30)
                 // done sawa せっかくBoxSpaceの中身がNumberのときは対応したのであれば, Listの中身が Number 系だったときも対応したい by hakiba (2017/05/08)
                 if (contents instanceof List) {
                     for (Object listContent : (List) contents) {
-                            count += checkOfContent(listContent);
+                            count += checkContent(listContent);
                             // done sawa さすがにこの場合の「(Integer) contents」は一旦変数に置き換えてあげてほうが見やすいかな！ by sawa (2017/04/30)
                     }
                 } else {
-                    count += checkOfContent(contents);
+                    count += checkContent(contents);
                 }
             }
         }
     // done sawa ここも、もう少し丁寧にログを書いてみましょう！ by hakiba (2017/04/30)
-    log("カラーボックの中に入っている、0~100までの数値の数は"+count +"個です");
+    log("カラーボックの中に入っている、0~100までの数値の数は" + count + "個です");
     }
-    private static int checkOfContent(Object content) {
+    private static int checkContent(Object content) {
         if (content instanceof Number) {
             if (0 <= ((Number)content).intValue() && ((Number)content).intValue() <= 100) {
                 return 1;
