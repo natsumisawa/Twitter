@@ -43,43 +43,42 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
 
     // done sawa JavaDocの@throwsでWarning!多分もともとなのだけど, 修正しましょう！ -> 「@throwsの一行を削除する」 or 「どんなときに例外が投げられるかを書いてあげる」 by hakiba (2017/04/30)
     // done sawa JavaDocの「カラーボックの中に入っている、...」の下の空行を削除 by hakiba (2017/05/01)
+
     /**
      * カラーボックの中に入っている、0~100までの数値の数は？
      */
     public void test_countZeroToHundred() throws Exception {
-        List<ColorBox> colorBoxList = getColorBoxList();
         int count = 0;
-        for (ColorBox colorBox : colorBoxList) {
-            List<BoxSpace> spaceList = colorBox.getSpaceList();
-            for (BoxSpace boxSpace : spaceList) {
+        for (ColorBox colorBox : getColorBoxList()) {
+            for (BoxSpace boxSpace : colorBox.getSpaceList()) {
                 Object contents = boxSpace.getContents();
                 // done sawa 「数値」は Integer だけですか？他の「数値」も考慮したコードにしてみましょう！ by hakiba (2017/04/30)
                 // done sawa 【修行】もしカラーボックスにDouble, Floatなどが含まれていたときにも対応できるようにしよう！ヒント: 数値系クラスの親クラスは「Number」 by hakiba (2017/05/01)
-                // TODO sawa 【修行++】if (contents instanceof Number) {...}の中の処理が、NumberとListの中のNumberのときで重複している。メソッドに切り出して再利用してみよう！ by hakiba (2017/05/10)
-                if (contents instanceof Number) {
-                    // done sawa さすがにこの場合の「(Integer) contents」は一旦変数に置き換えてあげてほうが見やすいかな！ by sawa (2017/04/30)
-                    Number numberContents = (Number) contents;
-                    if (0 <= numberContents.intValue() && numberContents.intValue() <= 100) {
-                        count++;
-                    }
-                }
+                // TODO sawa done【修行++】if (contents instanceof Number) {...}の中の処理が、NumberとListの中のNumberのときで重複している。メソッドに切り出して再利用してみよう！ by hakiba (2017/05/10)
+                // done sawa さすがにこの場合の「(Integer) contents」は一旦変数に置き換えてあげてほうが見やすいかな！ by sawa (2017/04/30)
                 // done sawa せっかくBoxSpaceの中身がNumberのときは対応したのであれば, Listの中身が Number 系だったときも対応したい by hakiba (2017/05/08)
-                if (contents instanceof  List) {
-                    for (Object listContent: (List)contents) {
-                        if (listContent instanceof Number) {
-                                // done sawa さすがにこの場合の「(Integer) contents」は一旦変数に置き換えてあげてほうが見やすいかな！ by sawa (2017/04/30)
-                            Number numberContents = (Number) listContent;
-                            if (0 <= numberContents.intValue() && numberContents.intValue() <= 100) {
-                                count++;
-                            }
-                        }
+                if (contents instanceof List) {
+                    for (Object listContent : (List) contents) {
+                            count += checkOfContent(listContent);
+                            // done sawa さすがにこの場合の「(Integer) contents」は一旦変数に置き換えてあげてほうが見やすいかな！ by sawa (2017/04/30)
                     }
+                } else {
+                    count += checkOfContent(contents);
                 }
             }
         }
-        // done sawa ここも、もう少し丁寧にログを書いてみましょう！ by hakiba (2017/04/30)
-        log("カラーボックの中に入っている、0~100までの数値の数は" + count + "個です");
+    // done sawa ここも、もう少し丁寧にログを書いてみましょう！ by hakiba (2017/04/30)
+    log("カラーボックの中に入っている、0~100までの数値の数は"+count +"個です");
     }
+    private static int checkOfContent(Object content) {
+        if (content instanceof Number) {
+            if (0 <= ((Number)content).intValue() && ((Number)content).intValue() <= 100) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+
 
     // ===================================================================================
     //                                                                           Good Luck
