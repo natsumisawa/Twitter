@@ -54,8 +54,9 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
                 Object contents = boxSpace.getContents();
                 // done sawa 「数値」は Integer だけですか？他の「数値」も考慮したコードにしてみましょう！ by hakiba (2017/04/30)
                 // done sawa 【修行】もしカラーボックスにDouble, Floatなどが含まれていたときにも対応できるようにしよう！ヒント: 数値系クラスの親クラスは「Number」 by hakiba (2017/05/01)
-                // TODO sawa done【修行++】if (contents instanceof Number) {...}の中の処理が、NumberとListの中のNumberのときで重複している。メソッドに切り出して再利用してみよう！ by hakiba (2017/05/10)
+                // sawa done【修行++】if (contents instanceof Number) {...}の中の処理が、NumberとListの中のNumberのときで重複している。メソッドに切り出して再利用してみよう！ by hakiba (2017/05/10)
                 // TODO [コメント] privateメソッドの返り値がcountのほうがいいかと思ったのですが、同じ考え方でそう書くとcount=0になってしまいます、、、（とりあえずできました） by sawa (2017/05/12)
+                // ↑ たしかにもうすこしいい切り出し方があるような気もするけど、そんなにおかしくないかなー。これでいきましょう！ by hakiba (2017/05/13)
                 // done sawa さすがにこの場合の「(Integer) contents」は一旦変数に置き換えてあげてほうが見やすいかな！ by sawa (2017/04/30)
                 // done sawa せっかくBoxSpaceの中身がNumberのときは対応したのであれば, Listの中身が Number 系だったときも対応したい by hakiba (2017/05/08)
                 if (contents instanceof List) {
@@ -71,7 +72,11 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
     // done sawa ここも、もう少し丁寧にログを書いてみましょう！ by hakiba (2017/04/30)
     log("カラーボックの中に入っている、0~100までの数値の数は" + count + "個です");
     }
+    // TODO sawa メソッドとメソッドの間には空行を入れましょう！ by hakiba (2017/05/13)
+    // TODO sawa staticにした意図を教えてください！ by hakiba (2017/05/13)
+    // TODO sawa JavaDocを書きましょう！何をするメソッドなのか, 引数, 返り値は何なのか。メソッドの上で「/**」と売ってEnterを押してみましょう！ by hakiba (2017/05/13)
     private static int checkContent(Object content) {
+        // TODO sawa これならAnd条件に追加してほしいかな by hakiba (2017/05/13)
         if (content instanceof Number) {
             if (0 <= ((Number)content).intValue() && ((Number)content).intValue() <= 100) {
                 return 1;
@@ -153,7 +158,7 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
      */
     public void test_sumBigDecimal() {
         List<ColorBox> colorBoxList = getColorBoxList();
-        // TODO done sawa 「new BigDecimal("0.00")」は「BigDecimal.ZERO」で書き換えられる！数値系クラスはだいたい境界値をstatic変数に持っているので, それを使ってあげましょう！ by hakiba (2017/05/10)
+        // done sawa 「new BigDecimal("0.00")」は「BigDecimal.ZERO」で書き換えられる！数値系クラスはだいたい境界値をstatic変数に持っているので, それを使ってあげましょう！ by hakiba (2017/05/10)
         BigDecimal bigDecimalSum = BigDecimal.ZERO;
         for (ColorBox colorBox : colorBoxList) {
             List<BoxSpace> spaceList = colorBox.getSpaceList();
