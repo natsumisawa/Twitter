@@ -55,7 +55,7 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
                 if (contents instanceof TemporalAccessor) {
                     TemporalAccessor content = (TemporalAccessor) contents;
                     if (content.isSupported(ChronoField.MONTH_OF_YEAR) && content.isSupported(ChronoField.DAY_OF_WEEK)) {
-                        // TODO done よく頑張りました！が、インデント..詰めの甘さよw by yuki.wakisaka (2017/05/12)
+                        // done よく頑張りました！が、インデント..詰めの甘さよw by yuki.wakisaka (2017/05/12)
                         dateList.add((TemporalAccessor) content);
                     }
                     // done sawa 毎回この形式に合わせるの、きっといい感じのclassがあるよ by yuki.wakisaka (2017/04/30)
@@ -91,8 +91,8 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
         TemporalAccessor date = null ;
         // done sawa for文では日付の抽出だけをして、最後にlogを書き出すときに曜日にしよう。機能の切り分け。 by yuki.wakisaka (2017/04/30)
         // done ↑ log(...)はfor文の外に出しちゃおう、の意も含む！ by yuki.wakisaka (2017/05/01)
-        // TODO done sawa [修行+] breakを使わずに書いてみよう by yuki.wakisaka (2017/05/08)
-        // TODO done sawa これ最後の日付になりません？ by yuki.wakisaka (2017/05/10)
+        // done sawa [修行+] breakを使わずに書いてみよう by yuki.wakisaka (2017/05/08)
+        // done sawa これ最後の日付になりません？ by yuki.wakisaka (2017/05/10)
         // TODO sawa 今は1つのカラーボックスに2つ日付が入ってるだけだからこれでいいけど、2つ以上のカラーボックスに日付が入っていたら上書きされちゃう... by yuki.wakisaka (2017/05/12)
         for (ColorBox colorBox : getColorBoxList()) {
             Iterator<BoxSpace> i = colorBox.getSpaceList().iterator();
