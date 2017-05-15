@@ -72,15 +72,20 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
     // done sawa ここも、もう少し丁寧にログを書いてみましょう！ by hakiba (2017/04/30)
     log("カラーボックの中に入っている、0~100までの数値の数は" + count + "個です");
     }
-    // TODO sawa メソッドとメソッドの間には空行を入れましょう！ by hakiba (2017/05/13)
-    // TODO sawa staticにした意図を教えてください！ by hakiba (2017/05/13)
-    // TODO sawa JavaDocを書きましょう！何をするメソッドなのか, 引数, 返り値は何なのか。メソッドの上で「/**」と売ってEnterを押してみましょう！ by hakiba (2017/05/13)
-    private static int checkContent(Object content) {
-        // TODO sawa これならAnd条件に追加してほしいかな by hakiba (2017/05/13)
-        if (content instanceof Number) {
-            if (0 <= ((Number)content).intValue() && ((Number)content).intValue() <= 100) {
-                return 1;
-            }
+    // TODO done sawa メソッドとメソッドの間には空行を入れましょう！ by hakiba (2017/05/13)
+    // TODO done sawa staticにした意図を教えてください！ by hakiba (2017/05/13)
+    // TODO [コメント] httpサーバーの方（mainメソッドがある場合はstatic）と混同してつけてしまいました！ by sawa (2017/05/15)
+    // TODO done sawa JavaDocを書きましょう！何をするメソッドなのか, 引数, 返り値は何なのか。メソッドの上で「/**」と売ってEnterを押してみましょう！ by hakiba (2017/05/13)
+
+    /**
+     *contentが1-100までのNumber型だったら1を返すメソッド
+     * @param content
+     * @return int
+     */
+    private int checkContent(Object content) {
+        // TODO done sawa これならAnd条件に追加してほしいかな by hakiba (2017/05/13)
+        if (content instanceof Number && 0 <= ((Number)content).intValue() && ((Number)content).intValue() <= 100) {
+            return 1;
         }
         return 0;
     }
