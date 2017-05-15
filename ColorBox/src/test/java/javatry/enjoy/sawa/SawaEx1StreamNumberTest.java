@@ -1,6 +1,10 @@
 package javatry.enjoy.sawa;
 
+import javatry.colorbox.ColorBox;
+import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
+
+import java.util.List;
 
 /**
  * 数値関連のテスト。<br>
@@ -8,7 +12,6 @@ import javatry.colorbox.unit.ColorBoxTestCase;
  * @author ikezaki
  */
 public class SawaEx1StreamNumberTest extends ColorBoxTestCase {
-
     // ===================================================================================
     //                                                                           Good Luck
     //                                                                           =========
@@ -16,6 +19,10 @@ public class SawaEx1StreamNumberTest extends ColorBoxTestCase {
      * 青色のカラーボックスに入ってる Map の中の商品で一番高いものは？
      */
     public void test_findMax() {
+        getColorBoxList().stream().map(colorBox -> colorBox.getSpaceList()
+        .stream().map(BoxSpace::getContents))
+        .forEach(objectStream -> objectStream
+        .forEach(System.out::println));
     }
 
     /**

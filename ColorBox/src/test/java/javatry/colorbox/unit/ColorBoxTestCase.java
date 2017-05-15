@@ -33,7 +33,6 @@ public abstract class ColorBoxTestCase extends UnitryTestCase {
             DoorColorBox colorBox = new DoorColorBox(new BoxColor("red"), new BoxSize(50, 30, 40));
             colorBox.getUpperSpace().addContents(926);
             colorBox.getMiddleSpace().addContents(604);
-            colorBox.getMiddleSpace().addContents(toLocalDate("2012/09/26"));
             colorBox.getLowerSpace().addContents("かまくらのいぬ");
             colorBoxList.add(colorBox);
         }
