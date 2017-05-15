@@ -77,10 +77,10 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
     // done [コメント] httpサーバーの方（mainメソッドがある場合はstatic）と混同してつけてしまいました！ by sawa (2017/05/15)
     // done sawa JavaDocを書きましょう！何をするメソッドなのか, 引数, 返り値は何なのか。メソッドの上で「/**」と売ってEnterを押してみましょう！ by hakiba (2017/05/13)
 
-    // TODO sawa @paramのcontentが警告でてる！なにを受け取るのか、右側に日本語でいいので説明をしてあげましょう！ by hakiba (2017/05/15)
+    // TODO done sawa @paramのcontentが警告でてる！なにを受け取るのか、右側に日本語でいいので説明をしてあげましょう！ by hakiba (2017/05/15)
     /**
-     *contentが1-100までのNumber型だったら1を返すメソッド
-     * @param content
+     * contentが1-100までのNumber型だったら1を返すメソッド
+     * @param content カラーボックスの中身
      * @return int
      */
     private int checkContent(Object content) {
@@ -107,8 +107,8 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
                     Object contents = boxSpace.getContents();
                     if (contents instanceof Map<?, ?>) {
                         int valueMax = 0;
-                        // TODO sawa 製品がない状態を示したいなら空文字ではなく, nullを使う方が自然かな。空文字だと""っていう文字列が存在してしまうので。 by hakiba (2017/05/15)
-                        String product = "";
+                        // TODO done sawa 製品がない状態を示したいなら空文字ではなく, nullを使う方が自然かな。空文字だと""っていう文字列が存在してしまうので。 by hakiba (2017/05/15)
+                        String product = null;
                         // done sawa 全体的に言えることだけど, 「e」っていう変数名は何を表していますか？ by hakiba (2017/04/30)
                         for (Map.Entry<?, ?> mapContent : ((Map<?, ?>) contents).entrySet()) {
                             // done sawa instanceofでチェックしてあげないと落ちる！ by hakiba (2017/05/08)
@@ -124,7 +124,11 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
                                 }
                             }
                         }
-                        log("一番高い商品は" + product + "です");
+                        if (product == null) {
+                            log("商品は一つもありません");
+                        } else {
+                            log("一番高い商品は" + product + "です");
+                        }
                     }
                 }
             }
