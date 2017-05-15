@@ -55,7 +55,7 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
                 // done sawa 「数値」は Integer だけですか？他の「数値」も考慮したコードにしてみましょう！ by hakiba (2017/04/30)
                 // done sawa 【修行】もしカラーボックスにDouble, Floatなどが含まれていたときにも対応できるようにしよう！ヒント: 数値系クラスの親クラスは「Number」 by hakiba (2017/05/01)
                 // sawa done【修行++】if (contents instanceof Number) {...}の中の処理が、NumberとListの中のNumberのときで重複している。メソッドに切り出して再利用してみよう！ by hakiba (2017/05/10)
-                // TODO [コメント] privateメソッドの返り値がcountのほうがいいかと思ったのですが、同じ考え方でそう書くとcount=0になってしまいます、、、（とりあえずできました） by sawa (2017/05/12)
+                //  [コメント] privateメソッドの返り値がcountのほうがいいかと思ったのですが、同じ考え方でそう書くとcount=0になってしまいます、、、（とりあえずできました） by sawa (2017/05/12)
                 // ↑ たしかにもうすこしいい切り出し方があるような気もするけど、そんなにおかしくないかなー。これでいきましょう！ by hakiba (2017/05/13)
                 // done sawa さすがにこの場合の「(Integer) contents」は一旦変数に置き換えてあげてほうが見やすいかな！ by sawa (2017/04/30)
                 // done sawa せっかくBoxSpaceの中身がNumberのときは対応したのであれば, Listの中身が Number 系だったときも対応したい by hakiba (2017/05/08)
@@ -72,18 +72,19 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
     // done sawa ここも、もう少し丁寧にログを書いてみましょう！ by hakiba (2017/04/30)
     log("カラーボックの中に入っている、0~100までの数値の数は" + count + "個です");
     }
-    // TODO done sawa メソッドとメソッドの間には空行を入れましょう！ by hakiba (2017/05/13)
-    // TODO done sawa staticにした意図を教えてください！ by hakiba (2017/05/13)
-    // TODO [コメント] httpサーバーの方（mainメソッドがある場合はstatic）と混同してつけてしまいました！ by sawa (2017/05/15)
-    // TODO done sawa JavaDocを書きましょう！何をするメソッドなのか, 引数, 返り値は何なのか。メソッドの上で「/**」と売ってEnterを押してみましょう！ by hakiba (2017/05/13)
+    // done sawa メソッドとメソッドの間には空行を入れましょう！ by hakiba (2017/05/13)
+    // done sawa staticにした意図を教えてください！ by hakiba (2017/05/13)
+    // done [コメント] httpサーバーの方（mainメソッドがある場合はstatic）と混同してつけてしまいました！ by sawa (2017/05/15)
+    // done sawa JavaDocを書きましょう！何をするメソッドなのか, 引数, 返り値は何なのか。メソッドの上で「/**」と売ってEnterを押してみましょう！ by hakiba (2017/05/13)
 
+    // TODO sawa @paramのcontentが警告でてる！なにを受け取るのか、右側に日本語でいいので説明をしてあげましょう！ by hakiba (2017/05/15)
     /**
      *contentが1-100までのNumber型だったら1を返すメソッド
      * @param content
      * @return int
      */
     private int checkContent(Object content) {
-        // TODO done sawa これならAnd条件に追加してほしいかな by hakiba (2017/05/13)
+        // done sawa これならAnd条件に追加してほしいかな by hakiba (2017/05/13)
         if (content instanceof Number && 0 <= ((Number)content).intValue() && ((Number)content).intValue() <= 100) {
             return 1;
         }
@@ -106,6 +107,7 @@ public class SawaQ1NumberTest extends ColorBoxTestCase {
                     Object contents = boxSpace.getContents();
                     if (contents instanceof Map<?, ?>) {
                         int valueMax = 0;
+                        // TODO sawa 製品がない状態を示したいなら空文字ではなく, nullを使う方が自然かな。空文字だと""っていう文字列が存在してしまうので。 by hakiba (2017/05/15)
                         String product = "";
                         // done sawa 全体的に言えることだけど, 「e」っていう変数名は何を表していますか？ by hakiba (2017/04/30)
                         for (Map.Entry<?, ?> mapContent : ((Map<?, ?>) contents).entrySet()) {
