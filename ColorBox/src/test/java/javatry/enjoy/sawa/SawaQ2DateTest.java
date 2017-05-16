@@ -94,11 +94,11 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
         // done sawa [修行+] breakを使わずに書いてみよう by yuki.wakisaka (2017/05/08)
         // done sawa これ最後の日付になりません？ by yuki.wakisaka (2017/05/10)
         // TODO sawa 今は1つのカラーボックスに2つ日付が入ってるだけだからこれでいいけど、2つ以上のカラーボックスに日付が入っていたら上書きされちゃう... by yuki.wakisaka (2017/05/12)
-        // TODO [コメント] dateがnullの場合しか値が代入されないので(100行目より)、一度値が代入されれば上書きされることはないはずです、！ by sawa (2017/05/15)
+        // TODO [コメント] nullチェックを早めにもするように直しました by sawa (2017/05/15)
         Iterator<ColorBox> cbIterator = getColorBoxList().iterator();
         while (cbIterator.hasNext() && date == null) {
             Iterator<BoxSpace> bsIterator = cbIterator.next().getSpaceList().iterator();
-            while (bsIterator.hasNext()) {
+            while (bsIterator.hasNext() && date == null) {
                 Object contents = bsIterator.next().getContents();
                 if (contents instanceof TemporalAccessor) {
                     date = ((TemporalAccessor) contents);
