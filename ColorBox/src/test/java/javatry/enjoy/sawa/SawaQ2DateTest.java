@@ -56,6 +56,7 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
                     TemporalAccessor content = (TemporalAccessor) contents;
                     if (content.isSupported(ChronoField.MONTH_OF_YEAR) && content.isSupported(ChronoField.DAY_OF_WEEK)) {
                         // done よく頑張りました！が、インデント..詰めの甘さよw by yuki.wakisaka (2017/05/12)
+                        // TODO sawa 不要なキャスト by yuki.wakisaka (2017/05/16)
                         dateList.add((TemporalAccessor) content);
                     }
                     // done sawa 毎回この形式に合わせるの、きっといい感じのclassがあるよ by yuki.wakisaka (2017/04/30)
@@ -93,8 +94,8 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
         // done ↑ log(...)はfor文の外に出しちゃおう、の意も含む！ by yuki.wakisaka (2017/05/01)
         // done sawa [修行+] breakを使わずに書いてみよう by yuki.wakisaka (2017/05/08)
         // done sawa これ最後の日付になりません？ by yuki.wakisaka (2017/05/10)
-        // TODO sawa 今は1つのカラーボックスに2つ日付が入ってるだけだからこれでいいけど、2つ以上のカラーボックスに日付が入っていたら上書きされちゃう... by yuki.wakisaka (2017/05/12)
-        // TODO [コメント] nullチェックを早めにもするように直しました by sawa (2017/05/15)
+        // [レビューミスでしたすいません] sawa 今は1つのカラーボックスに2つ日付が入ってるだけだからこれでいいけど、2つ以上のカラーボックスに日付が入っていたら上書きされちゃう... by yuki.wakisaka (2017/05/12)
+        // [コメント] nullチェックを早めにもするように直しました by sawa (2017/05/15)
         Iterator<ColorBox> cbIterator = getColorBoxList().iterator();
         while (cbIterator.hasNext() && date == null) {
             Iterator<BoxSpace> bsIterator = cbIterator.next().getSpaceList().iterator();
@@ -203,6 +204,7 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
                 // [コメント] 日付が二つの場合以外は問題の要件を満たさないので、elseを通るようにしました！ by sawa (2017/05/01)
                 // [コメント] おけ、それでいいと思います！ by ukwksk (2017/05/01)
                 if (date.size() == 2) {
+                    // TODO sawa 日数の差が負数になる場合があるので、絶対値をとりましょう by yuki.wakisaka (2017/05/16)
                     long gap = ChronoUnit.DAYS.between(date.get(1), date.get(0));
                     log("二つの日付の日数の差は" + (gap) + "日です");
                 } else {
