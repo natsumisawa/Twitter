@@ -56,8 +56,8 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
                     TemporalAccessor content = (TemporalAccessor) contents;
                     if (content.isSupported(ChronoField.MONTH_OF_YEAR) && content.isSupported(ChronoField.DAY_OF_WEEK)) {
                         // done よく頑張りました！が、インデント..詰めの甘さよw by yuki.wakisaka (2017/05/12)
-                        // TODO sawa 不要なキャスト by yuki.wakisaka (2017/05/16)
-                        dateList.add((TemporalAccessor) content);
+                        // TODO done sawa 不要なキャスト by yuki.wakisaka (2017/05/16)
+                        dateList.add(content);
                     }
                     // done sawa 毎回この形式に合わせるの、きっといい感じのclassがあるよ by yuki.wakisaka (2017/04/30)
                     // [コメント] ＼(^o^)／ by sawa
@@ -204,9 +204,9 @@ public class SawaQ2DateTest extends ColorBoxTestCase {
                 // [コメント] 日付が二つの場合以外は問題の要件を満たさないので、elseを通るようにしました！ by sawa (2017/05/01)
                 // [コメント] おけ、それでいいと思います！ by ukwksk (2017/05/01)
                 if (date.size() == 2) {
-                    // TODO sawa 日数の差が負数になる場合があるので、絶対値をとりましょう by yuki.wakisaka (2017/05/16)
-                    long gap = ChronoUnit.DAYS.between(date.get(1), date.get(0));
-                    log("二つの日付の日数の差は" + (gap) + "日です");
+                    // TODO done sawa 日数の差が負数になる場合があるので、絶対値をとりましょう by yuki.wakisaka (2017/05/16)
+                    long gap = Math.abs(ChronoUnit.DAYS.between(date.get(1), date.get(0)));
+                    log("二つの日付の日数の差は" + gap + "日です");
                 } else {
                     log("yellowに入っている日付は2つではありません");
                 }
