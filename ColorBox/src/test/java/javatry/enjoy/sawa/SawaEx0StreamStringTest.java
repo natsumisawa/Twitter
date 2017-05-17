@@ -1,6 +1,7 @@
 package javatry.enjoy.sawa;
 
 import javatry.colorbox.ColorBox;
+import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
 import java.util.List;
 
@@ -19,6 +20,9 @@ public class SawaEx0StreamStringTest extends ColorBoxTestCase {
      * カラーボックスに入ってる文字列の中で、一番長い文字列は？
      */
     public void test_length_findMax() {
+        getColorBoxList().stream().map(colorBox -> colorBox.getSpaceList()
+                .stream().map(BoxSpace -> BoxSpace.getContents())
+                .max(Object -> )
 
     }
 
