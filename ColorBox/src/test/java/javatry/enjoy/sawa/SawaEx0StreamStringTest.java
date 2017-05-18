@@ -23,20 +23,24 @@ public class SawaEx0StreamStringTest extends ColorBoxTestCase {
      * カラーボックスに入ってる文字列の中で、一番長い文字列は？
      */
     public void test_length_findMax() {
-        List<String> collect = getColorBoxList().stream().flatMap(colorBox ->
-                colorBox.getSpaceList().stream().map(boxSpace ->
-                        {
-                            Object content = boxSpace.getContents();
-                            String str = "";
-                            if (content instanceof String) {
-                                str = (String) content;
-                            }
-                            return str;
-                        }
-                )
-        ).sorted().collect(Collectors.toList());
-        log(collect.get(collect.size() - 1));
+        getColorBoxList().stream().flatMap(colorBox ->
+                colorBox.getSpaceList().stream().map(BoxSpace::getContents))
+                .filter(s -> s instanceof String)
+                .sorted().forEach(c -> log(c));
     }
+
+//                        {
+//                            Object content = boxSpace.getContents();
+//                            String str = "";
+//                            if (content instanceof String) {
+//                                str = (String) content;
+//                            }
+//                            return str;s
+//                        }
+//                )
+//        ).sorted().collect(Collectors.toList());
+//        log(collect.get(collect.size() - 1));
+//    }
 //        getColorBoxList().stream().flatMap(colorBox ->
 //                colorBox.getSpaceList().stream().map(
 //                        boxSpace ->
