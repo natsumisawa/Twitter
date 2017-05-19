@@ -23,65 +23,64 @@ public class SawaEx0StreamStringTest extends ColorBoxTestCase {
      * カラーボックスに入ってる文字列の中で、一番長い文字列は？
      */
     public void test_length_findMax() {
-        getColorBoxList().stream().flatMap(colorBox ->
-                colorBox.getSpaceList().stream().map(BoxSpace::getContents))
-                .filter(s -> s instanceof String)
-                .sorted().max(Comparator.comparing(String::length)).forEach(c -> log(c));
+        Optional<Object> maxStrOpt = getColorBoxList().stream().flatMap(colorBox -> colorBox
+                .getSpaceList().stream().map(BoxSpace::getContents)).filter(s -> s instanceof String)
+                .max(Comparator.comparing(Object::toString));
+        maxStrOpt.ifPresent(this::log);
     }
 
-//                        {
-//                            Object content = boxSpace.getContents();
-//                            String str = "";
-//                            if (content instanceof String) {
-//                                str = (String) content;
-//                            }
-//                            return str;s
+//-----------------思い出------------------------
+//        Object content = boxSpace.getContents();
+//        String str = "";
+//        if (content instanceof String) {
+//            str = (String) content;
+//        }
+//        return str;s
+//
+//    getColorBoxList().stream().flatMap(colorBox ->
+//            colorBox.getSpaceList().stream().map(
+//                    boxSpace ->
+//                    {
+//                        Object content = boxSpace.getContents();
+//                        List<String> strContentList = new ArrayList<>();
+//                        if (content instanceof String) {
+//                            strContentList.add((String) content);
 //                        }
-//                )
-//        ).sorted().collect(Collectors.toList());
-//        log(collect.get(collect.size() - 1));
-//    }
-//        getColorBoxList().stream().flatMap(colorBox ->
-//                colorBox.getSpaceList().stream().map(
-//                        boxSpace ->
-//                        {
-//                            Object content = boxSpace.getContents();
-//                            List<String> strContentList = new ArrayList<>();
-//                            if (content instanceof String) {
-//                                strContentList.add((String) content);
-//                            }
-//                            return Stream.of(strContentList);
-//                        }
-//                )
-//        ).max(Comparator.comparing());
-
-//                .map(BoxSpace -> BoxSpace.getContents())
-//                .flatMap(content -> {
-//                    if (content instanceof  String) {
-//                        return content;
+//                        return Stream.of(strContentList);
 //                    }
-//                });
-// 直してくれるやつ.flatMap(Collection::stream)
-//                .max(Comparator.naturalOrder()));
+//            )
+//    ).max(Comparator.comparing());
 
-//        List<String> strList = Arrays.asList("A", "B", "C");
-//        Stream<String> stream = strList.stream();
     /**
      * カラーボックスに入ってる文字列の長さの合計は？
      */
     public void test_length_calculateLengthSum() {
-        Stream<Integer> integerStream = getColorBoxList().stream().flatMap(colorBox ->
-                colorBox.getSpaceList().stream().map(boxSpace ->
-                {
-                    Object conent = boxSpace.getContents();
+        getColorBoxList().stream().flatMap(colorBox -> colorBox
+                .getSpaceList().stream().map(BoxSpace::getContents)).filter(s -> s instanceof String)
+                .map(s -> {
                     int count = 0;
-                    if (conent instanceof String) {
-                        count++;
-                    }
+                    count += ((String) s).length();
                     return count;
-                })).collect(Collectors.toList()).stream();
+                });
     }
-    
+
+
+
+
+
+//        ------------------思い出コード----------------------------
+//        Stream<Integer> integerStream = getColorBoxList().stream().flatMap(colorBox ->
+//                colorBox.getSpaceList().stream().map(boxSpace ->
+//                {
+//                    Object content = boxSpace.getContents();
+//                    int count = 0;
+//                    if (content instanceof String) {
+//                        count++;
+//                    }
+//                    return count;
+//                })).collect(Collectors.toList()).stream();
+//        log(integerStream);
+
     // ===================================================================================
     //                                                            startsWith(), endsWith()
     //                                                            ========================
