@@ -26,7 +26,7 @@ public class SawaEx0StreamStringTest extends ColorBoxTestCase {
         getColorBoxList().stream().flatMap(colorBox ->
                 colorBox.getSpaceList().stream().map(BoxSpace::getContents))
                 .filter(s -> s instanceof String)
-                .sorted().forEach(c -> log(c));
+                .sorted().max(Comparator.comparing(String::length)).forEach(c -> log(c));
     }
 
 //                        {
