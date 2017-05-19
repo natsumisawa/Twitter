@@ -1,11 +1,11 @@
 package javatry.enjoy.sawa;
 
-import javatry.colorbox.ColorBox;
 import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Optional;
+import java.util.Comparator;
+import java.util.stream.Collector;
 import java.util.stream.Stream;
 
 /**
@@ -26,7 +26,7 @@ public class SawaEx0StreamStringTest extends ColorBoxTestCase {
         Optional<Object> maxStrOpt = getColorBoxList().stream().flatMap(colorBox -> colorBox
                 .getSpaceList().stream().map(BoxSpace::getContents)).filter(s -> s instanceof String)
                 .max(Comparator.comparing(Object::toString));
-        maxStrOpt.ifPresent(this::log);
+        maxStrOpt.ifPresent(str -> log("カラーボックスに入ってる文字列の中で、一番長い文字列は" + str + "です"));
     }
 
 //-----------------思い出------------------------
@@ -55,13 +55,15 @@ public class SawaEx0StreamStringTest extends ColorBoxTestCase {
      * カラーボックスに入ってる文字列の長さの合計は？
      */
     public void test_length_calculateLengthSum() {
-        getColorBoxList().stream().flatMap(colorBox -> colorBox
+        int sumLength = getColorBoxList().stream().flatMap(colorBox -> colorBox
                 .getSpaceList().stream().map(BoxSpace::getContents)).filter(s -> s instanceof String)
                 .map(s -> {
-                    int count = 0;
-                    count += ((String) s).length();
-                    return count;
-                });
+                            int count = 0;
+                            count += ((String) s).length();
+                            return count;
+                        }
+                ).mapToInt(Integer::intValue).sum();
+        log("カラーボックスに入ってる文字列の長さの合計は" + sumLength + "です");
     }
 
 
@@ -88,5 +90,10 @@ public class SawaEx0StreamStringTest extends ColorBoxTestCase {
      * 「かまくら」で始まる文字列をしまっているカラーボックスの色は？
      */
     public void test_startsWith_findFirstWord() {
+        getColorBoxList().stream().flatMap(colorBox -> {
+            colorBox.getSpaceList().stream().map(BoxSpace::getContents)
+                    .filter(content -> content instanceof String)
+                    .filter(str -> str.toString().startsWith("かまくら"));
+        }
     }
 }
