@@ -3,10 +3,8 @@ package javatry.enjoy.sawa;
 import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
 
-import java.util.*;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Optional;
+import java.util.Comparator;
 
 /**
  * 文字列のテスト。<br>
@@ -82,42 +80,22 @@ public class SawaEx0StreamStringTest extends ColorBoxTestCase {
      * 「かまくら」で始まる文字列をしまっているカラーボックスの色は？
      */
     public void test_startsWith_findFirstWord() {
-        getColorBoxList().stream()
+        Optional<String> kamakuraOptional = getColorBoxList().stream()
                 .map(colorBox ->
                         new Pair<>(colorBox.getColor().getColorName(), colorBox.getSpaceList().stream().map(BoxSpace::getContents)))
-                .filter(pair -> pair.getRight().filter(content -> content instanceof String).anyMatch(str -> s))
-
-        Stream<Object> かまくら = getColorBoxList().stream()
-                .flatMap(colorBox -> {
-                    Optional<Object> かまくら1 = colorBox
-                            .getSpaceList().stream()
-                            .map(BoxSpace::getContents)
-                            .filter(content -> content instanceof String)
-                            .filter(str -> str.toString().startsWith("かまくら"))
-                            .findFirst();
-
-
-                });
-        log(かまくら.collect(Collectors.toList()));
-
-
-        String colorName = getColorBoxList().stream()
-                .map(box -> new Pair<>(box.getColor().getColorName(), box.getSpaceList().stream().map(BoxSpace::getContents)))
-                .filter(pair -> pair.getRight().anyMatch(obj -> {
-                    if (obj instanceof String) {
-                        return ((String) obj).startsWith("かまくら");
+                .filter(pair -> pair.getRight().anyMatch(object -> {
+                    if (object instanceof String) {
+                        return ((String) object).startsWith("かまくら");
+                    } else {
+                        return false;
                     }
-                    return false;
-                }))
-                .findFirst()
-                .map(Pair::getLeft)
-                .orElse("そんな箱ねーよ");
-
-
+                })).findFirst().map(Pair::getLeft);
+        if (kamakuraOptional.isPresent()) {
+            log("かまくら」で始まる文字列をしまっているカラーボックスの色は" + kamakuraOptional.get() + "です");
+        } else {
+            log("「かまくら」で始まる文字列をしまっているカラーボックスはありません");
+        }
     }
-
-
-
     class Pair<LEFT, RIGHT> {
         private LEFT left;
         private RIGHT right;
