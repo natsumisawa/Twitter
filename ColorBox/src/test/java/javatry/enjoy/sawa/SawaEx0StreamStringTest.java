@@ -3,8 +3,7 @@ package javatry.enjoy.sawa;
 import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
 
-import java.util.Optional;
-import java.util.Comparator;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -83,11 +82,56 @@ public class SawaEx0StreamStringTest extends ColorBoxTestCase {
      * 「かまくら」で始まる文字列をしまっているカラーボックスの色は？
      */
     public void test_startsWith_findFirstWord() {
-        Consumer<Object> objectConsumer = o ->
-                getColorBoxList().stream().map(colorBox -> colorBox.getColor().getColorName());
-        getColorBoxList().stream().flatMap(colorBox -> colorBox
-                .getSpaceList().stream().map(BoxSpace::getContents)
-                .filter(content -> content instanceof String)
-                .filter(str -> str.toString().startsWith("かまくら"))).forEach(objectConsumer);
+        getColorBoxList().stream()
+                .flatMap()(colorBox ->
+                        new Set<>(colorBox.getColor().getColorName(), colorBox.getSpaceList().stream().map(BoxSpace::getContents)))
+
+        Stream<Object> かまくら = getColorBoxList().stream()
+                .flatMap(colorBox -> {
+                    Optional<Object> かまくら1 = colorBox
+                            .getSpaceList().stream()
+                            .map(BoxSpace::getContents)
+                            .filter(content -> content instanceof String)
+                            .filter(str -> str.toString().startsWith("かまくら"))
+                            .findFirst();
+
+
+                });
+        log(かまくら.collect(Collectors.toList()));
+
+
+        String colorName = getColorBoxList().stream()
+                .map(box -> new Pair<>(box.getColor().getColorName(), box.getSpaceList().stream().map(BoxSpace::getContents)))
+                .filter(pair -> pair.getRight().anyMatch(obj -> {
+                    if (obj instanceof String) {
+                        return ((String) obj).startsWith("かまくら");
+                    }
+                    return false;
+                }))
+                .findFirst()
+                .map(Pair::getLeft)
+                .orElse("そんな箱ねーよ");
+
+
+    }
+
+
+
+    class Pair<LEFT, RIGHT> {
+        private LEFT left;
+        private RIGHT right;
+
+        public Pair(LEFT left, RIGHT right) {
+            this.left = left;
+            this.right = right;
+        }
+
+        public LEFT getLeft() {
+            return left;
+        }
+
+        public RIGHT getRight() {
+            return right;
+        }
     }
 }
