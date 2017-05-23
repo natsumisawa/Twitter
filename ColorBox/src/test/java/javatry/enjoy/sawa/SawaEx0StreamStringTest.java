@@ -83,8 +83,9 @@ public class SawaEx0StreamStringTest extends ColorBoxTestCase {
      */
     public void test_startsWith_findFirstWord() {
         getColorBoxList().stream()
-                .flatMap()(colorBox ->
-                        new Set<>(colorBox.getColor().getColorName(), colorBox.getSpaceList().stream().map(BoxSpace::getContents)))
+                .map(colorBox ->
+                        new Pair<>(colorBox.getColor().getColorName(), colorBox.getSpaceList().stream().map(BoxSpace::getContents)))
+                .filter(pair -> pair.getRight().filter(content -> content instanceof String).anyMatch(str -> s))
 
         Stream<Object> かまくら = getColorBoxList().stream()
                 .flatMap(colorBox -> {
