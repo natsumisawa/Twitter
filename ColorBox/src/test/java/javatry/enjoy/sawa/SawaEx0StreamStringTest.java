@@ -21,12 +21,15 @@ public class SawaEx0StreamStringTest extends ColorBoxTestCase {
      * カラーボックスに入ってる文字列の中で、一番長い文字列は？
      */
     public void test_length_findMax() {
+        // TODO sawa 文字列を取り出すので、Oprtional<String> っていう型にしよう  by yuto.eguma (2017/05/23)
         Optional<Object> maxStrOpt = getColorBoxList().stream().flatMap(colorBox -> colorBox
                 .getSpaceList().stream().map(BoxSpace::getContents)).filter(s -> s instanceof String)
                 .max(Comparator.comparing(Object::toString));
+        // TODO sawa [修行] 文字列が一つも存在しない場合、存在しない旨をログに出そう。ただし、if文は使わないこと by yuto.eguma (2017/05/23)
         maxStrOpt.ifPresent(str -> log("カラーボックスに入ってる文字列の中で、一番長い文字列は" + str + "です"));
     }
 
+    // TODO sawa 思い出コードはインデントをコードと合わせて欲しい by yuto.eguma (2017/05/23)
 //-----------------思い出コード------------------------
 //Object content = boxSpace.getContents();
 //String str = "";
@@ -80,6 +83,8 @@ public class SawaEx0StreamStringTest extends ColorBoxTestCase {
      * 「かまくら」で始まる文字列をしまっているカラーボックスの色は？
      */
     public void test_startsWith_findFirstWord() {
+        // TODO sawa かまくらが、複数のカラーボックスの中に入っていてもこれだと一つだけになってしまう by yuto.eguma (2017/05/23)
+        // TODO sawa filterの中身、"&&"を使って1行にできない？ retrun false って書いた時点でもっとシンプルに書こうって気持ちになれるといいな。 by yuto.eguma (2017/05/23)
         Optional<String> kamakuraOptional = getColorBoxList().stream()
                 .map(colorBox ->
                         new Pair<>(colorBox.getColor().getColorName(), colorBox.getSpaceList().stream().map(BoxSpace::getContents)))
@@ -91,11 +96,13 @@ public class SawaEx0StreamStringTest extends ColorBoxTestCase {
                     }
                 })).findFirst().map(Pair::getLeft);
         if (kamakuraOptional.isPresent()) {
+            // TODO sawa "「"が足りない by yuto.eguma (2017/05/23)
             log("かまくら」で始まる文字列をしまっているカラーボックスの色は" + kamakuraOptional.get() + "です");
         } else {
             log("「かまくら」で始まる文字列をしまっているカラーボックスはありません");
         }
     }
+    // TODO sawa javafx.util.Pair っていうのが一応あるよ by yuto.eguma (2017/05/23)
     class Pair<LEFT, RIGHT> {
         private LEFT left;
         private RIGHT right;
