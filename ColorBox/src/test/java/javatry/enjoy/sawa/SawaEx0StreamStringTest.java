@@ -3,8 +3,11 @@ package javatry.enjoy.sawa;
 import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.Comparator;
+import java.util.stream.Collectors;
 
 /**
  * 文字列のテスト。<br>
@@ -68,22 +71,20 @@ public class SawaEx0StreamStringTest extends ColorBoxTestCase {
     public void test_startsWith_findFirstWord() {
         // TODO sawa かまくらが、複数のカラーボックスの中に入っていてもこれだと一つだけになってしまう by yuto.eguma (2017/05/23)
         // TODO sawa filterの中身、"&&"を使って1行にできない？ retrun false って書いた時点でもっとシンプルに書こうって気持ちになれるといいな。 by yuto.eguma (2017/05/23)
-        Optional<String> kamakuraOptional = getColorBoxList().stream()
+
+        List<String> kamakuraBoxColor = getColorBoxList().stream()
                 .map(colorBox ->
-                        new Pair<>(colorBox.getColor().getColorName(), colorBox.getSpaceList().stream().map(BoxSpace::getContents)))
-                .filter(pair -> pair.getRight() instanceof String)
-                        return ((String) object).startsWith("かまくら");
-                    } else {
-                        return false;
-                    }
-                })).findFirst().map(Pair::getLeft);
-        if (kamakuraOptional.isPresent()) {
-            // TODO sawa "「"が足りない by yuto.eguma (2017/05/23)
-            log("かまくら」で始まる文字列をしまっているカラーボックスの色は" + kamakuraOptional.get() + "です");
+                        new Pair<>(colorBox.getColor().getColorName(), colorBox.getSpaceList().stream().map(BoxSpace::getContents)
+                                .filter(rightObj -> rightObj instanceof String).filter(str -> ((String) str).startsWith("かまくら"))).getLeft()).collect(Collectors.toList());
+        //かまくらフィルターしているのに入ってしまっている
+        if (kamakuraBoxColor!=null) {
+            // TODO done sawa "「"が足りない by yuto.eguma (2017/05/23)
+            log("「かまくら」で始まる文字列をしまっているカラーボックスの色は" + kamakuraBoxColor.get(1) + "です");
         } else {
             log("「かまくら」で始まる文字列をしまっているカラーボックスはありません");
         }
     }
+
     // TODO sawa javafx.util.Pair っていうのが一応あるよ by yuto.eguma (2017/05/23)
     class Pair<LEFT, RIGHT> {
         private LEFT left;
