@@ -21,35 +21,17 @@ public class SawaEx0StreamStringTest extends ColorBoxTestCase {
      * カラーボックスに入ってる文字列の中で、一番長い文字列は？
      */
     public void test_length_findMax() {
-        // TODO sawa 文字列を取り出すので、Oprtional<String> っていう型にしよう  by yuto.eguma (2017/05/23)
-        Optional<Object> maxStrOpt = getColorBoxList().stream().flatMap(colorBox -> colorBox
+        // TODO done sawa 文字列を取り出すので、Oprtional<String> っていう型にしよう  by yuto.eguma (2017/05/23)
+        Optional<String> maxStrOpt = getColorBoxList().stream().flatMap(colorBox -> colorBox
                 .getSpaceList().stream().map(BoxSpace::getContents)).filter(s -> s instanceof String)
-                .max(Comparator.comparing(Object::toString));
-        // TODO sawa [修行] 文字列が一つも存在しない場合、存在しない旨をログに出そう。ただし、if文は使わないこと by yuto.eguma (2017/05/23)
+                .max(Comparator.comparing(Object::toString)).map(object -> (String) object);
+        // TODO done sawa [修行] 文字列が一つも存在しない場合、存在しない旨をログに出そう。ただし、if文は使わないこと by yuto.eguma (2017/05/23)
         maxStrOpt.ifPresent(str -> log("カラーボックスに入ってる文字列の中で、一番長い文字列は" + str + "です"));
+        log(maxStrOpt.orElse("文字列は存在しません"));
     }
 
-    // TODO sawa 思い出コードはインデントをコードと合わせて欲しい by yuto.eguma (2017/05/23)
-//-----------------思い出コード------------------------
-//Object content = boxSpace.getContents();
-//String str = "";
-//if (content instanceof String) {
-//    str = (String) content;
-//}
-//return str;s
-//getColorBoxList().stream().flatMap(colorBox ->
-//    colorBox.getSpaceList().stream().map(
-//            boxSpace -> {
-//                Object content = boxSpace.getContents();
-//                List<String> strContentList = new ArrayList<>();
-//                if (content instanceof String) {
-//                    strContentList.add((String) content);
-//                }
-//                return Stream.of(strContentList);
-//            }
-//    )
-//).max(Comparator.comparing());
-
+    // TODO done sawa 思い出コードはインデントをコードと合わせて欲しい by yuto.eguma (2017/05/23)
+    // TODO [コメント] 今みたら思い出でもなんでもなくただの意味不明コードだったので消しました by sawa (2017/05/24)
     /**
      * カラーボックスに入ってる文字列の長さの合計は？
      */
@@ -64,17 +46,18 @@ public class SawaEx0StreamStringTest extends ColorBoxTestCase {
         log("カラーボックスに入ってる文字列の長さの合計は" + sumLength + "です");
     }
 
-//------------------思い出コード--------------------------------------------------
-//Stream<Integer> integerStream = getColorBoxList().stream().flatMap(colorBox ->
-//        colorBox.getSpaceList().stream().map(boxSpace -> {
-//            Object content = boxSpace.getContents();
-//            int count = 0;
-//            if (content instanceof String) {
-//                count++;
-//            }
-//            return count;
-//        })).collect(Collectors.toList()).stream();
-//log(integerStream);
+        //------------------思い出コード--------------------------------------------------
+        //Stream<Integer> integerStream = getColorBoxList().stream().flatMap(colorBox ->
+        //        colorBox.getSpaceList().stream().map(boxSpace -> {
+        //            Object content = boxSpace.getContents();
+        //            int count = 0;
+        //            if (content instanceof String) {
+        //                count++;
+        //            }
+        //            return count;
+        //        })).collect(Collectors.toList()).stream();
+        //log(integerStream);
+        //------------------思い出コード--------------------------------------------------
 
     // ===================================================================================
     //                                                            startsWith(), endsWith()
@@ -88,8 +71,7 @@ public class SawaEx0StreamStringTest extends ColorBoxTestCase {
         Optional<String> kamakuraOptional = getColorBoxList().stream()
                 .map(colorBox ->
                         new Pair<>(colorBox.getColor().getColorName(), colorBox.getSpaceList().stream().map(BoxSpace::getContents)))
-                .filter(pair -> pair.getRight().anyMatch(object -> {
-                    if (object instanceof String) {
+                .filter(pair -> pair.getRight() instanceof String)
                         return ((String) object).startsWith("かまくら");
                     } else {
                         return false;
