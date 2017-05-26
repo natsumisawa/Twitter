@@ -3,6 +3,9 @@ package javatry.enjoy.sawa;
 import javatry.colorbox.ColorBox;
 import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
+import jdk.internal.util.xml.impl.Pair;
+import org.omg.CORBA.MARSHAL;
+import sun.jvm.hotspot.jdi.IntegerTypeImpl;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,6 +27,14 @@ public class SawaEx1StreamNumberTest extends ColorBoxTestCase {
      * 青色のカラーボックスに入ってる Map の中の商品で一番高いものは？
      */
     public void test_findMax() {
+//        getColorBoxList().stream().map(colorBox -> new Pair(colorBox.getColor().getColorName(), colorBox
+//                .getSpaceList().stream().map(boxSpace -> boxSpace.getContents()).filter(o -> o instanceof Map<?, ?>).flatMap(mapObj -> {
+//                            Map<?,?> map = (Map<?,?>)mapObj;
+//                            if (map.get(0) instanceof String  && map.getOrDefault(0) instanceof Integer;
+//
+//                        }
+//                    )
+//                )
 //        Stream<Object> mapContents = getColorBoxList().stream().filter(colorBox -> colorBox.getColor().getColorName().equals("blue"))
 //                .flatMap(colorBox -> colorBox.getSpaceList().stream().map(boxSpace ->
 //                        boxSpace.getContents()).filter(object ->

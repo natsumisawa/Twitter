@@ -1,14 +1,11 @@
 package javatry.enjoy.sawa;
 
+import javafx.util.Pair;
 import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import java.util.Comparator;
-import java.util.stream.Collectors;
-
 /**
  * 文字列のテスト。<br>
  * 何々は？と言われたら、それに該当するものをログに出力すること。
@@ -72,35 +69,28 @@ public class SawaEx0StreamStringTest extends ColorBoxTestCase {
         // TODO sawa かまくらが、複数のカラーボックスの中に入っていてもこれだと一つだけになってしまう by yuto.eguma (2017/05/23)
         // TODO sawa filterの中身、"&&"を使って1行にできない？ retrun false って書いた時点でもっとシンプルに書こうって気持ちになれるといいな。 by yuto.eguma (2017/05/23)
 
-        List<String> kamakuraBoxColor = getColorBoxList().stream()
-                .map(colorBox ->
-                        new Pair<>(colorBox.getColor().getColorName(), colorBox.getSpaceList().stream().map(BoxSpace::getContents)
-                                .filter(rightObj -> rightObj instanceof String).filter(str -> ((String) str).startsWith("かまくら"))).getLeft()).collect(Collectors.toList());
-        //かまくらフィルターしているのに入ってしまっている
-        if (kamakuraBoxColor!=null) {
+        Optional<String> kamakuraBoxColor = getColorBoxList().stream()
+                .map(colorBox -> new Pair<>(colorBox.getColor(), colorBox.getSpaceList()
+                        .stream().map(BoxSpace::getContents).filter(rightObj -> rightObj instanceof String).filter(str -> ((String) str).startsWith("かまくら"))).getKey().getColorName()).findFirst();
+        //かまくらフィルターしているのに、他の文字列も入ってしまっている
+        if (kamakuraBoxColor.isPresent()) {
             // TODO done sawa "「"が足りない by yuto.eguma (2017/05/23)
-            log("「かまくら」で始まる文字列をしまっているカラーボックスの色は" + kamakuraBoxColor.get(1) + "です");
+            log("「かまくら」で始まる文字列をしまっているカラーボックスの色は" + kamakuraBoxColor.get() + "です");
         } else {
             log("「かまくら」で始まる文字列をしまっているカラーボックスはありません");
         }
-    }
+    // TODO done sawa javafx.util.Pair っていうのが一応あるよ by yuto.eguma (2017/05/23)
 
-    // TODO sawa javafx.util.Pair っていうのが一応あるよ by yuto.eguma (2017/05/23)
-    class Pair<LEFT, RIGHT> {
-        private LEFT left;
-        private RIGHT right;
-
-        public Pair(LEFT left, RIGHT right) {
-            this.left = left;
-            this.right = right;
-        }
-
-        public LEFT getLeft() {
-            return left;
-        }
-
-        public RIGHT getRight() {
-            return right;
+    //TODO [コメント] filterでもできると(ゆいとえいちゃん様のおかげで)気づいたのでもうひとつコード書きます
+        Optional<String> boxColorOpt = getColorBoxList().stream()
+                .filter(colorBox -> colorBox
+                        .getSpaceList().stream().map(BoxSpace::getContents).filter(obj -> obj instanceof String)
+                        .anyMatch(str -> ((String) str).startsWith("かまくら")))
+                .map(colorBox -> colorBox.getColor().getColorName()).findFirst();
+        if (boxColorOpt.isPresent()) {
+            log(boxColorOpt.get());
+        } else {
+            log("「かまくら」で始まる文字列をしまっているカラーボックスはありません");
         }
     }
 }
