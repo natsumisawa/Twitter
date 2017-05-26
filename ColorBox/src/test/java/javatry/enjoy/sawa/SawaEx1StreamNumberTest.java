@@ -7,9 +7,7 @@ import jdk.internal.util.xml.impl.Pair;
 import org.omg.CORBA.MARSHAL;
 import sun.jvm.hotspot.jdi.IntegerTypeImpl;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -27,14 +25,26 @@ public class SawaEx1StreamNumberTest extends ColorBoxTestCase {
      * 青色のカラーボックスに入ってる Map の中の商品で一番高いものは？
      */
     public void test_findMax() {
-//        getColorBoxList().stream().map(colorBox -> new Pair(colorBox.getColor().getColorName(), colorBox
-//                .getSpaceList().stream().map(boxSpace -> boxSpace.getContents()).filter(o -> o instanceof Map<?, ?>).flatMap(mapObj -> {
-//                            Map<?,?> map = (Map<?,?>)mapObj;
-//                            if (map.get(0) instanceof String  && map.getOrDefault(0) instanceof Integer;
-//
-//                        }
-//                    )
-//                )
+        Optional<String> blue = getColorBoxList().stream().filter(colorBox -> colorBox.getColor().getColorName().equals("blue"))
+                .flatMap(colorBox -> colorBox.getSpaceList().stream().map(BoxSpace::getContents)
+                        .filter(obj -> obj instanceof Map<?, ?>))
+                .map(map -> ((Map<?, ?>) map).entrySet().stream())
+                .filter(m -> m.mapToInt(map -> (Integer) map.getValue()).max().isPresent())
+                .flatMap(setm -> setm.map(map -> (String) map.getKey())).findFirst();
+        log(blue.get());
+
+        Optional<?> maxContent = getColorBoxList().stream().filter(colorBox -> colorBox.getColor().getColorName().equals("blue"))
+                .flatMap(colorBox -> colorBox.getSpaceList().stream().map(BoxSpace::getContents)
+                        .filter(obj -> obj instanceof Map<?, ?>))
+                .filter(map -> ((Map<?, ?>) map).entrySet().stream().mapToInt(m -> (Integer) m.getValue()).max().isPresent())
+                .flatMap(map -> ((Map<?, ?>) map).entrySet().stream().map(Map.Entry::getKey)).findFirst();
+        log(maxContent.get());
+
+        getColorBoxList().stream().filter(colorBox -> colorBox.getColor().getColorName().equals("blue"))
+                .flatMap(colorBox -> colorBox.getSpaceList().stream().map(BoxSpace::getContents)
+                        .filter(obj -> obj instanceof Map<?, ?>)
+                        .flatMap(map -> ((Map<?, ?>) map).entrySet().stream().map(Map.Entry::getValue))).max(Comparator.comparing(Object::toString));
+
 //        Stream<Object> mapContents = getColorBoxList().stream().filter(colorBox -> colorBox.getColor().getColorName().equals("blue"))
 //                .flatMap(colorBox -> colorBox.getSpaceList().stream().map(boxSpace ->
 //                        boxSpace.getContents()).filter(object ->
