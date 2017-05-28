@@ -12,7 +12,7 @@ import java.util.Comparator;
  */
 public class SawaEx0StreamStringTest extends ColorBoxTestCase {
 
-    // TODO done sawa 不要なimport文削除 by yuto (2017/05/27)
+    // done sawa 不要なimport文削除 by yuto (2017/05/27)
 
     // ===================================================================================
     //                                                                            length()
@@ -21,12 +21,12 @@ public class SawaEx0StreamStringTest extends ColorBoxTestCase {
      * カラーボックスに入ってる文字列の中で、一番長い文字列は？
      */
     public void test_length_findMax() {
-        // TODO done sawa 文字列を取り出すので、Oprtional<String> っていう型にしよう  by yuto.eguma (2017/05/23)
+        // done sawa 文字列を取り出すので、Oprtional<String> っていう型にしよう  by yuto.eguma (2017/05/23)
         String log = getColorBoxList().stream().flatMap(colorBox -> colorBox
                 .getSpaceList().stream().map(BoxSpace::getContents)).filter(s -> s instanceof String)
                 .max(Comparator.comparing(Object::toString)).map(object -> (String) object).map(s -> "カラーボックスに入ってる文字列の中で、一番長い文字列は" + s + "です").orElse("文字列は存在しません");
         // done sawa [修行] 文字列が一つも存在しない場合、存在しない旨をログに出そう。ただし、if文は使わないこと by yuto.eguma (2017/05/23)
-        // TODO done sawa [修行++] map()を使ってみよう。文字列があればそれ、なければないことを説明する文字列を返すって使い方で。 by yuto (2017/05/27)
+        // done sawa [修行++] map()を使ってみよう。文字列があればそれ、なければないことを説明する文字列を返すって使い方で。 by yuto (2017/05/27)
         log(log);
     }
     // done sawa 思い出コードはインデントをコードと合わせて欲しい by yuto.eguma (2017/05/23)
@@ -55,7 +55,7 @@ public class SawaEx0StreamStringTest extends ColorBoxTestCase {
         // done sawa filterの中身、"&&"を使って1行にできない？ retrun false って書いた時点でもっとシンプルに書こうって気持ちになれるといいな。 by yuto.eguma (2017/05/23)
         // done sawa javafx.util.Pair っていうのが一応あるよ by yuto.eguma (2017/05/23)
         // TODO done [コメント] filterでもできると気づいたので全体的に書き直しました！ by sawa (2017/05/26)
-        // TODO done sawa findFirstしてしまうと、複数のカラーボックスに文字列が入っていたらどうなるか問題が発生する by yuto (2017/05/27)
+        // done sawa findFirstしてしまうと、複数のカラーボックスに文字列が入っていたらどうなるか問題が発生する by yuto (2017/05/27)
         String log = getColorBoxList().stream()
                 .filter(colorBox -> colorBox
                         .getSpaceList().stream().map(BoxSpace::getContents).filter(obj -> obj instanceof String)
