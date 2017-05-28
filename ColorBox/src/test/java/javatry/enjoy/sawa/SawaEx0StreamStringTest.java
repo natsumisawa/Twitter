@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
  */
 public class SawaEx0StreamStringTest extends ColorBoxTestCase {
 
+    // TODO sawa 不要なimport文削除 by yuto (2017/05/27)
 
     // ===================================================================================
     //                                                                            length()
@@ -23,16 +24,17 @@ public class SawaEx0StreamStringTest extends ColorBoxTestCase {
      * カラーボックスに入ってる文字列の中で、一番長い文字列は？
      */
     public void test_length_findMax() {
-        // TODO done sawa 文字列を取り出すので、Oprtional<String> っていう型にしよう  by yuto.eguma (2017/05/23)
+        // TOdone sawa 文字列を取り出すので、Oprtional<String> っていう型にしよう  by yuto.eguma (2017/05/23)
         Optional<String> maxStrOpt = getColorBoxList().stream().flatMap(colorBox -> colorBox
                 .getSpaceList().stream().map(BoxSpace::getContents)).filter(s -> s instanceof String)
                 .max(Comparator.comparing(Object::toString)).map(object -> (String) object);
-        // TODO done sawa [修行] 文字列が一つも存在しない場合、存在しない旨をログに出そう。ただし、if文は使わないこと by yuto.eguma (2017/05/23)
+        // done sawa [修行] 文字列が一つも存在しない場合、存在しない旨をログに出そう。ただし、if文は使わないこと by yuto.eguma (2017/05/23)
+        // TODO sawa [修行++] map()を使ってみよう。文字列があればそれ、なければないことを説明する文字列を返すって使い方で。 by yuto (2017/05/27)
         maxStrOpt.ifPresent(str -> log("カラーボックスに入ってる文字列の中で、一番長い文字列は" + str + "です"));
         log(maxStrOpt.orElse("文字列は存在しません"));
     }
-    // TODO done sawa 思い出コードはインデントをコードと合わせて欲しい by yuto.eguma (2017/05/23)
-    // TODO [コメント] 今みたら思い出でもなんでもなくただの意味不明コードだったので消しました by sawa (2017/05/24)
+    // done sawa 思い出コードはインデントをコードと合わせて欲しい by yuto.eguma (2017/05/23)
+    // TODO done [コメント] 今みたら思い出でもなんでもなくただの意味不明コードだったので消しました by sawa (2017/05/24)
     /**
      * カラーボックスに入ってる文字列の長さの合計は？
      */
@@ -53,10 +55,11 @@ public class SawaEx0StreamStringTest extends ColorBoxTestCase {
      * 「かまくら」で始まる文字列をしまっているカラーボックスの色は？
      */
     public void test_startsWith_findFirstWord() {
-        // TODO done sawa かまくらが、複数のカラーボックスの中に入っていてもこれだと一つだけになってしまう by yuto.eguma (2017/05/23)
-        // TODO done sawa filterの中身、"&&"を使って1行にできない？ retrun false って書いた時点でもっとシンプルに書こうって気持ちになれるといいな。 by yuto.eguma (2017/05/23)
-        // TODO done sawa javafx.util.Pair っていうのが一応あるよ by yuto.eguma (2017/05/23)
-        //TODO [コメント] filterでもできると気づいたので全体的に書き直しました！ by sawa (2017/05/26)
+        // done sawa かまくらが、複数のカラーボックスの中に入っていてもこれだと一つだけになってしまう by yuto.eguma (2017/05/23)
+        // done sawa filterの中身、"&&"を使って1行にできない？ retrun false って書いた時点でもっとシンプルに書こうって気持ちになれるといいな。 by yuto.eguma (2017/05/23)
+        // done sawa javafx.util.Pair っていうのが一応あるよ by yuto.eguma (2017/05/23)
+        // TODO done [コメント] filterでもできると気づいたので全体的に書き直しました！ by sawa (2017/05/26)
+        // TODO sawa findFirstしてしまうと、複数のカラーボックスに文字列が入っていたらどうなるか問題が発生する by yuto (2017/05/27)
         Optional<String> boxColorOpt = getColorBoxList().stream()
                 .filter(colorBox -> colorBox
                         .getSpaceList().stream().map(BoxSpace::getContents).filter(obj -> obj instanceof String)
