@@ -8,6 +8,7 @@ import org.omg.CORBA.IMP_LIMIT;
 import org.omg.CORBA.MARSHAL;
 import sun.jvm.hotspot.jdi.IntegerTypeImpl;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -64,5 +65,8 @@ public class SawaEx1StreamNumberTest extends ColorBoxTestCase {
      * カラーボックスの中に入ってる BigDecimal を全て足し合わせると？
      */
     public void test_sumBigDecimal() {
+        getColorBoxList().stream().flatMap(colorBox -> colorBox.getSpaceList().stream().map(BoxSpace::getContents))
+                .filter(object -> object instanceof List).map(Object -> (List) Object).map(listcontent -> listcontent instanceof BigDecimal).map(cont -> (BigDecimal)cont).reduce((r1,r2) -> r1.add(r2));
+//        bd.ifPresent(this::log);
     }
 }

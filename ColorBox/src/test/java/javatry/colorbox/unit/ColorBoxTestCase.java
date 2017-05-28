@@ -50,13 +50,13 @@ public abstract class ColorBoxTestCase extends UnitryTestCase {
             StandardColorBox colorBox = new StandardColorBox(new BoxColor("yellow"), new BoxSize(40, 50, 30));
             colorBox.getUpperSpace().addContents(toLocalDateTime("2012/06/04 23:59:59"));
             colorBox.getMiddleSpace().addContents(toLocalDate("2012/09/26"));
-//            List<BigDecimal> decimalList = new ArrayList<BigDecimal>();
-//            decimalList.add(new BigDecimal(2));
-//            decimalList.add(new BigDecimal("3.14159"));
-//            decimalList.add(new BigDecimal("4.753"));
-//            decimalList.add(new BigDecimal("2.0"));
-//            decimalList.add(new BigDecimal("1.4"));
-            //colorBox.getLowerSpace().addContents(decimalList);
+            List<BigDecimal> decimalList = new ArrayList<BigDecimal>();
+            decimalList.add(new BigDecimal(2));
+            decimalList.add(new BigDecimal("3.14159"));
+            decimalList.add(new BigDecimal("4.753"));
+            decimalList.add(new BigDecimal("2.0"));
+            decimalList.add(new BigDecimal("1.4"));
+            colorBox.getLowerSpace().addContents(decimalList);
             colorBoxList.add(colorBox);
         }
         return colorBoxList;
