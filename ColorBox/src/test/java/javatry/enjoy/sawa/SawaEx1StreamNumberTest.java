@@ -33,28 +33,27 @@ public class SawaEx1StreamNumberTest extends ColorBoxTestCase {
         log(log);
         //------------思い出コード------------------------------
         //getColorBoxList().stream().filter(colorBox -> colorBox.getColor().getColorName().equals("blue"))
-        //        .flatMap(colorBox -> colorBox.getSpaceList().stream().map(BoxSpace::getContents)
+        //       .flatMap(colorBox -> colorBox.getSpaceList().stream().map(BoxSpace::getContents)
         //                .filter(obj -> obj instanceof Map<?, ?>)
         //                .flatMap(map -> ((Map<?, ?>) map).entrySet().stream().map(Map.Entry::getValue))).max(Comparator.comparing(Object::toString));
         //
         //Stream<Object> mapContents = getColorBoxList().stream().filter(colorBox -> colorBox.getColor().getColorName().equals("blue"))
-        //        .flatMap(colorBox -> colorBox.getSpaceList().stream().map(boxSpace ->
+        //       .flatMap(colorBox -> colorBox.getSpaceList().stream().map(boxSpace ->
         //                boxSpace.getContents()).filter(object ->
         //                object instanceof Map<?, ?>));
         //Object o = mapContents.collect(Collectors.toList()).get(0);
         //(Map<?, ?>)o.entrySet().
         //log(blue.collect(Collectors.toList()).get(0));
         //getColorBoxList().stream().map(colorBox -> colorBox.getSpaceList()
-        //.stream().map(BoxSpace::getContents))
-        //.forEach(objectStream -> objectStream
-        //.forEach(System.out::println));
+        //      .stream().map(BoxSpace::getContents))
+        //      .forEach(objectStream -> objectStream
+        //      .forEach(System.out::println));
     }
 
     /**
      * カラーボックスの中に入ってる BigDecimal を全て足し合わせると？
      */
     public void test_sumBigDecimal() {
-
         Optional<BigDecimal> listBdOpt = getColorBoxList().stream().flatMap(colorBox -> colorBox.getSpaceList().stream())
                 .map(BoxSpace::getContents)
                 .filter(content -> content instanceof List)
