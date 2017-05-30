@@ -21,8 +21,9 @@ public class SawaEx1StreamNumberTest extends ColorBoxTestCase {
      * 青色のカラーボックスに入ってる Map の中の商品で一番高いものは？
      */
     public void test_findMax() {
-        // TODO done sawa 「.flatMap(colorBox -> colorBox.getSpaceList().stream() ...」のあたりがネストしていて見づらい。修正してみよう！ by hakiba (2017/05/30)
+        // done sawa 「.flatMap(colorBox -> colorBox.getSpaceList().stream() ...」のあたりがネストしていて見づらい。修正してみよう！ by hakiba (2017/05/30)
         // TODO [コメント] sawa 解釈あってますでしょうか>< by sawa (2017/05/30)
+        // TODO sawa 違うかなぁ。flatMap(...)の中でmapしてfilterまでしてるからつらい...一回flatMap(colorBox -> colorBox.getSpaceList().stream())として, そのあとにmap, filterしてみましょう。flatMapはあくまで新しいStreamに展開するまでの役割に徹底させたほうがコードが読みやすくなる。あとで少し口頭で話しましょう。 by hakiba (2017/05/31)
         String log = getColorBoxList().stream()
                 .filter(colorBox -> colorBox.getColor().getColorName().equals("blue"))
                 .flatMap(colorBox -> colorBox
