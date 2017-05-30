@@ -27,6 +27,10 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
      * nullを含んでいるカラーボックスの色の名前の3文字目の文字で色の名前が終わっているカラーボックスの深さの十の位の数字が小数点第二桁目になっているスペースの中のリストの中のBigDecimalの一の位の数字と同じ色の長さのカラーボックスの一番下のスペースに入っているものは？
      */
     public void test_devil2() {
+        getColorBoxList().stream().filter(colorBox -> colorBox.getSpaceList().stream().map(boxSpace -> boxSpace.getContents()) == null)
+                .filter(colorBox -> colorBox.getColor().getColorName().length() == 3)
+                .filter(colorBox -> colorBox.getSize().getDepth())
+
     }
     
     /**
