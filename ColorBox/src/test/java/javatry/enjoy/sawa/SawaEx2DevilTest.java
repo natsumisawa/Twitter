@@ -1,5 +1,7 @@
 package javatry.enjoy.sawa;
 
+import javatry.colorbox.size.BoxSize;
+import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
 
 /**
@@ -13,6 +15,12 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
      * (このテストメソッドの中だけで) 赤いカラーボックスの高さを 160 に変更せよ
      */
     public void test_devil1() {
+        getColorBoxList().stream().filter(colorBox -> colorBox.getColor().getColorName().equals("red"))
+                .flatMap(colorBox -> colorBox.getSpaceList().stream())
+                .map(BoxSpace::getSize)
+                .map(BoxSize::getHeight)
+                .map(height -> 160)
+                .forEach(newHeight -> log("高さを" + newHeight + "に変更しました"));
     }
 
     /**
