@@ -6,7 +6,6 @@ import javatry.colorbox.unit.ColorBoxTestCase;
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Comparator;
-import java.util.Optional;
 import java.util.List;
 import java.util.Collection;
 /**
@@ -22,12 +21,16 @@ public class SawaEx1StreamNumberTest extends ColorBoxTestCase {
      * 青色のカラーボックスに入ってる Map の中の商品で一番高いものは？
      */
     public void test_findMax() {
-        // TODO sawa 「.flatMap(colorBox -> colorBox.getSpaceList().stream() ...」のあたりがネストしていて見づらい。修正してみよう！ by hakiba (2017/05/30)
-        String log = getColorBoxList().stream().filter(colorBox -> colorBox.getColor().getColorName().equals("blue"))
-                .flatMap(colorBox -> colorBox.getSpaceList().stream()
+        // TODO done sawa 「.flatMap(colorBox -> colorBox.getSpaceList().stream() ...」のあたりがネストしていて見づらい。修正してみよう！ by hakiba (2017/05/30)
+        // TODO [コメント] sawa 解釈あってますでしょうか>< by sawa (2017/05/30)
+        String log = getColorBoxList().stream()
+                .filter(colorBox -> colorBox.getColor().getColorName().equals("blue"))
+                .flatMap(colorBox -> colorBox
+                        .getSpaceList().stream()
                         .map(BoxSpace::getContents)
                         .filter(obj -> obj instanceof Map<?, ?>))
-                .flatMap(map -> ((Map<?, ?>) map).entrySet().stream())
+                .flatMap(map -> ((Map<?, ?>) map)
+                        .entrySet().stream())
                 .max(Comparator.comparing(entry -> (Integer) entry.getValue()))
                 .map(entry -> "青色のカラーボックスに入ってる Map の中の商品で一番高いものは" + entry.getKey() + "です")
                 .orElse("青色のカラーボックスに入ってる Map はありません");
@@ -55,37 +58,26 @@ public class SawaEx1StreamNumberTest extends ColorBoxTestCase {
      * カラーボックスの中に入ってる BigDecimal を全て足し合わせると？
      */
     public void test_sumBigDecimal() {
-        // TODO sawa 【修行】Optional<BigDecimal>で受け取っているから加算するときの処理が冗長。BigDecimalで受け取るようにしてみよう！（ヒント: OptionalクラスにはorElseというメソッドがある。） by hakiba (2017/05/30)
-        // TODO sawa 俺のintelliJだとlistBdOptを取得しているところでコンパイルエラーになる。多分Listにキャストするときに, List<?>ではなくListにキャストしているから by hakiba (2017/05/30)
-        Optional<BigDecimal> listBdOpt = getColorBoxList().stream().flatMap(colorBox -> colorBox.getSpaceList().stream())
+        // TODO done sawa 【修行】Optional<BigDecimal>で受け取っているから加算するときの処理が冗長。BigDecimalで受け取るようにしてみよう！（ヒント: OptionalクラスにはorElseというメソッドがある。） by hakiba (2017/05/30)
+        // TODO done sawa 俺のintelliJだとlistBdOptを取得しているところでコンパイルエラーになる。多分Listにキャストするときに, List<?>ではなくListにキャストしているから by hakiba (2017/05/30)
+        BigDecimal listContentBd = getColorBoxList().stream().flatMap(colorBox -> colorBox.getSpaceList().stream())
                 .map(BoxSpace::getContents)
-                .filter(content -> content instanceof List)
-                .map(listContent -> (List) listContent)
+                .filter(content -> content instanceof List<?>)
+                .map(listContent -> (List<?>) listContent)
                 .flatMap(Collection::stream)
                 .filter(list -> list instanceof BigDecimal)
                 .map(content -> (BigDecimal) content)
-                .reduce(BigDecimal::add);
-        Optional<BigDecimal> bdOpt = getColorBoxList().stream().flatMap(colorBox -> colorBox.getSpaceList().stream())
+                .reduce(BigDecimal::add).orElse(BigDecimal.ZERO);
+        BigDecimal contentBd = getColorBoxList().stream().flatMap(colorBox -> colorBox.getSpaceList().stream())
                 .map(BoxSpace::getContents)
                 .filter(contents -> contents instanceof BigDecimal)
                 .map(bdContent -> (BigDecimal) bdContent)
-                .reduce(BigDecimal::add);
-        BigDecimal answer = getAnswer(listBdOpt, bdOpt);
-        if (answer == null) {
+                .reduce(BigDecimal::add).orElse(BigDecimal.ZERO);
+        BigDecimal bdSum = listContentBd.add(contentBd);
+        if (bdSum.equals(BigDecimal.ZERO)) {
             log("カラーボックスの中に BigDecimal は入っていません");
         } else {
-            log("カラーボックスの中に入ってる BigDecimal を全て足し合わせると" + answer + "です");
+            log("カラーボックスの中に入ってる BigDecimal を全て足し合わせると" + bdSum + "です");
         }
-    }
-
-    private BigDecimal getAnswer(Optional<BigDecimal> listBdOpt, Optional<BigDecimal> bdOpt) {
-        if (!listBdOpt.isPresent() && !bdOpt.isPresent()) {
-            return null;
-        } else if(listBdOpt.isPresent() && !bdOpt.isPresent()) {
-            return listBdOpt.get();
-        } else if(!listBdOpt.isPresent()) {
-            return bdOpt.get();
-        }
-        return listBdOpt.get().add(bdOpt.get());
     }
 }
