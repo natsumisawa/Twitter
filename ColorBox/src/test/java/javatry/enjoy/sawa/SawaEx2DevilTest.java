@@ -55,21 +55,20 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
 
         //小数点第二桁目があるbdの最初の一つ目をとってるよ   ---> 1がでる
         String log = getColorBoxList().stream()
-                .flatMap(colorBox ->
-                        colorBox.getSpaceList().stream()
-                                .map(BoxSpace::getContents).filter(o -> o instanceof List<?>)
-                                .map(list -> (List<?>) list)
-                                .flatMap(Collection::stream)
-                                .filter(o -> o instanceof BigDecimal)
-                                .map(o -> (BigDecimal) o)
-                                .map(bigDecimal -> {
-                                    int scale = bigDecimal.scale();
-                                    if (scale > 2) {
-                                        return Integer.parseInt(bigDecimal.toString().substring(2, 3));
-                                    } else {
-                                        return 0;
-                                    }
-                                }).filter(integer -> integer != 0)).findAny().map(integer -> "あった" + integer).orElse("ないよ");
+                    .flatMap(colorBox -> colorBox.getSpaceList().stream()
+                    .map(BoxSpace::getContents).filter(o -> o instanceof List<?>)
+                    .map(list -> (List<?>) list)
+                    .flatMap(Collection::stream)
+                    .filter(o -> o instanceof BigDecimal)
+                    .map(o -> (BigDecimal) o)
+                    .map(bigDecimal -> {
+                        int scale = bigDecimal.scale();
+                        if (scale > 2) {
+                            return Integer.parseInt(bigDecimal.toString().substring(2, 3));
+                        } else {
+                            return 0;
+                        }
+                    }).filter(integer -> integer != 0)).findAny().map(integer -> "あった" + integer).orElse("ないよ");
 //                .findFirst().map(bigDecimal -> "あったよ" + bigDecimal).orElse("なかったよ");
         log(log);
 

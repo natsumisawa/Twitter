@@ -23,15 +23,14 @@ public class SawaEx1StreamNumberTest extends ColorBoxTestCase {
     public void test_findMax() {
         // done sawa 「.flatMap(colorBox -> colorBox.getSpaceList().stream() ...」のあたりがネストしていて見づらい。修正してみよう！ by hakiba (2017/05/30)
         // TODO [コメント] sawa 解釈あってますでしょうか>< by sawa (2017/05/30)
-        // TODO sawa 違うかなぁ。flatMap(...)の中でmapしてfilterまでしてるからつらい...一回flatMap(colorBox -> colorBox.getSpaceList().stream())として, そのあとにmap, filterしてみましょう。flatMapはあくまで新しいStreamに展開するまでの役割に徹底させたほうがコードが読みやすくなる。あとで少し口頭で話しましょう。 by hakiba (2017/05/31)
+        // TODO done sawa 違うかなぁ。flatMap(...)の中でmapしてfilterまでしてるからつらい...一回flatMap(colorBox -> colorBox.getSpaceList().stream())として, そのあとにmap, filterしてみましょう。flatMapはあくまで新しいStreamに展開するまでの役割に徹底させたほうがコードが読みやすくなる。あとで少し口頭で話しましょう。 by hakiba (2017/05/31)
+        // TODO [コメント] sawa こちら理解できました！flatMap使いこなせそうです by sawa (2017/05/31)
         String log = getColorBoxList().stream()
                 .filter(colorBox -> colorBox.getColor().getColorName().equals("blue"))
-                .flatMap(colorBox -> colorBox
-                        .getSpaceList().stream()
-                        .map(BoxSpace::getContents)
-                        .filter(obj -> obj instanceof Map<?, ?>))
-                .flatMap(map -> ((Map<?, ?>) map)
-                        .entrySet().stream())
+                .flatMap(colorBox -> colorBox.getSpaceList().stream())
+                .map(BoxSpace::getContents)
+                .filter(obj -> obj instanceof Map<?, ?>)
+                .flatMap(map -> ((Map<?, ?>) map).entrySet().stream())
                 .max(Comparator.comparing(entry -> (Integer) entry.getValue()))
                 .map(entry -> "青色のカラーボックスに入ってる Map の中の商品で一番高いものは" + entry.getKey() + "です")
                 .orElse("青色のカラーボックスに入ってる Map はありません");
@@ -61,25 +60,23 @@ public class SawaEx1StreamNumberTest extends ColorBoxTestCase {
     public void test_sumBigDecimal() {
         // done sawa 【修行】Optional<BigDecimal>で受け取っているから加算するときの処理が冗長。BigDecimalで受け取るようにしてみよう！（ヒント: OptionalクラスにはorElseというメソッドがある。） by hakiba (2017/05/30)
         // done sawa 俺のintelliJだとlistBdOptを取得しているところでコンパイルエラーになる。多分Listにキャストするときに, List<?>ではなくListにキャストしているから by hakiba (2017/05/30)
-        BigDecimal listContentBd = getColorBoxList().stream().flatMap(colorBox -> colorBox.getSpaceList().stream())
+        BigDecimal listContentBd = getColorBoxList().stream()
+                .flatMap(colorBox -> colorBox.getSpaceList().stream())
                 .map(BoxSpace::getContents)
                 .filter(content -> content instanceof List<?>)
                 .map(listContent -> (List<?>) listContent)
                 .flatMap(Collection::stream)
                 .filter(list -> list instanceof BigDecimal)
                 .map(content -> (BigDecimal) content)
-                .reduce(BigDecimal::add).orElse(BigDecimal.ZERO);
-        BigDecimal contentBd = getColorBoxList().stream().flatMap(colorBox -> colorBox.getSpaceList().stream())
+                .reduce(BigDecimal.ZERO, (BigDecimal::add));
+        BigDecimal contentBd = getColorBoxList().stream()
+                .flatMap(colorBox -> colorBox.getSpaceList().stream())
                 .map(BoxSpace::getContents)
                 .filter(contents -> contents instanceof BigDecimal)
                 .map(bdContent -> (BigDecimal) bdContent)
-                .reduce(BigDecimal::add).orElse(BigDecimal.ZERO);
+                .reduce(BigDecimal.ZERO, (BigDecimal::add));
         BigDecimal bdSum = listContentBd.add(contentBd);
-        // TODO sawa ちょっと揚げ足を取るようなかんじになってしまうけど, もしかしたらBigDecimal型で0が入ってる可能性もあって, その場合は「カラーボックスの中に BigDecimal は入っていません」っていうログ表示はおかしくない？ by hakiba (2017/05/31)
-        if (bdSum.equals(BigDecimal.ZERO)) {
-            log("カラーボックスの中に BigDecimal は入っていません");
-        } else {
-            log("カラーボックスの中に入ってる BigDecimal を全て足し合わせると" + bdSum + "です");
-        }
+        // TODO done sawa ちょっと揚げ足を取るようなかんじになってしまうけど, もしかしたらBigDecimal型で0が入ってる可能性もあって, その場合は「カラーボックスの中に BigDecimal は入っていません」っていうログ表示はおかしくない？ by hakiba (2017/05/31)
+        log("カラーボックスの中に入ってる BigDecimal を全て足し合わせると" + bdSum + "です");
     }
 }
