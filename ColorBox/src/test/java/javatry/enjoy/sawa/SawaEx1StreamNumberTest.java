@@ -25,9 +25,9 @@ public class SawaEx1StreamNumberTest extends ColorBoxTestCase {
      */
     public void test_findMax() {
         // done sawa 「.flatMap(colorBox -> colorBox.getSpaceList().stream() ...」のあたりがネストしていて見づらい。修正してみよう！ by hakiba (2017/05/30)
-        // TODO [コメント] sawa 解釈あってますでしょうか>< by sawa (2017/05/30)
-        // TODO done sawa 違うかなぁ。flatMap(...)の中でmapしてfilterまでしてるからつらい...一回flatMap(colorBox -> colorBox.getSpaceList().stream())として, そのあとにmap, filterしてみましょう。flatMapはあくまで新しいStreamに展開するまでの役割に徹底させたほうがコードが読みやすくなる。あとで少し口頭で話しましょう。 by hakiba (2017/05/31)
-        // TODO [コメント] sawa こちら理解できました！flatMap使いこなせそうです by sawa (2017/05/31)
+        // [コメント] sawa 解釈あってますでしょうか>< by sawa (2017/05/30)
+        // done sawa 違うかなぁ。flatMap(...)の中でmapしてfilterまでしてるからつらい...一回flatMap(colorBox -> colorBox.getSpaceList().stream())として, そのあとにmap, filterしてみましょう。flatMapはあくまで新しいStreamに展開するまでの役割に徹底させたほうがコードが読みやすくなる。あとで少し口頭で話しましょう。 by hakiba (2017/05/31)
+        // [コメント] sawa こちら理解できました！flatMap使いこなせそうです by sawa (2017/05/31)
         String log = getColorBoxList().stream()
                 .filter(colorBox -> colorBox.getColor().getColorName().equals("blue"))
                 .flatMap(colorBox -> colorBox.getSpaceList().stream())
@@ -81,7 +81,7 @@ public class SawaEx1StreamNumberTest extends ColorBoxTestCase {
                 .map(bdContent -> (BigDecimal) bdContent)
                 .reduce(BigDecimal.ZERO, (BigDecimal::add));
         BigDecimal bdSum = listContentBd.add(contentBd);
-        // TODO done sawa ちょっと揚げ足を取るようなかんじになってしまうけど, もしかしたらBigDecimal型で0が入ってる可能性もあって, その場合は「カラーボックスの中に BigDecimal は入っていません」っていうログ表示はおかしくない？ by hakiba (2017/05/31)
+        // done sawa ちょっと揚げ足を取るようなかんじになってしまうけど, もしかしたらBigDecimal型で0が入ってる可能性もあって, その場合は「カラーボックスの中に BigDecimal は入っていません」っていうログ表示はおかしくない？ by hakiba (2017/05/31)
         log("カラーボックスの中に入ってる BigDecimal を全て足し合わせると" + bdSum + "です");
     }
 }
