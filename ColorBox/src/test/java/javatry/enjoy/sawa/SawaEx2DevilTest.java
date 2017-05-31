@@ -1,5 +1,6 @@
 package javatry.enjoy.sawa;
 
+import javatry.colorbox.ColorBox;
 import javatry.colorbox.size.BoxSize;
 import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
@@ -7,6 +8,9 @@ import javatry.colorbox.unit.ColorBoxTestCase;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * デビルテスト。<br>
@@ -31,6 +35,37 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
      * nullを含んでいるカラーボックスの色の名前の3文字目の文字で色の名前が終わっているカラーボックスの深さの十の位の数字が小数点第二桁目になっているスペースの中のリストの中のBigDecimalの一の位の数字と同じ色の長さのカラーボックスの一番下のスペースに入っているものは？
      */
     public void test_devil2() {
+        //こちら本番コード
+        Stream<Integer> oneClass = getColorBoxList().stream()
+            .flatMap(colorBox -> colorBox.getSpaceList().stream()
+                .map(BoxSpace::getContents).filter(o -> o instanceof List<?>)
+                .map(list -> (List<?>) list)
+                .flatMap(Collection::stream)
+                .filter(o -> o instanceof BigDecimal)
+                .map(o -> (BigDecimal) o)
+                .map(bigDecimal -> {
+                    int scale = bigDecimal.scale();
+                    if (scale > 2) {
+                        return Integer.parseInt(bigDecimal.toString().substring(2, 3));
+                    } else {
+                        return -1;
+                    }
+                }).filter(integer -> integer != -1));
+
+        log(oneClass.findFirst().get());
+
+
+        Optional<Integer> tenClass = getColorBoxList().stream().filter(colorBox -> colorBox.getSpaceList().stream().map(BoxSpace::getContents) == null).filter(colorBox -> colorBox.getColor().getColorName().length() == 3)
+            .map(colorBox -> Integer.parseInt(new StringBuffer(String.valueOf(colorBox.getSize().getDepth())).reverse().toString().substring(1))).findAny();
+
+        if (tenClass.isPresent()) {
+            log(tenClass.get());
+            Optional<Integer> match = oneClass.filter(integer -> integer.equals(tenClass.get())).findFirst();
+            if (match.isPresent()) {
+                log(match.get());
+            }
+        }
+
 //        getColorBoxList().stream().filter(colorBox -> colorBox.getSpaceList().stream().map(BoxSpace::getContents) == null)
 //                .filter(colorBox -> colorBox.getColor().getColorName().length() == 3)
 //                .filter(colorBox -> colorBox.getSize().getDepth() / 10 ==
@@ -50,29 +85,36 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
 
 
 //        深さの十の位をとってきているよ  --->  3だった
-//        String log = getColorBoxList().stream().map(colorBox -> Integer.parseInt(new StringBuffer(String.valueOf(colorBox.getSize().getDepth())).reverse().toString().substring(1))).findFirst().map(integer -> "あったよ" + integer).orElse("ないよ");
-//        log(log);
+
+//        nullを含んでいるカラーボックスの色の名前の3文字目の文字で色の名前が終わっているカラーボックスの深さの十の位の数字、まで実装したつもりだった
+        ColorBox colorBox1 = getColorBoxList().stream()
+            .filter(colorbox -> colorbox.getColor().getColorName().substring(2).equals(
+                getColorBoxList().stream()
+                    .filter(colorBox -> colorBox.getSpaceList().stream().map(BoxSpace::getContents) == null)
+                    .map(colorBox -> colorBox.getColor().getColorName().substring(2)).findFirst().get())).findFirst().get();
+        log(colorBox1.getSize().getWidth());
+
+//            .map(colorBox -> Integer.parseInt(new StringBuffer(String.valueOf(colorBox.getSize().getDepth())).reverse().toString().substring(1))).findFirst().get();
+//        log(integer);
 
         //小数点第二桁目があるbdの最初の一つ目をとってるよ   ---> 1がでる
-        String log = getColorBoxList().stream()
-                    .flatMap(colorBox -> colorBox.getSpaceList().stream()
-                    .map(BoxSpace::getContents).filter(o -> o instanceof List<?>)
-                    .map(list -> (List<?>) list)
-                    .flatMap(Collection::stream)
-                    .filter(o -> o instanceof BigDecimal)
-                    .map(o -> (BigDecimal) o)
-                    .map(bigDecimal -> {
-                        int scale = bigDecimal.scale();
-                        if (scale > 2) {
-                            return Integer.parseInt(bigDecimal.toString().substring(2, 3));
-                        } else {
-                            return 0;
-                        }
-                    }).filter(integer -> integer != 0)).findAny().map(integer -> "あった" + integer).orElse("ないよ");
-//                .findFirst().map(bigDecimal -> "あったよ" + bigDecimal).orElse("なかったよ");
-        log(log);
-
-        log((new BigDecimal("3.14159")).scale());
+//        String log = getColorBoxList().stream()
+//                    .flatMap(colorBox -> colorBox.getSpaceList().stream()
+//                    .map(BoxSpace::getContents).filter(o -> o instanceof List<?>)
+//                    .map(list -> (List<?>) list)
+//                    .flatMap(Collection::stream)
+//                    .filter(o -> o instanceof BigDecimal)
+//                    .map(o -> (BigDecimal) o)
+//                    .map(bigDecimal -> {
+//                        int scale = bigDecimal.scale();
+//                        if (scale > 2) {
+//                            return Integer.parseInt(bigDecimal.toString().substring(2, 3));
+//                        } else {
+//                            return 0;
+//                        }
+//                    }).filter(integer -> integer != 0)).findAny().map(integer -> "あった" + integer).orElse("ないよ");
+////                .findFirst().map(bigDecimal -> "あったよ" + bigDecimal).orElse("なかったよ");
+//        log(log);
 
         //保持しておくよ
 //        String log = getColorBoxList().stream().filter(colorBox -> colorBox.getSpaceList().stream().map(BoxSpace::getContents) == null)
