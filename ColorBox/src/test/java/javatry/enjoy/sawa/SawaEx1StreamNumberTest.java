@@ -4,19 +4,22 @@ import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
 
 import java.math.BigDecimal;
-import java.util.Map;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Collection;
+import java.util.Map;
+
 /**
  * 数値関連のテスト。<br>
  * 何々は？と言われたら、それに該当するものをログに出力すること。
+ *
  * @author sawa
  */
 public class SawaEx1StreamNumberTest extends ColorBoxTestCase {
     // ===================================================================================
     //                                                                           Good Luck
     //                                                                           =========
+
     /**
      * 青色のカラーボックスに入ってる Map の中の商品で一番高いものは？
      */
@@ -31,6 +34,7 @@ public class SawaEx1StreamNumberTest extends ColorBoxTestCase {
                 .map(BoxSpace::getContents)
                 .filter(obj -> obj instanceof Map<?, ?>)
                 .flatMap(map -> ((Map<?, ?>) map).entrySet().stream())
+                .filter(entry -> entry.getValue() instanceof Integer)
                 .max(Comparator.comparing(entry -> (Integer) entry.getValue()))
                 .map(entry -> "青色のカラーボックスに入ってる Map の中の商品で一番高いものは" + entry.getKey() + "です")
                 .orElse("青色のカラーボックスに入ってる Map はありません");
