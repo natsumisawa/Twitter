@@ -33,9 +33,10 @@ public class SawaEx1StreamNumberTest extends ColorBoxTestCase {
                 .flatMap(colorBox -> colorBox.getSpaceList().stream())
                 .map(BoxSpace::getContents)
                 .filter(obj -> obj instanceof Map<?, ?>)
+                .map(o -> (Map<?, ?>) o)
                 .flatMap(map -> ((Map<?, ?>) map).entrySet().stream())
-                .filter(entry -> entry.getValue() instanceof Integer)
-                .max(Comparator.comparing(entry -> (Integer) entry.getValue()))
+                .filter(entry -> entry.getValue() instanceof Number)
+                .max(Comparator.comparing(entry -> ((Number)(entry.getValue())).intValue()))
                 .map(entry -> "青色のカラーボックスに入ってる Map の中の商品で一番高いものは" + entry.getKey() + "です")
                 .orElse("青色のカラーボックスに入ってる Map はありません");
         log(log);
