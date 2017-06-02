@@ -6,6 +6,7 @@ import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
 import org.omg.CORBA.IMP_LIMIT;
 
+import java.io.*;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
@@ -101,6 +102,35 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
      * 書いたのち、コピー元、コピー先それぞれの中身を表示し、差がないことを確認してください。
      */
     public void test_devil3() {
+        getColorBoxList().stream()
+            .flatMap(colorbox -> colorbox.getSpaceList().stream())
+            .map(BoxSpace::getContents)
+            .filter(o -> o instanceof File)
+            .map(o -> (File) o)
+            .map(file -> {
+                try {
+                    BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+                    bw.write("2017/06/01, 澤なつみ(つんく♀), 本日は久保さんdayです");
+                    return file;
+                } catch (IOException e) {
+                    return null;
+                }
+            })
+        .map(file -> {
+            try {
+                File newFile = new File("jflute.txt");
+                BufferedReader br = new BufferedReader(new FileReader(file));
+                BufferedWriter bw = new BufferedWriter(new FileWriter(newFile));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    bw.write(line);
+                    log(line);
+                }
+                return newFile;
+            } catch (Exception e) {
+                return null;
+            }
+        });
     }
 
 }
