@@ -27,4 +27,7 @@ public class test extends ColorBoxTestCase {
             .orElse("青色のカラーボックスに入ってる Map はありません");
         log(log2);
     }
+
+
+    //yeah
 }
