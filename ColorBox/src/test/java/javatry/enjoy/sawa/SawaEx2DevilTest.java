@@ -105,7 +105,7 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
      * 書いたのち、コピー元、コピー先それぞれの中身を表示し、差がないことを確認してください。
      */
     public void test_devil3() {
-        getColorBoxList().stream()
+        File file1 = getColorBoxList().stream()
             .flatMap(colorbox -> colorbox.getSpaceList().stream())
             .map(BoxSpace::getContents)
             .filter(o -> o instanceof File)
@@ -119,25 +119,30 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
                     return null;
                 }
             })
-            .forEach(file -> {
-                    Path sourcePath = FileSystems.getDefault().getPath("/tmp/jflute.txt");
-                    Path targetPath = FileSystems.getDefault().getPath("copy.txt");
-                    try {
-                        Files.copy(sourcePath, targetPath);
-                        File sourceFile = new File("/tmp/jflute.txt");
-                        File targetFile = new File("copy.txt");
-                        BufferedReader sourceBr = new BufferedReader(new FileReader(sourceFile));
-                        BufferedReader targetBr = new BufferedReader(new FileReader(sourceFile));
-                        log(sourceBr.readLine());
-                        log(targetBr.readLine());
-                    } catch (IOException e) {
-                        log("ファイルがコピーできませんでした");
-                    }
-                }
-            );
+            .findFirst().get();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file1));
+            log(br.readLine());
+        } catch (IOException e) {
+
+        }
     }
-
-
+//            .forEach(file -> {
+//                    Path sourcePath = FileSystems.getDefault().getPath("/tmp/jflute.txt");
+//                    Path targetPath = FileSystems.getDefault().getPath("copy.txt");
+//                    try {
+//                        Files.copy(sourcePath, targetPath);
+//                        File sourceFile = new File("/tmp/jflute.txt");
+//                        File targetFile = new File("copy.txt");
+//                        BufferedReader sourceBr = new BufferedReader(new FileReader(sourceFile));
+//                        BufferedReader targetBr = new BufferedReader(new FileReader(sourceFile));
+//                        log(sourceBr.readLine());
+//                        log(targetBr.readLine());
+//                    } catch (IOException e) {
+//                        log("ファイルがコピーできませんでした");
+//                    }
+//                }
+//            );
 //            try {
 //                File newFile = new File("jflute.txt");
 //                BufferedReader br = new BufferedReader(new FileReader(file));
