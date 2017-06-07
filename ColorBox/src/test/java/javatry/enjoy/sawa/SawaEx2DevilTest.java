@@ -8,6 +8,9 @@ import org.omg.CORBA.IMP_LIMIT;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -116,21 +119,35 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
                     return null;
                 }
             })
-        .map(file -> {
-            try {
-                File newFile = new File("jflute.txt");
-                BufferedReader br = new BufferedReader(new FileReader(file));
-                BufferedWriter bw = new BufferedWriter(new FileWriter(newFile));
-                String line;
-                while ((line = br.readLine()) != null) {
-                    bw.write(line);
-                    log(line);
+            .forEach(file -> {
+                    Path sourcePath = FileSystems.getDefault().getPath("/tmp/jflute.txt");
+                    Path targetPath = FileSystems.getDefault().getPath("copy.txt");
+                    try {
+                        Files.copy(sourcePath, targetPath);
+                        File sourceFile = new File("/tmp/jflute.txt");
+                        File targetFile = new File("copy.txt");
+                        BufferedReader sourceBr = new BufferedReader(new FileReader(sourceFile));
+                        BufferedReader targetBr = new BufferedReader(new FileReader(sourceFile));
+                        log(sourceBr.readLine());
+                        log(targetBr.readLine());
+                    } catch (IOException e) {
+                        log("ファイルがコピーできませんでした");
+                    }
                 }
-                return newFile;
-            } catch (Exception e) {
-                return null;
-            }
-        });
+            );
     }
 
+
+//            try {
+//                File newFile = new File("jflute.txt");
+//                BufferedReader br = new BufferedReader(new FileReader(file));
+//                BufferedWriter bw = new BufferedWriter(new FileWriter(newFile));
+//                String line;
+//                while ((line = br.readLine()) != null) {
+//                    bw.write(line);
+//                    log(line);
+//                }
+//                return newFile;
+//            } catch (Exception e) {
+//                return null;
 }
