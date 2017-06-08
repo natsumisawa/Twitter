@@ -1,27 +1,25 @@
 package javatry.enjoy.sawa;
 
-import javatry.colorbox.ColorBox;
-import javatry.colorbox.size.BoxSize;
+import javatry.colorbox.AbstractColorBox;
 import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
-import org.omg.CORBA.IMP_LIMIT;
 
 import java.io.*;
 import java.math.BigDecimal;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * デビルテスト。<br>
  * 何かやれって言われたらやること。
- * @author ikezaki
+ *
+ * @author sawa
  */
 public class SawaEx2DevilTest extends ColorBoxTestCase {
 
@@ -30,11 +28,17 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
      */
     public void test_devil1() {
         getColorBoxList().stream().filter(colorBox -> colorBox.getColor().getColorName().equals("red"))
-                .flatMap(colorBox -> colorBox.getSpaceList().stream())
-                .map(BoxSpace::getSize)
-                .map(BoxSize::getHeight)
-                .map(height -> 160)
-                .forEach(newHeight -> log("高さを" + newHeight + "に変更しました"));
+            .map(colorBox -> {
+                try {
+                    Class<AbstractColorBox> reflection = AbstractColorBox.class;
+                    return reflection.getDeclaredField("size");
+                } catch (NoSuchFieldException e) {
+                    log("クラスが生成できませんでした");
+                    return null;
+                }
+            })
+            .map(field -> 160)
+            .forEach(height -> log("高さを" + height + "に変更しました"));
     }
 
     /**
@@ -49,10 +53,9 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
                     .filter(colorBox -> colorBox.getSpaceList().stream().map(BoxSpace::getContents).anyMatch(Objects::isNull))
                     .map(colorBox -> colorBox.getColor().getColorName().substring(2, 3)).anyMatch(s -> s.equals(endChar));
             })
-          //ここまでで「nullを含んでいるカラーボックスの色の名前の3文字目の文字で色の名前が終わっているカラーボックス」が取れた -> blue
+            //ここまでで「nullを含んでいるカラーボックスの色の名前の3文字目の文字で色の名前が終わっているカラーボックス」を取得 -> blue
             .map(colorBox -> {
                 Integer depthNum = Integer.parseInt(new StringBuffer(String.valueOf(colorBox.getSize().getDepth())).reverse().toString().substring(1));
-                // i = 4
                 return getColorBoxList().stream()
                     .flatMap(box -> box.getSpaceList().stream())
                     .map(BoxSpace::getContents)
@@ -73,39 +76,38 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
                 .map(BoxSpace::getContents).findFirst();
             finalOpt.ifPresent(this::log);
         }
-
-        //カラーボックスの深さの十の位の数字
-        //Integer integer = getColorBoxList().stream().map(colorBox -> Integer.parseInt(new StringBuffer(String.valueOf(colorBox.getSize().getDepth())).reverse().toString().substring(1))).findFirst().get();
-        //log(integer);
-
-        //小数第二位より大きいbd
-        //List<Integer> collect = getColorBoxList().stream().flatMap(box -> box.getSpaceList().stream())
-        //    .map(BoxSpace::getContents)
-        //    .filter(o -> o instanceof List<?>)
-        //    .map(list -> (List<?>) list)
-        //    .flatMap(Collection::stream)
-        //    .filter(o -> o instanceof BigDecimal)
-        //    .map(o -> (BigDecimal) o)
-        //    .filter(bigDecimal -> bigDecimal.scale() >= 2)
-        //    .map(bigDecimal -> Integer.parseInt(bigDecimal.toString().substring(2, 3))).collect(Collectors.toList());
-        //for (Integer i: collect) {
-        //    log(i);
-        //}
-
-        //nullを含んでいるカラーボックスの色の名前の3文字目
-        //String s = getColorBoxList().stream()
-        //    .filter(colorBox -> colorBox.getSpaceList().stream().map(BoxSpace::getContents).anyMatch(Objects::isNull))
-        //    .map(colorBox -> colorBox.getColor().getColorName().substring(2, 3)).findFirst().get();
-        //log(s);
     }
-    
+
+    //¬¬¬¬¬¬¬¬¬¬¬¬思い出コード¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+    //カラーボックスの深さの十の位の数字
+    //Integer integer = getColorBoxList().stream().map(colorBox -> Integer.parseInt(new StringBuffer(String.valueOf(colorBox.getSize().getDepth())).reverse().toString().substring(1))).findFirst().get();
+    //log(integer);
+    //小数第二位より大きいbd
+    //List<Integer> collect = getColorBoxList().stream().flatMap(box -> box.getSpaceList().stream())
+    //    .map(BoxSpace::getContents)
+    //    .filter(o -> o instanceof List<?>)
+    //    .map(list -> (List<?>) list)
+    //    .flatMap(Collection::stream)
+    //    .filter(o -> o instanceof BigDecimal)
+    //    .map(o -> (BigDecimal) o)
+    //    .filter(bigDecimal -> bigDecimal.scale() >= 2)
+    //    .map(bigDecimal -> Integer.parseInt(bigDecimal.toString().substring(2, 3))).collect(Collectors.toList());
+    //for (Integer i: collect) {
+    //    log(i);
+    //}
+    //nullを含んでいるカラーボックスの色の名前の3文字目
+    //String s = getColorBoxList().stream()
+    //    .filter(colorBox -> colorBox.getSpaceList().stream().map(BoxSpace::getContents).anyMatch(Objects::isNull))
+    //    .map(colorBox -> colorBox.getColor().getColorName().substring(2, 3)).findFirst().get();
+    //log(s);
+
     /**
      * ボックスのどこかにtxtファイルが存在しています。その中身に今日の日付、名前(+あだ名)、本日学んだ内容を書いてください。<br>
      * そしてそのファイルを自分専用のディレクトリにコピーしてください。<br>
      * 書いたのち、コピー元、コピー先それぞれの中身を表示し、差がないことを確認してください。
      */
     public void test_devil3() {
-        File file1 = getColorBoxList().stream()
+        getColorBoxList().stream()
             .flatMap(colorbox -> colorbox.getSpaceList().stream())
             .map(BoxSpace::getContents)
             .filter(o -> o instanceof File)
@@ -113,46 +115,29 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
             .map(file -> {
                 try {
                     BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-                    bw.write("2017/06/01, 澤なつみ(つんく♀), 本日は久保さんdayです");
+                    bw.write(LocalDate.now().toString());
+                    bw.write("澤なつみ(つんく♀), DB設計について学習しました");
+                    bw.flush();
+                    bw.close();
                     return file;
                 } catch (IOException e) {
                     return null;
                 }
             })
-            .findFirst().get();
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file1));
-            log(br.readLine());
-        } catch (IOException e) {
-
-        }
+            .forEach(file -> {
+                Path sourcePath = FileSystems.getDefault().getPath("/tmp/jflute.txt");
+                Path targetPath = FileSystems.getDefault().getPath("copy.txt");
+                try {
+                    Files.copy(sourcePath, targetPath);
+                    File targetFile = new File("copy.txt");
+                    BufferedReader sourceBr = new BufferedReader(new FileReader(file));
+                    BufferedReader targetBr = new BufferedReader(new FileReader(targetFile));
+                    log(sourceBr.readLine());
+                    log(targetBr.readLine());
+                } catch (IOException e) {
+                    log("ファイルがコピーできませんでした");
+                }
+            }
+        );
     }
-//            .forEach(file -> {
-//                    Path sourcePath = FileSystems.getDefault().getPath("/tmp/jflute.txt");
-//                    Path targetPath = FileSystems.getDefault().getPath("copy.txt");
-//                    try {
-//                        Files.copy(sourcePath, targetPath);
-//                        File sourceFile = new File("/tmp/jflute.txt");
-//                        File targetFile = new File("copy.txt");
-//                        BufferedReader sourceBr = new BufferedReader(new FileReader(sourceFile));
-//                        BufferedReader targetBr = new BufferedReader(new FileReader(sourceFile));
-//                        log(sourceBr.readLine());
-//                        log(targetBr.readLine());
-//                    } catch (IOException e) {
-//                        log("ファイルがコピーできませんでした");
-//                    }
-//                }
-//            );
-//            try {
-//                File newFile = new File("jflute.txt");
-//                BufferedReader br = new BufferedReader(new FileReader(file));
-//                BufferedWriter bw = new BufferedWriter(new FileWriter(newFile));
-//                String line;
-//                while ((line = br.readLine()) != null) {
-//                    bw.write(line);
-//                    log(line);
-//                }
-//                return newFile;
-//            } catch (Exception e) {
-//                return null;
 }
