@@ -4,7 +4,12 @@ import javatry.colorbox.AbstractColorBox;
 import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -33,10 +38,13 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
                     Class<AbstractColorBox> reflection = AbstractColorBox.class;
                     return reflection.getDeclaredField("size");
                 } catch (NoSuchFieldException e) {
+                    // TODO sawa NoSuchFieldExceptionだからクラス生成できなかったわけじゃないかなー by tominaga (2017/06/09)
+                    // TODO sawa 例外が出たときはどんなエラーがでたらもログに出力してあげよう e.g. log("デバッグ用メッセージ", e) by tominaga (2017/06/09)
                     log("クラスが生成できませんでした");
                     return null;
                 }
             })
+            // TODO sawa これだとリフレクション使って「height」の変更できてないよぅ「ColorBox」のフィールド「Sizeクラス」を160に変更してそのままログ出力されているように見える by tominaga (2017/06/09)
             .map(field -> 160)
             .forEach(height -> log("高さを" + height + "に変更しました"));
     }
@@ -68,14 +76,17 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
                     .filter(bigDecimal -> Integer.parseInt(bigDecimal.toString().substring(3, 4)) == depthNum)
                     .map(bigDecimal -> Integer.parseInt(bigDecimal.toString().substring(0, 1)))
                     .findFirst()
+                    // TODO sawa findFirstはnullの要素の場合、NullPointerExceptionが起きるからorElse(null) するのはやめよう by tominaga (2017/06/09)
                     .orElse(null);
             }).findFirst();
         if (onesPlaceOpt.isPresent()) {
             Optional<Object> finalOpt = getColorBoxList().stream().filter(box -> box.getColor().getColorName().length() == onesPlaceOpt.get())
                 .flatMap(colorBox -> colorBox.getSpaceList().stream())
                 .map(BoxSpace::getContents).findFirst();
+            // TODO sawa もうちょっと丁寧にログ出力してあげよう by tominaga (2017/06/09)
             finalOpt.ifPresent(this::log);
         }
+        // TODO sawa 該当するデータがない場合はその旨をログに出力してあげよう by tominaga (2017/06/09)
     }
 
     //¬¬¬¬¬¬¬¬¬¬¬¬思い出コード¬¬¬¬¬¬¬¬¬¬¬¬¬¬
@@ -121,6 +132,7 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
                     bw.close();
                     return file;
                 } catch (IOException e) {
+                    // TODO sawa 例外が起きたときはその内容もログに出力してあげよう (e.g. log("デバッグ用メッセージ", e) by tominaga (2017/06/09)
                     return null;
                 }
             })
@@ -128,13 +140,16 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
                 Path sourcePath = FileSystems.getDefault().getPath("/tmp/jflute.txt");
                 Path targetPath = FileSystems.getDefault().getPath("copy.txt");
                 try {
+                    // TODO sawa ファイルが存在するときは上書きするようにしよう by tominaga (2017/06/09)
                     Files.copy(sourcePath, targetPath);
                     File targetFile = new File("copy.txt");
                     BufferedReader sourceBr = new BufferedReader(new FileReader(file));
                     BufferedReader targetBr = new BufferedReader(new FileReader(targetFile));
+                    // TODO sawa もうちょっと丁寧にログ出力してあげよう by tominaga (2017/06/09)
                     log(sourceBr.readLine());
                     log(targetBr.readLine());
                 } catch (IOException e) {
+                    // TODO sawa 例外が起きたときはその内容もログに出力してあげよう (e.g. log("デバッグ用メッセージ", e) by tominaga (2017/06/09)
                     log("ファイルがコピーできませんでした");
                 }
             }
