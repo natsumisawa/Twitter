@@ -1,6 +1,7 @@
 package javatry.enjoy.sawa;
 
 import javatry.colorbox.AbstractColorBox;
+import javatry.colorbox.size.BoxSize;
 import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
 
@@ -10,6 +11,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -35,17 +37,22 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
         getColorBoxList().stream().filter(colorBox -> colorBox.getColor().getColorName().equals("red"))
             .map(colorBox -> {
                 try {
-                    Class<AbstractColorBox> reflection = AbstractColorBox.class;
-                    return reflection.getDeclaredField("size");
+                    Class<BoxSize> reflection = BoxSize.class;
+                    Field height = reflection.getDeclaredField("height");
+                    log("あったよん");
+                    height.set(, 160);
+                    return height.get(reflection);
                 } catch (NoSuchFieldException e) {
-                    // TODO sawa NoSuchFieldExceptionだからクラス生成できなかったわけじゃないかなー by tominaga (2017/06/09)
-                    // TODO sawa 例外が出たときはどんなエラーがでたらもログに出力してあげよう e.g. log("デバッグ用メッセージ", e) by tominaga (2017/06/09)
-                    log("クラスが生成できませんでした");
+                    // TODO done sawa NoSuchFieldExceptionだからクラス生成できなかったわけじゃないかなー by tominaga (2017/06/09)
+                    // TODO done sawa 例外が出たときはどんなエラーがでたらもログに出力してあげよう e.g. log("デバッグ用メッセージ", e) by tominaga (2017/06/09)
+                    log("フィールドがありませんでした", e);
+                    return null;
+                } catch (IllegalAccessException e) {
+                    log("オブジェクトがおかしい", e);
                     return null;
                 }
             })
             // TODO sawa これだとリフレクション使って「height」の変更できてないよぅ「ColorBox」のフィールド「Sizeクラス」を160に変更してそのままログ出力されているように見える by tominaga (2017/06/09)
-            .map(field -> 160)
             .forEach(height -> log("高さを" + height + "に変更しました"));
     }
 
