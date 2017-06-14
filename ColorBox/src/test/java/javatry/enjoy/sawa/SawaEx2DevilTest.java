@@ -1,6 +1,7 @@
 package javatry.enjoy.sawa;
 
 import javatry.colorbox.AbstractColorBox;
+import javatry.colorbox.ColorBox;
 import javatry.colorbox.size.BoxSize;
 import javatry.colorbox.space.BoxSpace;
 import javatry.colorbox.unit.ColorBoxTestCase;
@@ -12,6 +13,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -21,6 +23,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * デビルテスト。<br>
@@ -34,27 +37,30 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
      * (このテストメソッドの中だけで) 赤いカラーボックスの高さを 160 に変更せよ
      */
     public void test_devil1() {
-        getColorBoxList().stream().filter(colorBox -> colorBox.getColor().getColorName().equals("red"))
-            .map(colorBox -> {
+        List<ColorBox> redBoxList = getColorBoxList().stream()
+            .filter(colorBox -> colorBox.getColor().getColorName().equals("red"))
+            .collect(Collectors.toList());
+        for (ColorBox box: redBoxList) {
+            log("変更前の赤いカラーボックスの高さは" + box.getSize().getHeight());
+            AbstractColorBox abstractColorBox = (AbstractColorBox) box;
+            Class<AbstractColorBox> abstractColorBoxClass = AbstractColorBox.class;
+            Field boxField;
+            try {boxField = abstractColorBoxClass.getDeclaredField("size");
+                boxField.setAccessible(true);
+                BoxSize boxSize = abstractColorBox.getSize();
+                BoxSize upDateHeightSize = new BoxSize(160, boxSize.getWidth(), boxSize.getWidth());
                 try {
-                    Class<BoxSize> reflection = BoxSize.class;
-                    Field height = reflection.getDeclaredField("height");
-                    log("あったよん");
-                    height.set(, 160);
-                    return height.get(reflection);
-                } catch (NoSuchFieldException e) {
-                    // TODO done sawa NoSuchFieldExceptionだからクラス生成できなかったわけじゃないかなー by tominaga (2017/06/09)
-                    // TODO done sawa 例外が出たときはどんなエラーがでたらもログに出力してあげよう e.g. log("デバッグ用メッセージ", e) by tominaga (2017/06/09)
-                    log("フィールドがありませんでした", e);
-                    return null;
+                    boxField.set(abstractColorBox, upDateHeightSize);
                 } catch (IllegalAccessException e) {
-                    log("オブジェクトがおかしい", e);
-                    return null;
+                    log("値を変更できませんでした", e);
                 }
-            })
-            // TODO sawa これだとリフレクション使って「height」の変更できてないよぅ「ColorBox」のフィールド「Sizeクラス」を160に変更してそのままログ出力されているように見える by tominaga (2017/06/09)
-            .forEach(height -> log("高さを" + height + "に変更しました"));
-    }
+            } catch (NoSuchFieldException e) {
+                log("sizeフィールドが見つかりませんでした", e);
+            }
+            log("変更後の赤いカラーボックスの高さは" + box.getSize().getHeight());
+            }
+        }
+    // TODO done sawa これだとリフレクション使って「height」の変更できてないよぅ「ColorBox」のフィールド「Sizeクラス」を160に変更してそのままログ出力されているように見える by tominaga (2017/06/09)
 
     /**
      * nullを含んでいるカラーボックスの色の名前の3文字目の文字で色の名前が終わっているカラーボックスの深さの十の位の数字が小数点第二桁目になっているスペースの中のリストの中のBigDecimalの一の位の数字と同じ色の長さのカラーボックスの一番下のスペースに入っているものは？
@@ -71,7 +77,7 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
             //ここまでで「nullを含んでいるカラーボックスの色の名前の3文字目の文字で色の名前が終わっているカラーボックス」を取得 -> blue
             .map(colorBox -> {
                 Integer depthNum = Integer.parseInt(new StringBuffer(String.valueOf(colorBox.getSize().getDepth())).reverse().toString().substring(1));
-                return getColorBoxList().stream()
+                Optional<Integer> first = getColorBoxList().stream()
                     .flatMap(box -> box.getSpaceList().stream())
                     .map(BoxSpace::getContents)
                     .filter(o -> o instanceof List<?>)
@@ -82,10 +88,10 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
                     .filter(bigDecimal -> bigDecimal.scale() >= 2)
                     .filter(bigDecimal -> Integer.parseInt(bigDecimal.toString().substring(3, 4)) == depthNum)
                     .map(bigDecimal -> Integer.parseInt(bigDecimal.toString().substring(0, 1)))
-                    .findFirst()
-                    // TODO sawa findFirstはnullの要素の場合、NullPointerExceptionが起きるからorElse(null) するのはやめよう by tominaga (2017/06/09)
-                    .orElse(null);
-            }).findFirst();
+                    .findAny();
+                return first;
+                // TODO sawa findFirstはnullの要素の場合、NullPointerExceptionが起きるからorElse(null) するのはやめよう by tominaga (2017/06/09)
+            }).findFirst().orElse(null);
         if (onesPlaceOpt.isPresent()) {
             Optional<Object> finalOpt = getColorBoxList().stream().filter(box -> box.getColor().getColorName().length() == onesPlaceOpt.get())
                 .flatMap(colorBox -> colorBox.getSpaceList().stream())
