@@ -15,9 +15,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.*;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
@@ -55,7 +53,7 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
                     log("値を変更できませんでした", e);
                 }
             } catch (NoSuchFieldException e) {
-                log("sizeフィールドが見つかりませんでした", e);
+                log("フィールドsizeが見つかりませんでした", e);
             }
             log("変更後の赤いカラーボックスの高さは" + box.getSize().getHeight());
             }
@@ -66,7 +64,7 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
      * nullを含んでいるカラーボックスの色の名前の3文字目の文字で色の名前が終わっているカラーボックスの深さの十の位の数字が小数点第二桁目になっているスペースの中のリストの中のBigDecimalの一の位の数字と同じ色の長さのカラーボックスの一番下のスペースに入っているものは？
      */
     public void test_devil2() {
-        Optional<Integer> onesPlaceOpt = getColorBoxList().stream()
+        List<Optional<Integer>> collectList = getColorBoxList().stream()
             .filter(colorbox -> {
                 String colorName = colorbox.getColor().getColorName();
                 String endChar = colorName.substring(colorName.length() - 1);
@@ -74,10 +72,10 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
                     .filter(colorBox -> colorBox.getSpaceList().stream().map(BoxSpace::getContents).anyMatch(Objects::isNull))
                     .map(colorBox -> colorBox.getColor().getColorName().substring(2, 3)).anyMatch(s -> s.equals(endChar));
             })
-            //ここまでで「nullを含んでいるカラーボックスの色の名前の3文字目の文字で色の名前が終わっているカラーボックス」を取得 -> blue
+            //ここまでで ~nullを含んでいるカラーボックスの色の名前の3文字目の文字で色の名前が終わっているカラーボックス~ -> blue
             .map(colorBox -> {
                 Integer depthNum = Integer.parseInt(new StringBuffer(String.valueOf(colorBox.getSize().getDepth())).reverse().toString().substring(1));
-                Optional<Integer> first = getColorBoxList().stream()
+                return getColorBoxList().stream()
                     .flatMap(box -> box.getSpaceList().stream())
                     .map(BoxSpace::getContents)
                     .filter(o -> o instanceof List<?>)
@@ -89,41 +87,31 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
                     .filter(bigDecimal -> Integer.parseInt(bigDecimal.toString().substring(3, 4)) == depthNum)
                     .map(bigDecimal -> Integer.parseInt(bigDecimal.toString().substring(0, 1)))
                     .findAny();
-                return first;
-                // TODO sawa findFirstはnullの要素の場合、NullPointerExceptionが起きるからorElse(null) するのはやめよう by tominaga (2017/06/09)
-            }).findFirst().orElse(null);
-        if (onesPlaceOpt.isPresent()) {
-            Optional<Object> finalOpt = getColorBoxList().stream().filter(box -> box.getColor().getColorName().length() == onesPlaceOpt.get())
-                .flatMap(colorBox -> colorBox.getSpaceList().stream())
-                .map(BoxSpace::getContents).findFirst();
-            // TODO sawa もうちょっと丁寧にログ出力してあげよう by tominaga (2017/06/09)
-            finalOpt.ifPresent(this::log);
-        }
-        // TODO sawa 該当するデータがない場合はその旨をログに出力してあげよう by tominaga (2017/06/09)
-    }
+                // ここまで ~ カラーボックスの深さの十の位の数字が小数点第二桁目になっているスペースの中のリストの中のBigDecimalの一の位の数字と同じ色 ~
+                // TODO done sawa findFirstはnullの要素の場合、NullPointerExceptionが起きるからorElse(null) するのはやめよう by tominaga (2017/06/09)
+            }).collect(Collectors.toList());
 
-    //¬¬¬¬¬¬¬¬¬¬¬¬思い出コード¬¬¬¬¬¬¬¬¬¬¬¬¬¬
-    //カラーボックスの深さの十の位の数字
-    //Integer integer = getColorBoxList().stream().map(colorBox -> Integer.parseInt(new StringBuffer(String.valueOf(colorBox.getSize().getDepth())).reverse().toString().substring(1))).findFirst().get();
-    //log(integer);
-    //小数第二位より大きいbd
-    //List<Integer> collect = getColorBoxList().stream().flatMap(box -> box.getSpaceList().stream())
-    //    .map(BoxSpace::getContents)
-    //    .filter(o -> o instanceof List<?>)
-    //    .map(list -> (List<?>) list)
-    //    .flatMap(Collection::stream)
-    //    .filter(o -> o instanceof BigDecimal)
-    //    .map(o -> (BigDecimal) o)
-    //    .filter(bigDecimal -> bigDecimal.scale() >= 2)
-    //    .map(bigDecimal -> Integer.parseInt(bigDecimal.toString().substring(2, 3))).collect(Collectors.toList());
-    //for (Integer i: collect) {
-    //    log(i);
-    //}
-    //nullを含んでいるカラーボックスの色の名前の3文字目
-    //String s = getColorBoxList().stream()
-    //    .filter(colorBox -> colorBox.getSpaceList().stream().map(BoxSpace::getContents).anyMatch(Objects::isNull))
-    //    .map(colorBox -> colorBox.getColor().getColorName().substring(2, 3)).findFirst().get();
-    //log(s);
+        if (!collectList.isEmpty()) {
+            for (Optional opt: collectList) {
+                if (opt.isPresent()){
+                    String answerLog = getColorBoxList().stream()
+                        .filter(box -> box.getColor().getColorName().length() == (Integer) opt.get())
+                        .flatMap(colorBox -> colorBox.getSpaceList().stream())
+                        .map(BoxSpace::getContents)
+                        .findAny()
+                        .map(content -> "条件に一致するデータは" + content + "です")
+                        .orElse("条件に一致するデータはありませんでした");
+                    log(answerLog);
+                    // TODO done sawa もうちょっと丁寧にログ出力してあげよう by tominaga (2017/06/09)
+                } else {
+                    log("条件に一致するデータはありませんでした");
+                }
+            }
+        } else {
+        log("条件に一致するデータはありませんでした");
+    }
+    // TODO done sawa 該当するデータがない場合はその旨をログに出力してあげよう by tominaga (2017/06/09)
+    }
 
     /**
      * ボックスのどこかにtxtファイルが存在しています。その中身に今日の日付、名前(+あだ名)、本日学んだ内容を書いてください。<br>
@@ -145,7 +133,8 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
                     bw.close();
                     return file;
                 } catch (IOException e) {
-                    // TODO sawa 例外が起きたときはその内容もログに出力してあげよう (e.g. log("デバッグ用メッセージ", e) by tominaga (2017/06/09)
+                    log("ファイルに書き込めませんでした", e);
+                    // TODO done sawa 例外が起きたときはその内容もログに出力してあげよう (e.g. log("デバッグ用メッセージ", e) by tominaga (2017/06/09)
                     return null;
                 }
             })
@@ -153,17 +142,17 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
                 Path sourcePath = FileSystems.getDefault().getPath("/tmp/jflute.txt");
                 Path targetPath = FileSystems.getDefault().getPath("copy.txt");
                 try {
-                    // TODO sawa ファイルが存在するときは上書きするようにしよう by tominaga (2017/06/09)
-                    Files.copy(sourcePath, targetPath);
+                    // TODO done sawa ファイルが存在するときは上書きするようにしよう by tominaga (2017/06/09)
+                    Files.copy(sourcePath, targetPath , StandardCopyOption.REPLACE_EXISTING);
                     File targetFile = new File("copy.txt");
                     BufferedReader sourceBr = new BufferedReader(new FileReader(file));
                     BufferedReader targetBr = new BufferedReader(new FileReader(targetFile));
-                    // TODO sawa もうちょっと丁寧にログ出力してあげよう by tominaga (2017/06/09)
-                    log(sourceBr.readLine());
-                    log(targetBr.readLine());
+                    // TODO done sawa もうちょっと丁寧にログ出力してあげよう by tominaga (2017/06/09)
+                    log("コピー元のファイルの中身：" + sourceBr.readLine());
+                    log("コピー先のファイルの中身：" + targetBr.readLine());
                 } catch (IOException e) {
-                    // TODO sawa 例外が起きたときはその内容もログに出力してあげよう (e.g. log("デバッグ用メッセージ", e) by tominaga (2017/06/09)
-                    log("ファイルがコピーできませんでした");
+                    // TODO done sawa 例外が起きたときはその内容もログに出力してあげよう (e.g. log("デバッグ用メッセージ", e) by tominaga (2017/06/09)
+                    log("ファイルがコピーできませんでした" ,e);
                 }
             }
         );
