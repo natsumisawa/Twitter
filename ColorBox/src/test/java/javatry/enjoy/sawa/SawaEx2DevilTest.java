@@ -13,9 +13,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
-import java.nio.file.*;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
@@ -56,9 +58,10 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
                 log("フィールドsizeが見つかりませんでした", e);
             }
             log("変更後の赤いカラーボックスの高さは" + box.getSize().getHeight());
+            // TODO sawa 下の2つの「{」のインデントがずれているよぅー by tominaga (2017/06/19)
             }
         }
-    // TODO done sawa これだとリフレクション使って「height」の変更できてないよぅ「ColorBox」のフィールド「Sizeクラス」を160に変更してそのままログ出力されているように見える by tominaga (2017/06/09)
+    // done sawa これだとリフレクション使って「height」の変更できてないよぅ「ColorBox」のフィールド「Sizeクラス」を160に変更してそのままログ出力されているように見える by tominaga (2017/06/09)
 
     /**
      * nullを含んでいるカラーボックスの色の名前の3文字目の文字で色の名前が終わっているカラーボックスの深さの十の位の数字が小数点第二桁目になっているスペースの中のリストの中のBigDecimalの一の位の数字と同じ色の長さのカラーボックスの一番下のスペースに入っているものは？
@@ -88,10 +91,11 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
                     .map(bigDecimal -> Integer.parseInt(bigDecimal.toString().substring(0, 1)))
                     .findAny();
                 // ここまで ~ カラーボックスの深さの十の位の数字が小数点第二桁目になっているスペースの中のリストの中のBigDecimalの一の位の数字と同じ色 ~
-                // TODO done sawa findFirstはnullの要素の場合、NullPointerExceptionが起きるからorElse(null) するのはやめよう by tominaga (2017/06/09)
+                // done sawa findFirstはnullの要素の場合、NullPointerExceptionが起きるからorElse(null) するのはやめよう by tominaga (2017/06/09)
             }).collect(Collectors.toList());
 
         if (!collectList.isEmpty()) {
+            // TODO sawa Optionalだけだと型がなにかわからなくてキャストしないといけないからOptional<Integer>で変数にしてあげよう。 by tominaga (2017/06/19)
             for (Optional opt: collectList) {
                 if (opt.isPresent()){
                     String answerLog = getColorBoxList().stream()
@@ -102,7 +106,7 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
                         .map(content -> "条件に一致するデータは" + content + "です")
                         .orElse("条件に一致するデータはありませんでした");
                     log(answerLog);
-                    // TODO done sawa もうちょっと丁寧にログ出力してあげよう by tominaga (2017/06/09)
+                    // done sawa もうちょっと丁寧にログ出力してあげよう by tominaga (2017/06/09)
                 } else {
                     log("条件に一致するデータはありませんでした");
                 }
@@ -110,7 +114,7 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
         } else {
         log("条件に一致するデータはありませんでした");
     }
-    // TODO done sawa 該当するデータがない場合はその旨をログに出力してあげよう by tominaga (2017/06/09)
+    // done sawa 該当するデータがない場合はその旨をログに出力してあげよう by tominaga (2017/06/09)
     }
 
     /**
@@ -134,7 +138,7 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
                     return file;
                 } catch (IOException e) {
                     log("ファイルに書き込めませんでした", e);
-                    // TODO done sawa 例外が起きたときはその内容もログに出力してあげよう (e.g. log("デバッグ用メッセージ", e) by tominaga (2017/06/09)
+                    // done sawa 例外が起きたときはその内容もログに出力してあげよう (e.g. log("デバッグ用メッセージ", e) by tominaga (2017/06/09)
                     return null;
                 }
             })
@@ -142,16 +146,16 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
                 Path sourcePath = FileSystems.getDefault().getPath("/tmp/jflute.txt");
                 Path targetPath = FileSystems.getDefault().getPath("copy.txt");
                 try {
-                    // TODO done sawa ファイルが存在するときは上書きするようにしよう by tominaga (2017/06/09)
+                    // done sawa ファイルが存在するときは上書きするようにしよう by tominaga (2017/06/09)
                     Files.copy(sourcePath, targetPath , StandardCopyOption.REPLACE_EXISTING);
                     File targetFile = new File("copy.txt");
                     BufferedReader sourceBr = new BufferedReader(new FileReader(file));
                     BufferedReader targetBr = new BufferedReader(new FileReader(targetFile));
-                    // TODO done sawa もうちょっと丁寧にログ出力してあげよう by tominaga (2017/06/09)
+                    // done sawa もうちょっと丁寧にログ出力してあげよう by tominaga (2017/06/09)
                     log("コピー元のファイルの中身：" + sourceBr.readLine());
                     log("コピー先のファイルの中身：" + targetBr.readLine());
                 } catch (IOException e) {
-                    // TODO done sawa 例外が起きたときはその内容もログに出力してあげよう (e.g. log("デバッグ用メッセージ", e) by tominaga (2017/06/09)
+                    // done sawa 例外が起きたときはその内容もログに出力してあげよう (e.g. log("デバッグ用メッセージ", e) by tominaga (2017/06/09)
                     log("ファイルがコピーできませんでした" ,e);
                 }
             }
