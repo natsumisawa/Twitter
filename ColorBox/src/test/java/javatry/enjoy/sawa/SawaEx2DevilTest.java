@@ -58,9 +58,9 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
                 log("フィールドsizeが見つかりませんでした", e);
             }
             log("変更後の赤いカラーボックスの高さは" + box.getSize().getHeight());
-            // TODO sawa 下の2つの「{」のインデントがずれているよぅー by tominaga (2017/06/19)
-            }
+            // TODO done sawa 下の2つの「{」のインデントがずれているよぅー by tominaga (2017/06/19)
         }
+    }
     // done sawa これだとリフレクション使って「height」の変更できてないよぅ「ColorBox」のフィールド「Sizeクラス」を160に変更してそのままログ出力されているように見える by tominaga (2017/06/09)
 
     /**
@@ -95,11 +95,11 @@ public class SawaEx2DevilTest extends ColorBoxTestCase {
             }).collect(Collectors.toList());
 
         if (!collectList.isEmpty()) {
-            // TODO sawa Optionalだけだと型がなにかわからなくてキャストしないといけないからOptional<Integer>で変数にしてあげよう。 by tominaga (2017/06/19)
-            for (Optional opt: collectList) {
+            // TODO done sawa Optionalだけだと型がなにかわからなくてキャストしないといけないからOptional<Integer>で変数にしてあげよう。 by tominaga (2017/06/19)
+            for (Optional<Integer> opt: collectList) {
                 if (opt.isPresent()){
                     String answerLog = getColorBoxList().stream()
-                        .filter(box -> box.getColor().getColorName().length() == (Integer) opt.get())
+                        .filter(box -> box.getColor().getColorName().length() == opt.get())
                         .flatMap(colorBox -> colorBox.getSpaceList().stream())
                         .map(BoxSpace::getContents)
                         .findAny()
